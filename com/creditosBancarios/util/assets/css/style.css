@@ -1,0 +1,71 @@
+
+body{
+	background: url(../../../../../com/creditosBancarios/util/assets/img/fondo.jpg);
+}
+div#logo{
+  width: 250px;
+	height: 130px;
+  background: url(../../../../../com/creditosBancarios/util/assets/img/logo.jpg);
+  position: relative;
+    left: 150px;
+}
+
+/*---------------------------------INICIO---------------------------------------*/
+button#loginCostumer{
+  margin:10px;
+}
+button#loginManager{
+  margin:10px;
+}
+
+p{
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+div#login{
+  position: relative;
+    left: 500px;
+}
+
+div#center{
+
+	height: 700px;
+  background: white;
+  position: relative;
+    left: 100px;
+    margin:30px;
+}
+
+
+/*---------------------------------EMPLEADO---------------------------------------*/
+ div#cmbManager{
+   left: 100px;
+   margin-top:  150px;
+  margin-left:  40px;
+ }
+ button#accept{
+   position: relative;
+     left: 900px;
+     margin: 20px;
+
+ }
+
+/*---------------------------------Investigacion Telefonica---------------------------------------*/
+div#searchIdCostumer{
+  position: relative;
+    top: 10px;
+    left: 140px;
+}
+div#cmbIdCostumer{
+  left: 100px;
+  margin-top:  50px;
+ margin-left:  40px;
+}
+
+button#selectIdCostumer{
+  position: relative;
+    left: 900px;
+    margin: 20px;
+}
