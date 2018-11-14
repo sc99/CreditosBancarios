@@ -18,7 +18,7 @@
 
         <div id="login"class="col-lg-9 col-md-9 sm-8 col-xs-12 row">
           <aside class="">
-            <p id="nameManager">Nombre de empleado</p>
+            <p id="nameDictaminator">Nombre de dictaminador</p>
             <button id="logOff"class="btn btn-primary" type="button" name="button">Cerrar sesión</button>
           </aside>
 
@@ -44,39 +44,14 @@
 
 
 
-      <div id="divTelephoneResearch" class="col-lg-10 col-md-12 sm-12 col-xs-12 ">
-        <!--ComboBox de empleado-->
-        <select class="form-control">
-          <option id="telephoneResearch" value="">Investigación Telefonica</option>
-          <option id="notificationCostumer" value="">Notificación para usuario</option>
-          <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
-        </select>
 
-        <!--btn Elegir ComboBoxEmpleado-->
-        <button id="accept"class="btn btn-primary" type="button" name="button">Aceptar</button>
-      </div>
-
-
-        <div id="divRequest" class="col-lg-10 col-md-12 sm-12 col-xs-12">
-          <p>Solicitudes</p>
-          <!--ComboBox de solicitudes-->
-          <select class="form-control">
-            <option id="Id1" value="">Pendientes</option>
-            <option id="Id2" value="">Reconsideraciones</option>
-          </select>
-
-          <!--Elegir solicitudes-->
-          <button id="selectRequests"class="btn btn-primary" type="button" name="button">Seleccionar</button>
-
+        <div id="divDataCostumer"class="col-lg-10 col-md-12 sm-12 col-xs-12">
           <div class="col-lg-5 col-md-6 sm-3 col-xs-4 border border-light" >
             <p id="keyRequest">Clave unica de solicitud</p>
           </div>
-        </div>
-
-        <div id="divDataCostumer"class="col-lg-10 col-md-12 sm-12 col-xs-12">
           <p>Datos del solicitante</p>
 
-          <table id="costumer" class="">
+          <table class="">
               <tr  class="">
                 <th  >Nombre</th>
                 <td>Mark</td>
@@ -119,7 +94,7 @@
         <div id="divReferences"class="col-lg-10 col-md-12 sm-12 col-xs-12">
           <p>Referencias</p>
 
-          <table id="references" class="">
+          <table id="table" class="">
               <tr>
                 <th scope="row">Nombre</th>
                 <td>Mark</td>
@@ -146,10 +121,11 @@
 
         <div id="divComment" class="col-lg-10 col-md-12 sm-12 col-xs-12">
           <p>Observaciones</p>
-          <textarea  id="observations"class="form-control" rows="5" id="comment"></textarea>
-
+          <textarea  class="form-control" rows="5" id="comment"></textarea>
+          <p>Tipo de credito</p>
+          <textarea id="typeCredit" style="height:30px;" disabled class="form-control" rows="5" id="comment"></textarea>
           <p>Estatus de buro de credito</p>
-          <textarea id="bureauStatus" disabled class="form-control" rows="5" id="comment"></textarea>
+          <textarea id="bureauStatus" style="height:30px;" disabled class="form-control" rows="5" id="comment"></textarea>
             <button id="btnSubmitRequest"class="btn btn-primary" type="button" name="button">Enviar</button>
         </div>
 

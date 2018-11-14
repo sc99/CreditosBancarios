@@ -10,28 +10,38 @@
     <title></title>
   </head>
   <body>
-    <div class="container">
+    <div id="boxCenter" class="container">
 
       <header class="row">
         <div id="logo" >
         </div>
 
-        <div id="login"class="col-lg-9 col-md-9 sm-8 col-xs-12 row">
-          <aside class="">
-            <p id="costumer">Clientes</p>
-            <button id="loginCostumer"class="btn btn-primary" type="button" name="button">Iniciar sesion</button>
-          </aside>
-
-          <aside class="">
-            <p id="manager">Empleados</p>
-            <button id="loginManager"class="btn btn-primary" type="button" name="button">Iniciar sesion</button>
-          </aside>
-
-        </div>
       </header>
 
-      <div id="center" class="col-lg-10 col-md-12 sm-12 col-xs-12 ">
+      <div id="center" class="col-lg-10 col-md-10 sm-10 col-xs-10 ">
 
+          <div id="form" class="col-8 row">
+            <form class="" role="form" action=""  >
+              <div class="form-group row">
+                <label for="lblEmail" class="col-lg-4 col-md-3 col-form-label">Correo de Usuario</label>
+                <div class="col-lg-8s col-md-8">
+                    <input id="txtEmail" type="email"   placeholder="Escribe tu correo" class="form-control " >
+                    <span class="help-block"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lblPassword" class="col-lg-4 col-md-3 col-form-label">Contraseña:</label>
+                <div class="col-lg-8 col-md-8">
+                    <input id="validarnuml" type="text"   placeholder="Escribe tu contraseña " class="form-control " >
+                    <span class="help-block"></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="button" id="btnLoginUser" class="btn btn-primary"  >Iniciar Sesión</button>
+
+              </div>
+            </form>
+          </div>
       </div>
 
     </div>

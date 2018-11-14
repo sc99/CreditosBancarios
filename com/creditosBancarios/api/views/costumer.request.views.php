@@ -10,16 +10,16 @@
     <title></title>
   </head>
   <body>
-    <div id="boxCenter2" class="container">
+    <div id="boxCenter" class="container">
 
       <header class="row">
         <div id="logo" >
         </div>
 
-        <div id="login"class="col-lg-9 col-md-9 sm-8 col-xs-12 row">
+        <div id="headManager"class="col-lg-9 col-md-9 sm-8 col-xs-12 row">
           <aside class="">
-            <p id="nameManager">Nombre de empleado</p>
-            <button id="logOff"class="btn btn-primary" type="button" name="button">Cerrar sesión</button>
+            <p id="nameCostumer">Nombre de cliente</p>
+            <button id="btnLogOff"class="btn btn-primary" type="button" name="button">Cerrar sesión</button>
           </aside>
 
           <aside class="">
@@ -41,42 +41,28 @@
         </div>
       </header>
 
+      <div style="position: relative; top:50px; "class="">
 
+        <ul class="nav nav-tabs nav-fill" style="background: white">
+          <li class="nav-item">
+            <a class="nav-link " href="#">Solicitud de credito</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Estado de credito</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#">Notificaciones</a>
+          </li>
 
+        </ul>
 
-      <div id="divTelephoneResearch" class="col-lg-10 col-md-12 sm-12 col-xs-12 ">
-        <!--ComboBox de empleado-->
-        <select class="form-control">
-          <option id="telephoneResearch" value="">Investigación Telefonica</option>
-          <option id="notificationCostumer" value="">Notificación para usuario</option>
-          <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
-        </select>
-
-        <!--btn Elegir ComboBoxEmpleado-->
-        <button id="accept"class="btn btn-primary" type="button" name="button">Aceptar</button>
-      </div>
-
-
-        <div id="divRequest" class="col-lg-10 col-md-12 sm-12 col-xs-12">
-          <p>Solicitudes</p>
-          <!--ComboBox de solicitudes-->
-          <select class="form-control">
-            <option id="Id1" value="">Pendientes</option>
-            <option id="Id2" value="">Reconsideraciones</option>
-          </select>
-
-          <!--Elegir solicitudes-->
-          <button id="selectRequests"class="btn btn-primary" type="button" name="button">Seleccionar</button>
-
+        <div id="divDataCostumer"class="col-lg-10 col-md-12 sm-12 col-xs-12">
           <div class="col-lg-5 col-md-6 sm-3 col-xs-4 border border-light" >
             <p id="keyRequest">Clave unica de solicitud</p>
           </div>
-        </div>
-
-        <div id="divDataCostumer"class="col-lg-10 col-md-12 sm-12 col-xs-12">
           <p>Datos del solicitante</p>
 
-          <table id="costumer" class="">
+          <table class="">
               <tr  class="">
                 <th  >Nombre</th>
                 <td>Mark</td>
@@ -119,7 +105,7 @@
         <div id="divReferences"class="col-lg-10 col-md-12 sm-12 col-xs-12">
           <p>Referencias</p>
 
-          <table id="references" class="">
+          <table id="table" class="">
               <tr>
                 <th scope="row">Nombre</th>
                 <td>Mark</td>
@@ -143,15 +129,29 @@
 
           </table>
         </div>
+        <!--ComboBox de tipo de credito-->
+          <select multiple class="form-control">
+            <option id="tarjetCredit" value="">Tarjeta de credito</option>
+            <option id="mortgage" value="">Hipotecario </option>
+            <option id="automolibe" value="">Automovil</option>
 
-        <div id="divComment" class="col-lg-10 col-md-12 sm-12 col-xs-12">
-          <p>Observaciones</p>
-          <textarea  id="observations"class="form-control" rows="5" id="comment"></textarea>
+          </select>
 
-          <p>Estatus de buro de credito</p>
-          <textarea id="bureauStatus" disabled class="form-control" rows="5" id="comment"></textarea>
-            <button id="btnSubmitRequest"class="btn btn-primary" type="button" name="button">Enviar</button>
-        </div>
+          <!--Boton para seleccionar un cliente-->
+            <button id="btnSelectTypeCredit"class="btn btn-primary" type="button" name="button">Aceptar</button>
+
+            <!--ComboBox de plazos de credito-->
+              <select multiple class="form-control">
+                <option id="" value="">Plazo 1</option>
+                <option id="" value="">Plazo 2</option>
+                <option id="" value="">Plazo 3</option>
+
+              </select>
+
+              <!--Boton para seleccionar un cliente-->
+                <button id="btnSelectTermCredit"class="btn btn-primary" type="button" name="button">Aceptar</button>
+      </div>
+
 
     </div>
   </body>

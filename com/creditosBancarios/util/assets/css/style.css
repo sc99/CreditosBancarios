@@ -1,71 +1,158 @@
 
 body{
-	background: url(../../../../../com/creditosBancarios/util/assets/img/fondo.jpg);
+	background: black;
+	height:100%;
 }
 div#logo{
   width: 250px;
 	height: 130px;
   background: url(../../../../../com/creditosBancarios/util/assets/img/logo.jpg);
   position: relative;
-    left: 150px;
+    left: 120px;
 }
+div#boxCenter{
+	background: url(../../../../../com/creditosBancarios/util/assets/img/fondo.jpg);
 
+	height:1000px;
+}
+div#boxCenter2{
+	background: url(../../../../../com/creditosBancarios/util/assets/img/fondo.jpg);
+
+	height:1800px;
+}
 /*---------------------------------INICIO---------------------------------------*/
-button#loginCostumer{
+button#btnLoginUser{
   margin:10px;
 }
-button#loginManager{
-  margin:10px;
+div#form{
+	aling-items: center;
+	justify-content: center;
+	left: 150px;
+	top: 200px;
 }
 
 p{
-  font-size: 30px;
+  font-size: 25px;
   font-weight: bold;
   color: white;
 }
 
-div#login{
-  position: relative;
-    left: 500px;
-}
 
 div#center{
 
-	height: 700px;
+	height: 600px;
+	position: relative;
   background: white;
-  position: relative;
-    left: 100px;
+    left: 70px;
     margin:30px;
 }
 
 
 /*---------------------------------EMPLEADO---------------------------------------*/
- div#cmbManager{
-   left: 100px;
-   margin-top:  150px;
+ div#manager{
+   left: 60px;
+   margin-top:  200px;
   margin-left:  40px;
  }
- button#accept{
+ div#headManager{
+	 left: 350px;
+	 margin-top:  20px;
+	margin-left:  40px;
+ }
+ button#btnAcceptManager{
    position: relative;
-     left: 900px;
-     margin: 20px;
+     left: 700px;
+     margin: 150px;
 
  }
 
 /*---------------------------------Investigacion Telefonica---------------------------------------*/
+div#divTelephoneResearch{
+	position: relative;
+		top: 150px;
+		left: 120px;
+
+}
+button#btnAcept{
+	margin: 30px;
+	position: relative;
+		left: 700px;
+
+}
+div#navSearchID{
+	margin: 30px;
+}
 div#searchIdCostumer{
   position: relative;
     top: 10px;
-    left: 140px;
+    left: 120px;
 }
-div#cmbIdCostumer{
-  left: 100px;
-  margin-top:  50px;
- margin-left:  40px;
+button#selectIdCostumer{
+	position: relative;
+		left: 700px;;
+	margin: 30px;
 }
 
-button#selectIdCostumer{
-  position: relative;
-    left: 900px;
-    margin: 20px;
+/*---------------------------------Formulario de Notificacion de empleado---------------------------------------*/
+
+div#login{
+	left: 350px;
+	margin-top:  20px;
+ margin-left:  40px;
+}
+div#divAcept{
+	position: relative;
+		top: 150px;
+		left: 700px;
+		margin: 20px;
+}
+div#divRequest{
+	position: relative;
+		top: 150px;
+		left: 120px;
+}
+div#divDataCostumer{
+	position: relative;
+		top: 200px;
+		left: 120px;
+}
+div#divReferences{
+	position: relative;
+		top: 240px;
+		left: 120px;
+}
+
+div#divComment{
+	position: relative;
+		top: 300px;
+		left: 120px;
+}
+button#accept{
+	margin: 20px;
+}
+button#selectRequests{
+	margin: 20px;
+}
+
+table{
+	background: white;
+	width: 100%;
+}
+button#btnSubmitRequest{
+	margin: 20px;
+	width: 200px;
+}
+/*---------------------------------Notificacion para usuario---------------------------------------*/
+div#divNotificationId{
+	background: white;
+}
+button#btnSubmitNotification{
+	margin: 20px;
+	width: 200px;
+	position: relative;
+	left: 700px;
+}
+/*---------------------------------Busqueda de clientes para dictaminacion por ID---------------------------------------*/
+button#btnSelectIdDict{
+	margin: 30px; 
 }
