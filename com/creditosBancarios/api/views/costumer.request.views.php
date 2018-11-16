@@ -3,64 +3,49 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-with, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/util/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/util/assets/css/style.css">
-    <script src="../../../../com/creditosBancarios/util/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="../../../../com/creditosBancarios/util/assets/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
+    <script src="../../../../com/creditosBancarios/api/views/js/assets/jquery-3.3.1.min.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/bootstrap.min.js"></script>
     <title></title>
   </head>
   <body>
-    <div id="boxCenter" class="container">
+    <div  class="content-2 container">
 
-      <header class="row">
-        <div id="logo" >
+      <header class="content__header row">
+        <div  class="content__header__div-img-logo col-lg-3 col-md-3 sm-4 col-xs-4 row" >
         </div>
 
-        <div id="headManager"class="col-lg-9 col-md-9 sm-8 col-xs-12 row">
-          <aside class="">
-            <p id="nameCostumer">Nombre de cliente</p>
-            <button id="btnLogOff"class="btn btn-primary" type="button" name="button">Cerrar sesión</button>
+        <div id=""class="content__header__user col-lg-9 col-md-9 sm-8 col-xs-8 ">
+          <aside class="content__header__user__col">
+            <label for="" class="content__header__user__col__lbl-user">Nombre de cliente</label>
+            <button id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
           </aside>
 
-          <aside class="">
-            <div class="pos-f-t">
-              <div class="collapse" id="navbarToggleExternalContent">
-                <div class="bg-dark p-4">
-                  <h4 class="text-white">Collapsed content</h4>
-                  <span class="text-muted">Toggleable via the navbar brand.</span>
-                </div>
-              </div>
-              <nav class="navbar navbar-dark bg-dark">
-                <button class="navbar-toggler" type="button"  data-toggle="collapse" data-target="#navbarToggleExternalContent"   aria-controls="navbarToggleExternalContent" aria-expanded="false"   aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              </nav>
-            </div>
-          </aside>
 
         </div>
       </header>
 
-      <div style="position: relative; top:50px; "class="">
+      <div  class="content__center-user">
 
-        <ul class="nav nav-tabs nav-fill" style="background: white">
-          <li class="nav-item">
-            <a class="nav-link " href="#">Solicitud de credito</a>
+        <ul class="content__center-user__list nav nav-tabs nav-fill">
+          <li class="content__center-user__list__item nav-item">
+            <a class="content__center-user__list__item__hyperlink nav-link " href="#">Solicitud de credito</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Estado de credito</a>
+          <li class="content__center-user__list__item nav-item">
+            <a class="content__center-user__list__item__hyperlink nav-link" href="#">Estado de credito</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link " href="#">Notificaciones</a>
+          <li class="content__center-user__list__item nav-item">
+            <a class="content__center-user__list__item__hyperlink nav-link " href="#">Notificaciones</a>
           </li>
 
         </ul>
 
-        <div id="divDataCostumer"class="col-lg-10 col-md-12 sm-12 col-xs-12">
-          <div class="col-lg-5 col-md-6 sm-3 col-xs-4 border border-light" >
-            <p id="keyRequest">Clave unica de solicitud</p>
+        <div id=""class="content__center-user__div-data col-lg-10 col-md-12 sm-12 col-xs-12">
+          <div class="content__center-user__div-data__div-key col-lg-5 col-md-6 sm-3 col-xs-4 border border-light" >
+            <p class="content__center-user__div-data-user__div-key__key" id="keyRequest">Clave unica de solicitud</p>
           </div>
-          <p>Datos del solicitante</p>
+          <label class="content__center-user__div-data__lbl"for="">Datos del solicitante</label>
 
           <table class="">
               <tr  class="">
@@ -100,10 +85,8 @@
                 <td>Larry</td>
               </tr>
           </table>
-        </div>
 
-        <div id="divReferences"class="col-lg-10 col-md-12 sm-12 col-xs-12">
-          <p>Referencias</p>
+          <label class="content__center-user__div-data__lbl" for="">Referencias</label>
 
           <table id="table" class="">
               <tr>
@@ -128,28 +111,26 @@
               </tr>
 
           </table>
-        </div>
-        <!--ComboBox de tipo de credito-->
-          <select multiple class="form-control">
+          <!--ComboBox de tipo de credito-->
+          <select  multiple class="content__center-user__div-data__cmb-box form-control">
             <option id="tarjetCredit" value="">Tarjeta de credito</option>
             <option id="mortgage" value="">Hipotecario </option>
             <option id="automolibe" value="">Automovil</option>
-
           </select>
 
-          <!--Boton para seleccionar un cliente-->
-            <button id="btnSelectTypeCredit"class="btn btn-primary" type="button" name="button">Aceptar</button>
+            <!--Boton para seleccionar un cliente-->
+          <button id="btnSelectTypeCredit"class="content__center-user__div-data__btn btn btn-primary"  type="button" name="button">Aceptar</button>
 
-            <!--ComboBox de plazos de credito-->
-              <select multiple class="form-control">
-                <option id="" value="">Plazo 1</option>
-                <option id="" value="">Plazo 2</option>
-                <option id="" value="">Plazo 3</option>
+              <!--ComboBox de plazos de credito-->
+          <select multiple class="content__center-user__div-data__cmb-box form-control">
+            <option id="" value="">Plazo 1</option>
+            <option id="" value="">Plazo 2</option>
+            <option id="" value="">Plazo 3</option>
+          </select>
 
-              </select>
-
-              <!--Boton para seleccionar un cliente-->
-                <button id="btnSelectTermCredit"class="btn btn-primary" type="button" name="button">Aceptar</button>
+                <!--Boton para seleccionar un cliente-->
+          <button id="btnSelectTermCredit" class="content__center-user__div-data__btn btn btn-primary" style="margin:20px;" type="button" name="button">Aceptar</button>
+        </div>
       </div>
 
 

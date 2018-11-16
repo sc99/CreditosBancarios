@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-with, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/util/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/util/assets/css/style.css">
-    <script src="../../../../com/creditosBancarios/util/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="../../../../com/creditosBancarios/util/assets/js/bootstrap.min.js"></script>
-    <title></title>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-with, initial-scale=1.0">
+  <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
+  <script src="../../../../com/creditosBancarios/api/views/js/assets/jquery-3.3.1.min.js"></script>
+  <script src="../../../../com/creditosBancarios/api/views/assets/js/bootstrap.min.js"></script>
+  <title></title>
+</head>
   <body>
-    <div id="boxCenter" class="container">
+    <div class="content container">
 
-      <header class="row">
-        <div id="logo" >
+      <header class="content__header row">
+        <div class="content__header__div-img-logo" >
+
         </div>
-
       </header>
 
-      <div id="center" class="col-lg-10 col-md-10 sm-10 col-xs-10 ">
+      <div  class="content__center-login">
+          <div class="content__center-login__logo-user">
 
-          <div id="form" class="col-8 row">
-            <form class="" role="form" action=""  >
-              <div class="form-group row">
-                <label for="lblEmail" class="col-lg-4 col-md-3 col-form-label">Correo de Usuario</label>
-                <div class="col-lg-8s col-md-8">
-                    <input id="txtEmail" type="email"   placeholder="Escribe tu correo" class="form-control " >
-                    <span class="help-block"></span>
+          </div>
+          <div  class="content__center-login__frame col-8 row">
+            <form class="content__center-login__frame__form" role="form" action=""  >
+              <div class="content__center-login__frame__line-email form-group row">
+                <label for="lblEmail" class="content__center-login__frame__line-email-user col-form-label col-lg-4 col-md-3">Correo de Usuario</label>
+                <div class="content__center-login__frame__line-email__input-email col-lg-8s col-md-8">
+                    <input class="content__center-login__frame__line-email__input-email--email form-control" id="txtEmail" type="email"   placeholder="Escribe tu correo" class="form-control " >
+                    <span class="content__center-login__frame__line-email__input-email__span-email help-block"></span>
                 </div>
               </div>
-              <div class="form-group row">
-                <label for="lblPassword" class="col-lg-4 col-md-3 col-form-label">Contraseña:</label>
-                <div class="col-lg-8 col-md-8">
-                    <input id="validarnuml" type="text"   placeholder="Escribe tu contraseña " class="form-control " >
-                    <span class="help-block"></span>
+              <div class="content__center-login__frame__line-password form-group row">
+                <label  class="content__center-login__frame__line-password__label col-form-label col-lg-4 col-md-3">Contraseña:</label>
+                <div class="content__center-login__frame__line-password__la col-lg-8 col-md-8">
+                    <input id="validarnuml" type="text"   placeholder="Escribe tu contraseña " class="content__center-login__frame__line__input-password--password form-control " >
+                    <span class="content__center-login__frame__line__input__span-password help-block"></span>
                 </div>
               </div>
               <div class="form-group">
-                <button type="button" id="btnLoginUser" class="btn btn-primary"  >Iniciar Sesión</button>
+                <button type="button" id="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-primary"  >Iniciar Sesión</button>
 
               </div>
             </form>

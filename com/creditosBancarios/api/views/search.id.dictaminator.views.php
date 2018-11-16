@@ -1,51 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-with, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/util/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/util/assets/css/style.css">
-    <script src="../../../../com/creditosBancarios/util/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="../../../../com/creditosBancarios/util/assets/js/bootstrap.min.js"></script>
-    <title></title>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-with, initial-scale=1.0">
+  <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
+  <script src="../../../../com/creditosBancarios/api/views/js/assets/jquery-3.3.1.min.js"></script>
+  <script src="../../../../com/creditosBancarios/api/views/assets/js/bootstrap.min.js"></script>
+  <title></title>
+</head>
   <body>
-    <div  id="boxCenter" class="container">
+    <div class="content container container">
 
-      <header class="row">
-        <div id="logo" >
+      <header class="content__header row">
+        <div  class="content__header__div-img-logo col-lg-3 col-md-3 sm-4 col-xs-4 row ">
         </div>
 
-        <div id="headManager"class="col-lg-9 col-md-9 sm-8 col-xs-12 row">
-          <aside class="">
-            <p id="nameDictaminator">Nombre de dictaminador</p>
-            <button id="logOff"class="btn btn-primary" type="button" name="button">Cerrar sesión</button>
+        <div class="content__header__user col-lg-9 col-md-9 sm-8 col-xs-8 ">
+          <aside class="content__header__user__col">
+            <label for="" class="content__header__user__col__lbl-user">Nombre de dictaminador </label>
+            <button id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
           </aside>
-
-          <aside class="">
-            <div class="pos-f-t">
-              <div class="collapse" id="navbarToggleExternalContent">
-                <div class="bg-dark p-4">
-                  <h4 class="text-white">Collapsed content</h4>
-                  <span class="text-muted">Toggleable via the navbar brand.</span>
-                </div>
-              </div>
-              <nav class="navbar navbar-dark bg-dark">
-                <button class="navbar-toggler" type="button"  data-toggle="collapse" data-target="#navbarToggleExternalContent"   aria-controls="navbarToggleExternalContent" aria-expanded="false"   aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              </nav>
-            </div>
-          </aside>
-
         </div>
       </header>
 
       <!--ComboBox de dictaminador -->
-      <div id="divTelephoneResearch" class="col-lg-10 col-md-10 sm-10 col-xs-10 ">
+      <div class="content__center-user__div-data col-lg-10 col-md-10 sm-10 col-xs-10 ">
           <p>Dictaminador</p>
-
-
 
           <!--Barra de busqueda de ID-->
         <div id="navSearchID" class="">
@@ -59,7 +40,7 @@
 
 
         <!--ComboBox de id de clientes-->
-          <select multiple class="form-control">
+          <select multiple class="content__center-user__div-data__cmb-box form-control">
             <option id="Id1Dictaminator" value="">Nombre de cliente ID1</option>
             <option id="Id2Dictaminator" value="">Nombre de cliente ID2 </option>
             <option id="Id3Dictaminator" value="">Nombre de cliente ID3 </option>
@@ -67,7 +48,7 @@
           </select>
 
           <!--Boton para seleccionar un cliente-->
-            <button id="btnSelectIdDict"  class="btn btn-primary" type="button" name="button">Seleccionar</button>
+            <button id="btnSelectIdDict"  class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Seleccionar</button>
 
       </div>
 
