@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-with, initial-scale=1.0">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
-  <script src="../../../../com/creditosBancarios/api/views/js/assets/jquery-3.3.1.min.js"></script>
-  <script src="../../../../com/creditosBancarios/api/views/assets/js/bootstrap.min.js"></script>
+
   <title></title>
 </head>
   <body>
@@ -28,10 +27,10 @@
 
         <ul class="content__center-user__list nav nav-tabs nav-fill" style="background: white">
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="#">Solicitud de credito</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCreditCard.html">Solicitud de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link" href="#">Estado de credito</a>
+            <a class="content__center-user__list__item__hyperlink nav-link" href="../../../../com/creditosBancarios/api/views/costumerRenoReconCancel.html">Estado de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
             <a class="content__center-user__list__item__hyperlink nav-link " href="#">Notificaciones</a>
@@ -42,12 +41,12 @@
 
         <div id=""class="content__center-user__div-data col-lg-10 col-md-12 sm-12 col-xs-12">
           <!--ComboBox de tipo de credito-->
-            <select multiple class="content__center-user__div-data__cmb-box form-control">
-              <option id="tarjetCredit" value="">Tarjeta de credito</option>
-              <option id="mortgage" value="">Hipotecario </option>
-              <option id="automolibe" value="">Automovil</option>
-
-            </select>
+          <select  multiple class="content__center-user__div-data__cmb-box form-control">
+            <option id="DEBIT_CARD" value="DEBIT_CARD">Tarjeta de debito</option>
+            <option id="CREDIT_CARD" value="CREDIT_CARD">Tarjeta de credito</option>
+            <option id="MORTAGE" value="MORTAGE">Hipotecario </option>
+            <option id="CAR" value="CAR">Automovil</option>
+          </select>
 
             <!--Boton para seleccionar tipo de credito-->
             <button id="btnSelectTypeCredit"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Aceptar</button>
@@ -62,5 +61,7 @@
         </div>
 
     </div>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
   </body>
 </html>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-with, initial-scale=1.0">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
-  <script src="../../../../com/creditosBancarios/api/views/js/assets/jquery-3.3.1.min.js"></script>
-  <script src="../../../../com/creditosBancarios/api/views/assets/js/bootstrap.min.js"></script>
+
+
   <title></title>
 </head>
   <body>
@@ -22,30 +22,40 @@
           <div class="content__center-login__logo-user">
 
           </div>
-          <div  class="content__center-login__frame col-8 row">
-            <form class="content__center-login__frame__form" role="form" action=""  >
-              <div class="content__center-login__frame__line-email form-group row">
-                <label for="lblEmail" class="content__center-login__frame__line-email-user col-form-label col-lg-4 col-md-3">Correo de Usuario</label>
-                <div class="content__center-login__frame__line-email__input-email col-lg-8s col-md-8">
-                    <input class="content__center-login__frame__line-email__input-email--email form-control" id="txtEmail" type="email"   placeholder="Escribe tu correo" class="form-control " >
-                    <span class="content__center-login__frame__line-email__input-email__span-email help-block"></span>
-                </div>
-              </div>
-              <div class="content__center-login__frame__line-password form-group row">
-                <label  class="content__center-login__frame__line-password__label col-form-label col-lg-4 col-md-3">Contraseña:</label>
-                <div class="content__center-login__frame__line-password__la col-lg-8 col-md-8">
-                    <input id="validarnuml" type="text"   placeholder="Escribe tu contraseña " class="content__center-login__frame__line__input-password--password form-control " >
-                    <span class="content__center-login__frame__line__input__span-password help-block"></span>
-                </div>
-              </div>
-              <div class="form-group">
-                <button type="button" id="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-primary"  >Iniciar Sesión</button>
+          <div  class="content__center-login__frame col-8 ">
+            <div class="alert alert-success d-none" id="messageSucces">Mensaje enviado con éxito</div>
+            <div class="alert alert-danger d-none" id="messageError"></div>
+            <form id="userLogin" class="content__center-login__frame__form"   >
+                  <div class="content__center-login__frame__line-email row form-group">
+                      <label for="nombre" class="content__center-login__frame__line-email-user col-form-label col-md-4">Correo de Usuario:</label>
+                      <div class="col-md-8">
+                          <input type="text" name="email" value="" id="email" class="content__center-login__frame__line-email__input-email--email form-control" required>
+                          <span class="content__center-login__frame__line-email__input-email__span-email help-block"></span>
+                      </div>
+                  </div>
+                  <div class="row form-group">
+                      <label for="email" class="content__center-login__frame__line-password col-form-label col-md-4">Contraseña:</label>
+                      <div class="col-md-8">
+                          <input type="text" name="password" value="" id="password" class="content__center-login__frame__line__input-password--password form-control" required>
+                          <span class="content__center-login__frame__line__input__span-password help-block"></span>
+                      </div>
+                  </div>
+            <div class="form-group">
+              <button type="submit" id="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info"  >Iniciar Sesión</button>
 
-              </div>
-            </form>
+            </div>
+          </form>
+
           </div>
       </div>
 
     </div>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
+
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/user.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/validation.js"></script>
+
+
   </body>
 </html>
