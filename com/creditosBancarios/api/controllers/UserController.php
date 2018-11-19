@@ -1,4 +1,4 @@
 <?php
- echo "exito";
- 
+ echo "success";
+
  ?>

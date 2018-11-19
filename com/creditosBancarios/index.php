@@ -6,7 +6,7 @@
   </head>
   <body>
     <?php
-    echo "exito";
+
      ?>
      <h1>hola</h1>
   </body>
