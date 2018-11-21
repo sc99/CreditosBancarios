@@ -100,7 +100,7 @@
           <textarea id="typeCredit" style="height:30px;" disabled class="form-control" rows="5" id="comment"></textarea>
           <label class="content__center-user__div-data__lbl"for="">Estatus de buro de credito</label>
           <textarea id="bureauStatus" style="height:30px;" disabled class="form-control" rows="5" id="comment"></textarea>
-            <button id="btnSubmitRequest"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Enviaer</button>
+            <button id="btnSubmitRequest"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Enviar</button>
         </div>
 
 
