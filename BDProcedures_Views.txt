@@ -6,12 +6,12 @@
 	retorno
 		result	-> int
         message -> nvarchar(128)
-        id -> int 
-        customer_id -> int 
-        customer -> nvarchar 
-        mail -> nvarchar 
+        id -> int
+        customer_id -> int
+        customer -> nvarchar
+        mail -> nvarchar
         street 	-> nvarchar
-        house_number -> int 
+        house_number -> int
         telephone	-> int
         rfc	-> nvarchar
         curp -> nvarchar
@@ -32,19 +32,19 @@
 */
 
 /*
-nombre: sp_get_credits
+nombre: sp_get_pending_credits
     tipo: stored procedure
     parametros:
 		employee_id -> int
 	retorno
 		result	-> int
         message -> nvarchar(128)
-        id -> int 
-        customer_id -> int 
-        customer -> nvarchar 
-        mail -> nvarchar 
+        id -> int
+        customer_id -> int
+        customer -> nvarchar
+        mail -> nvarchar
         street 	-> nvarchar
-        house_number -> int 
+        house_number -> int
         telephone	-> int
         rfc	-> nvarchar
         curp -> nvarchar
@@ -63,7 +63,7 @@ nombre: sp_get_credits
     Si es un gerente quien solicita ver sus solicitudes de crédito pendientes,
     entonces se regresan todas las solicitudes que hay pendientes para la autorización
     por parte del gerente. Funciona de manera análoga con los otros dos tipos de empleado
-    
+
     Si hubo un error al realizar la búsqueda result tomará el valor 0, de lo
     contrario será 1. Si ocurre un error, message contendrá una descripción del mismo.
 */
@@ -74,12 +74,17 @@ nombre: sp_get_credits
     parametros:
 		user_email -> nvarchar(128)
 		user_pswd -> nvarchar(32)
+		
 	retorno
-		id	-> int
-        message -> nvarchar(128)
+		result	-> int
+    message -> nvarchar(128)
+    todos los campos de las vistas
+    vw_customers o vw_employees según sea el caso
+    dependiendo del tipo de usuario que se logeo
+
+		Recibe un correo y una contraseña encriptada con MD5 y busca el registro
+		asociado a esos datos haciendo uso de la "salt" .
 */
-#Recibe un correo y una contraseña encriptada con MD5 y busca el registro
-#asociado a esos datos haciendo uso de la "salt" .
 
 /*
 	nombre: sp_request_reconsideration
@@ -89,15 +94,15 @@ nombre: sp_get_credits
 		user_id -> int
 	retorno
 		result	-> int
-        message -> nvarchar(128)	
+        message -> nvarchar(128)
 	Solicita una reconsideración sobre la solicitud asociada al
     request_id validando que dicha solicitud sea del usuario
     asociado al user_id así como verificando que no haya más de 2
     reconsideraciones solicitadas anteriormente y que la solicitud
     no se encuentre en proceso de reconsideración actualmente.
-    
+
     result es 1 si todo salió bien 0 si hubo algún error.
-    
+
 */
 
 /*
@@ -119,15 +124,15 @@ nombre: sp_get_credits
         ref_2_phone nvarchar
         ref_2_time nvarchar
         rf_2_remark nvarchar
-        
+
 	retorno
 		result	-> int
-        message -> nvarchar(128)	
+        message -> nvarchar(128)
 	Agrega una solicitud de crédito a los registros
     validando que cumpla con las restricciones establecidas.
-    
+
     result es 1 si todo salió bien 0 si hubo algún error.
-    
+
 */
 
 # VIEWS
