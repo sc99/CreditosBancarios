@@ -28,7 +28,7 @@ function validateEmail() {
 
 function validatePassword() {
   password = document.getElementById("password").value;
-  var expressionPassword =  /^\w+/;
+  var expressionPassword =  /^(\w+){2,20}$/;
   var passwordUser = expressionPassword.test(password);
   if (passwordUser==false) {
     console.log("Esta mal");

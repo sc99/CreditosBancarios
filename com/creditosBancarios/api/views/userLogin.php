@@ -23,22 +23,24 @@
 
           </div>
           <div  class="content__center-login__frame col-8 ">
-            <div class="alert alert-success d-none" id="messageSucces">Mensaje enviado con éxito</div>
+            <div class="alert alert-success d-none" id="messageSucces"> Mensaje enviado con éxito</div>
             <div class="alert alert-danger d-none" id="messageError">No son  validos </div>
             <form id="userLogin" class="content__center-login__frame__form"   >
                   <div class="content__center-login__frame__line-email row form-group">
-                      <label for="nombre" class="content__center-login__frame__line-email-user col-form-label col-md-4">Correo de Usuario:</label>
+                      <label for="nombre" class="content__center-login__frame__line col-form-label col-md-
+                      3">Correo de Usuario:</label>
                       <div class="col-md-8">
                           <input type="text" name="email" value="" id="email" class="content__center-login__frame__line-email__input-email--email form-control" required>
                           <span class="content__center-login__frame__line-email__input-email__span-email help-block"></span>
                       </div>
+
                   </div>
-                  <div class="row form-group">
-                      <label for="email" class="content__center-login__frame__line-password col-form-label col-md-4">Contraseña:</label>
-                      <div class="col-md-8">
-                          <input type="password" name="password" value="" id="password" class="content__center-login__frame__line__input-password--password form-control" required>
-                          <span class="content__center-login__frame__line__input__span-password help-block"></span>
-                      </div>
+                  <div class="content__center-login__frame__line-email row form-group">
+                    <label for="email" class="content__center-login__frame__line col-form-label col-md-2">Contraseña:    </label>
+                    <div class="col-md-8">
+                        <input type="password" name="password" value="" id="password" class="content__center-login__frame__line__input-password--password form-control" required>
+                        <span class="content__center-login__frame__line__input__span-password help-block"></span>
+                    </div>
                   </div>
             <div class="form-group">
               <button type="submit" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info"  >Iniciar Sesión</button>
@@ -53,7 +55,7 @@
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
 
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/user.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitDataUserType.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/validation.js"></script>
 
 

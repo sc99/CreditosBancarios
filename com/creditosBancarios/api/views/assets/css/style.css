@@ -1,12 +1,13 @@
 @media (min-width:1200px){
 
 	body{
-		background: black;
+
+		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo3.jpg);
 		height:100%;
 	}
 
 	.content{
-		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo.jpg);
+		/*background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo6.jpg);*/
 		height:1000px;
 	}
 
@@ -65,9 +66,10 @@
 					margin-top: 20px;
 				}
 		.content__center-login	{
-			height: 600px;
+			height: 650px;
 			position: relative;
-			background: white;
+			background: #f0ede8;
+			border-radius: 101px 101px 101px 101px;
 
 			margin:30px;
 		}
@@ -83,9 +85,25 @@
 				left: 200px;
 				top: 50px;
 			}
+				.content__center-login__frame__line-btn-login{
+					font-size: 20px;
+					 font-family: "Times New Roman";
+					position: relative;
+ 					left: 450px;
+				}
+				.content__center-login__frame__line{
+					font-family: "Times New Roman";
+					font-size: 20px;
+					position: relative;
+
+				}
+				.content__center-login__frame__line__input-password--password{
+					position: relative;
+					left: 38px;
+				}
 
 	.content-2 {
-		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo.jpg);
+
 		height:1300px;
 	}
 
@@ -110,12 +128,12 @@
 
 @media (max-width:1199px) and (min-width:200px) {
 	body{
-		background: black;
+		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo3.jpg);
 		height:100%;
 	}
 
 	.content{
-		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo.jpg);
+
 		height:1000px;
 	}
 
@@ -175,7 +193,8 @@
 		.content__center-login	{
 			height: 600px;
 			position: relative;
-			background: white;
+			background: #f0ede8;
+			border-radius: 101px 101px 101px 101px;
 
 			margin:30px;
 		}
@@ -193,7 +212,7 @@
 			}
 
 	.content-2 {
-		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo.jpg);
+
 		height:1300px;
 	}
 

@@ -27,10 +27,10 @@
 
         <ul class="content__center-user__list nav nav-tabs nav-fill" style="background: white">
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCreditCar.html">Solicitud de credito</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCreditCar.php">Solicitud de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link" href="../../../../com/creditosBancarios/api/views/costumerRenoReconCancel.html">Estado de credito</a>
+            <a class="content__center-user__list__item__hyperlink nav-link" href="../../../../com/creditosBancarios/api/views/costumerRenoReconCancel.php">Estado de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
             <a class="content__center-user__list__item__hyperlink nav-link " href="#">Notificaciones</a>
