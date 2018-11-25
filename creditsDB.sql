@@ -16,16 +16,16 @@ first_surname varchar (64) not null,
 second_surname varchar (64) not null,
 house_number int (5) not null,
 street varchar (64) not null, # en estos rubros tengo dudas se podria quitar el "not null"  por ser datos que no todos tienen?
-telephone int (8) not null,
-email nvarchar (128) not null,
+telephone int (8) not null,       
+email nvarchar (128) not null,      
 pswd nvarchar (32) not null,
 salt nvarchar(16) not null default 'salt',
-foreign key (fk_user_type) references Cat_User_Types(pk_type_id));
+foreign key (fk_user_type) references Cat_User_Types(pk_type_id));  
 
 
 create table Customers(
 pk_customer_id int not null primary key auto_increment,
-fk_user_id int not null,
+fk_user_id int not null,   
 rfc varchar (13) not null,
 curp varchar (18) not null,
 company varchar (64) not null,
@@ -33,19 +33,8 @@ job varchar (64) not null,
 salary int,
 foreign key (fk_user_id) references Users(pk_user_id));
 
-create table Customer_References(
-pk_reference_id int not null primary key auto_increment,
-fk_referenced_customer int not null,
-reference_name varchar (64) not null,
-first_surname varchar (64) not null,
-second_surname varchar (64) not null,
-telephone int (8),
-timeMeeting int (2) not null,
-investigation_remark nvarchar(500) default null,
-foreign key (fk_referenced_customer) references Customers(pk_customer_id) on delete cascade);
-
 create table Cat_Credit_Types(
-pk_credit_type_id int not null primary key auto_increment,
+pk_credit_type_id int not null primary key auto_increment, 
 credit_name varchar (64) not null,
 credit_term int(2) not null,
 credit_rate int(2) not null,
@@ -67,6 +56,16 @@ foreign key (fk_credit_type) references Cat_Credit_Types (pk_credit_type_id),
 foreign key (fk_customer) references Customers(pk_customer_id),
 foreign key (fk_request_status) references Cat_Request_Status(pk_status_id));
 
+create table Customer_References(
+pk_reference_id int not null primary key auto_increment,
+fk_referenced_request int not null,
+reference_name varchar (64) not null,
+first_surname varchar (64) not null,
+second_surname varchar (64) not null,
+telephone nvarchar (8) not null,
+timeMeeting int (2) not null,
+investigation_remark nvarchar(500) default null,
+foreign key (fk_referenced_request) references Requests(pk_request_id) on delete cascade);
 
 create table Requests_Record(
 pk_record_id int not null primary key auto_increment,
@@ -89,64 +88,6 @@ CREATE TABLE Bureau (
     FOREIGN KEY (fk_reason) REFERENCES Bureau_Reasons (pk_reason_id),
     foreign key (fk_customer) references Customers(pk_customer_id)
 );
-#------------------------------------------------------------------
-# Inserts
-
-insert into Bureau_Reasons(reason) values
-('Fraude'),
-('Adeudo');
-
-insert into Cat_User_Types (type_description) values
-('Cliente'),
-('Gerente'),
-('Dictaminador'),
-('Administrativo');
-
-insert into Cat_Request_Status (status_description) values
-('Aprobado'),
-('Rechazo'),
-('Reconsideración'),
-('Cancelación'),
-('Dictaminación'),
-('Investigación'),
-('Renovado'),
-('Autorización');
-
-insert into Cat_Credit_Types (credit_name,credit_term,credit_rate,credit_fixed_amount) values
-('Tarjeta débito I',3,0,10000),
-('Tarjeta débito II',4,0,20000),
-('Tarjeta débito III',5,0,30000),
-('Tarjeta crédito I',3,0,10000),
-('Tarjeta crédito II',4,0,20000),
-('Tarjeta crédito III',5,0,30000),
-('Hipoteca I',15,8,NULL),
-('Hipoteca II',20,10,NULL),
-('Hipoteca III',25,13,NULL),
-('Automóvil I',1,5,NULL),
-('Automóvil II',2,6,NULL),
-('Automóvil III',3,7,NULL),
-('Automóvil IV',4,8,NULL),
-('Automóvil V',5,9,NULL);
-
-#------------------------------------------------------------------
-#Tests
-
-insert into Users(fk_user_type,first_name,first_surname,second_surname,
-house_number,street,telephone,email,pswd) values
-(1,'Cliente1','Pat1','Mat1',10,'Calle',00000000,'cliente1@example.com',MD5('123')),
-(1,'Cliente2','Pat2','Mat2',10,'Calle',00000000,'cliente2@example.com',MD5('123')),
-(2,'Gerente1','Pat','Mat',10,'Calle',00000000,'gerente1@example.com',MD5('123')),
-(3,'Dictaminador1','Pat','Mat',10,'Calle',00000000,'dictaminador1@example.com',MD5('123')),
-(4,'Administrativo1','Pat','Mat',10,'Calle',00000000,'administrativo1@example.com',MD5('123'));
-
-insert into Customers(fk_user_id,rfc,curp,company,job,salary) values
-(1,'rfc1','curp1','enterprise','work',1000),
-(2,'rfc2','curp2','enterprise','work',1000);
-
-insert into Requests(fk_customer,fk_credit_type,amount) values
-(1,1,NULL),
-(2,7,1000);
-
 
 #------------------------------------------------------------------
 #								VIEWS
@@ -159,15 +100,15 @@ select
 from Users inner join Customers on Customers.fk_user_id = pk_user_id where fk_user_type = 1 ;
 
 create view vw_employees as
-select
+select 
 	pk_user_id as id,Cat_User_Types.type_description as employee_type,
     concat(first_name,' ',first_surname,' ',second_surname) as full_name,
     email as mail
 from Users inner join Cat_User_Types on Cat_User_Types.pk_type_id = fk_user_type where fk_user_type != 1;
 
 create view vw_cat_credits as
-select
-	pk_credit_type_id as id,credit_name, concat(credit_term,' años') as term,
+select 
+	pk_credit_type_id as id,credit_name, concat(credit_term,' anios') as term, 
     concat(credit_rate,'%') as rate,(select ifnull(credit_fixed_amount,'No aplica')) as fixed_amount
 from Cat_Credit_Types;
 
@@ -187,7 +128,7 @@ create view vw_notifications as
 select
 	pk_record_id as id,Requests.pk_request_id as request,Requests.fk_customer as customer,
     Cat_Request_Status.status_description as state,date_stamp
-from Requests_Record inner join Requests on fk_request = Requests.pk_request_id
+from Requests_Record inner join Requests on fk_request = Requests.pk_request_id 
 inner join Cat_Request_Status on fk_saved_status = Cat_Request_Status.pk_status_id;
 
 #------------------------------------------------------------------
@@ -195,8 +136,8 @@ inner join Cat_Request_Status on fk_saved_status = Cat_Request_Status.pk_status_
 
 DELIMITER **
 CREATE TRIGGER tr_UUID BEFORE INSERT ON Users
-FOR EACH ROW
-BEGIN
+FOR EACH ROW 
+BEGIN 
 	SET NEW.salt = LEFT(UUID(),16);
     SET NEW.pswd = MD5(concat(NEW.salt,NEW.pswd));
 END; **
@@ -205,7 +146,7 @@ DELIMITER ;
 drop trigger if exists tr_generate_notification;
 delimiter **
 create trigger tr_generate_notification after update on Requests
-for each row
+for each row 
 begin
 	declare new_status_name nvarchar(64);
 	if(OLD.fk_request_status <> NEW.fk_request_status) then
@@ -231,12 +172,12 @@ delimiter ;
 	retorno
 		result	-> int
         message -> nvarchar(128)
-        id -> int
-        customer_id -> int
-        customer -> nvarchar
-        mail -> nvarchar
+        id -> int 
+        customer_id -> int 
+        customer -> nvarchar 
+        mail -> nvarchar 
         street 	-> nvarchar
-        house_number -> int
+        house_number -> int 
         telephone	-> int
         rfc	-> nvarchar
         curp -> nvarchar
@@ -262,22 +203,22 @@ begin
 	declare is_valid int(1);
     declare msg nvarchar(128);
     declare has_credits int(1);
-
+    
     set is_valid = 0;
     if USER_EXISTS(customer_id) then
 		if IS_CUSTOMER(customer_id) then
 			set is_valid = 1;
-			set has_credits = (select count(id) from vw_credits where vw_credits.customer_id = customer_id );
+			set has_credits = (select count(id) from vw_credits where vw_credits.customer_id = customer_id );							
             if has_credits > 0 then
 				select is_valid as result,msg as message, vw_credits.* from vw_credits where vw_credits.customer_id = customer_id;
             else
-				set msg = 'No tienes solicitudes de crédito aún';
+				set msg = 'No tienes solicitudes de credito';
             end if;
         else
 			set msg = 'Inconsistencias en el tipo de usuario';
         end if;
     else
-		set msg = 'Inconsistencias al buscar información del cliente';
+		set msg = 'Inconsistencias al buscar registros del cliente';
     end if;
     if is_valid != 1 then
 		select is_valid as result, msg as message;
@@ -294,12 +235,12 @@ nombre: sp_get_credits
 	retorno
 		result	-> int
         message -> nvarchar(128)
-        id -> int
-        customer_id -> int
-        customer -> nvarchar
-        mail -> nvarchar
+        id -> int 
+        customer_id -> int 
+        customer -> nvarchar 
+        mail -> nvarchar 
         street 	-> nvarchar
-        house_number -> int
+        house_number -> int 
         telephone	-> int
         rfc	-> nvarchar
         curp -> nvarchar
@@ -318,7 +259,7 @@ nombre: sp_get_credits
     Si es un gerente quien solicita ver sus solicitudes de crédito pendientes,
     entonces se regresan todas las solicitudes que hay pendientes para la autorización
     por parte del gerente. Funciona de manera análoga con los otros dos tipos de empleado
-
+    
     Si hubo un error al realizar la búsqueda result tomará el valor 0, de lo
     contrario será 1. Si ocurre un error, message contendrá una descripción del mismo.
 */
@@ -328,18 +269,39 @@ create procedure sp_get_pending_credits(in employee_id int)
 begin
 	declare is_valid int(1);
     declare msg nvarchar(128);
-
+    declare counter int;
     set is_valid = 0;
     if USER_EXISTS(employee_id) then
 		if IS_CUSTOMER(employee_id) = 0 then
 			set is_valid = 1;
+            set msg = 'Creditos pendientes';
 			case
 				when GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Gerente' then
-					select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Autorización';
+					set counter = (select count(id) from vw_credits where state = 'Autorizacion');
+					if counter != 0 then
+						select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Autorizacion';
+                    else
+						set msg = 'No hay creditos pendientes';
+                        select -1 as result, msg as message;
+                    end if;
                 when GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Dictaminador' then
-					select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Dictaminación';
+					set counter = (select count(id) from vw_credits where state = 'Dictaminacion');
+                    if counter != 0 then
+						select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Dictaminacion';
+                    else
+						set msg = 'No hay creditos pendientes';
+                        select -1 as result, msg as message;
+                    end if;
+                    
                 when GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Administrativo' then
-					select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Investigación';
+					set counter = (select count(id) from vw_credits where state = 'Investigacion');
+                    if counter != 0 then
+						select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Investigacion';
+                    else
+						set msg = 'No hay creditos pendientes';
+                        select -1 as result, msg as message;
+                    end if;
+					
                 else
 					set is_valid = 0;
 					set msg = 'Inconsistencias con el tipo de empleado';
@@ -348,7 +310,7 @@ begin
 			set msg = 'Inconsistencias con el tipo de usuario';
         end if;
     else
-		set msg = 'Inconsistencias al buscar información del empleado';
+		set msg = 'Inconsistencias al buscar registros del empleado';
     end if;
     if is_valid != 1 then
 		select is_valid as result, msg as message;
@@ -363,11 +325,8 @@ delimiter ;
 		user_email -> nvarchar(128)
 		user_pswd -> nvarchar(32)
 	retorno
-		result	-> int
-    message -> nvarchar(128)
-    todos los campos de las vistas
-    vw_customers o vw_employees según sea el caso
-    dependiendo del tipo de usuario que se logeo
+		id	-> int
+        message -> nvarchar(128)
 */
 #Recibe un correo y una contraseña encriptada con MD5 y busca el registro
 #asociado a esos datos haciendo uso de la "salt" .
@@ -377,26 +336,19 @@ create procedure sp_log_in(
 in user_mail nvarchar(128),in user_pswd nvarchar(32))
 begin
 	declare result_id int;
-  declare msg nvarchar(128);
-  declare aux_result int(1);
-
+    declare msg nvarchar(128);
+    
 	set result_id = (select ifnull(
-		(select pk_user_id from Users
+		(select pk_user_id from Users 
 		 where Users.pswd = MD5(concat(Users.salt,user_pswd)) and Users.email = user_mail
          ),-1));
 	if result_id = -1 then
-		set msg = 'Usuario y/o contraseña incorrectos';
+		set msg = 'Usuario y/o clave incorrectos';
 	else
-    set msg = 'Bienvenido';
-    set aux_result = 1; #Usuario válido y encontrado
-    if IS_CUSTOMER(result_id) then
-      select axu_result as result,msg as message, vw_customers.* from vw_customers where id = result_id;
-    else
-      select aux_result as result,msg as message, vw_employees.* from vw_employees where id = result_id;
+		set msg = 'Bienvenido';
 	end if;
-  if result_id = -1 then
-    select result_id as result,msg as message;
-  end if;
+    
+    select result_id as id,msg as message;
 end; **
 delimiter ;
 
@@ -408,15 +360,15 @@ delimiter ;
 		user_id -> int
 	retorno
 		result	-> int
-        message -> nvarchar(128)
+        message -> nvarchar(128)	
 	Solicita una reconsideración sobre la solicitud asociada al
     request_id validando que dicha solicitud sea del usuario
     asociado al user_id así como verificando que no haya más de 2
     reconsideraciones solicitadas anteriormente y que la solicitud
     no se encuentre en proceso de reconsideración actualmente.
-
+    
     result es 1 si todo salió bien 0 si hubo algún error.
-
+    
 */
 drop procedure if exists sp_request_reconsideration;
 delimiter **
@@ -427,7 +379,7 @@ begin
     declare recons_counter int(1);
     declare valid_owner int(1);
     declare result int(1);
-
+    
     set result = 0;
     set valid_owner = (select fk_customer = user_id from Requests where pk_request_id = request_id);
     if valid_owner then
@@ -435,22 +387,22 @@ begin
 		if recons_counter != -1 then
 			if recons_counter < 2 then
 				set recons_counter = ifnull((select fk_request_status from Requests where pk_request_id = request_id),0);
-				if recons_counter <> GET_REQUEST_STATUS_ID('Reconsideración') then
-					update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Reconsideración') where
+				if recons_counter <> GET_REQUEST_STATUS_ID('Reconsideracion') then
+					update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Reconsideracion') where
 					pk_request_id = request_id;
                     set result = 1;
-					set msg = 'Su solicitud ha entrado en proceso de reconsideración';
+					set msg = 'Su solicitud ha entrado en proceso de reconsideracion';
 				else
-					set msg = 'La solicitud ya se encuentra en proceso de reconsideración';
+					set msg = 'La solicitud ya se encuentra en proceso de reconsideracion';
 				end if;
 			else
-				set msg = 'La solicitud agotó la cantidad de reconsideraciones permitidas';
+				set msg = 'La solicitud agota la cantidad de reconsideraciones permitidas';
 			end if;
 		else
 			set msg = 'Fallo al obtener registro de estatus';
 		end if;
 	else
-		set msg = 'Inconsistencias al solicitar reconsdieración';
+		set msg = 'Inconsistencias al solicitar reconsideracion';
     end if;
     select result, msg as message;
 end; **
@@ -475,35 +427,40 @@ delimiter ;
         ref_2_phone nvarchar
         ref_2_time nvarchar
         rf_2_remark nvarchar
-
+        
 	retorno
 		result	-> int
-        message -> nvarchar(128)
+        message -> nvarchar(128)	
 	Agrega una solicitud de crédito a los registros
     validando que cumpla con las restricciones establecidas.
-
+    
     result es 1 si todo salió bien 0 si hubo algún error.
-
+    
 */
+
 drop procedure if exists sp_request_credit;
 delimiter **
 create procedure sp_request_credit(
 in user_id int,in credit_type int,in amount int(7),in ref_1_name varchar(64),
-in rf_1_fst_surname varchar(64),in rf_1_snd_surname varchar(64),in ref_1_phone int(8),in ref_1_time int(2),in rf_1_remark varchar(500),
-in ref_2_name nvarchar(64),in rf_2_fst_surname varchar(64),in rf_2_snd_surname varchar(64),in ref_2_phone int(8),in ref_2_time int(2),
-in rf_2_remark varchar(500))
+in ref_1_fst_surname varchar(64),in ref_1_snd_surname varchar(64),in ref_1_phone nvarchar(8),in ref_1_time int(2),
+in ref_2_name nvarchar(64),in ref_2_fst_surname varchar(64),in ref_2_snd_surname varchar(64),in ref_2_phone nvarchar(8),in ref_2_time int(2))
 begin
 	declare msg nvarchar(128);
     declare is_valid_credit int(1);
-
+    declare new_request_id int;
+    
     call sp_validate_credit_request(user_id,credit_type,amount,msg,is_valid_credit);
-    if is_valid_credit then
-		insert into Requests(fk_customer,fk_credit_type,amount) values
+    if is_valid_credit then 
+		insert into Requests(fk_customer,fk_credit_type,amount) values 
         (user_id,credit_type,amount);
-        insert into Customer_References(fk_referenced_customer,reference_name,first_surname,second_surname,telephone,timeMeeting,investigation_remark) values
-        (user_id,ref_1_name,ref_1_fst_surname,ref_1_snd_surname,ref_1_phone,ref_1_time,ref_1_remark),
-        (user_id,ref_2_name,ref_2_fst_surname,ref_2_snd_surname,ref_2_phone,ref_2_time,ref_2_remark);
-        set msg = 'Solicitud exitosa. Su petición ya está proceso';
+        
+        set new_request_id = (select max(pk_request_id) from Requests);
+       # set new_request_id = (select pk_request_id from Requests where fk_customer = user_id and fk_credit_type = credit_type and Requests.amount = amount);
+        
+        insert into Customer_References(fk_referenced_request,reference_name,first_surname,second_surname,telephone,timeMeeting) values
+        (new_request_id,ref_1_name,ref_1_fst_surname,ref_1_snd_surname,ref_1_phone,ref_1_time),
+        (new_request_id,ref_2_name,ref_2_fst_surname,ref_2_snd_surname,ref_2_phone,ref_2_time);
+        set msg = 'Solicitud exitosa. Su peticion ya entro en proceso';
 	end if;
     select is_valid_credit as result, msg as message;
 end; **
@@ -511,11 +468,11 @@ delimiter ;
 
 
 /*
-	Valida una solicitud de crédito verificando
+	Valida una solicitud de crédito verificando 
     que el usuario que la solicita exista, que la
     solicitud no esté ya en proceso y que el monto proporcionado
     sea compatible con el monto correspondiente al tipo de crédito solicitado
-
+    
     Retorna 1 si es válida la solicitud, 0 si no.
 */
 drop procedure if exists sp_validate_credit_request;
@@ -524,14 +481,14 @@ create procedure sp_validate_credit_request(
 in user_id int,in credit_type int,in amount int(7),out msg nvarchar(128),out is_valid int(1))
 begin
     declare duplicated_request int(1);
-
+    
     set is_valid = 0;
-
+    
     if IS_NOT_IN_BUREAU(user_id) then
 		if USER_EXISTS(user_id) then
 			if IS_VALID_CREDIT_TYPE(credit_type) then
 				if IS_VALID_CREDIT_AMOUNT(credit_type,amount) then
-					set duplicated_request = (select count(pk_request_id)
+					set duplicated_request = (select count(pk_request_id) 
 								from Requests where fk_customer = user_id and fk_credit_type = credit_type);
 					if duplicated_request = 0 then
 						set is_valid = 1;
@@ -539,21 +496,110 @@ begin
 						set msg = 'Ya hay una solicitud en proceso';
 					end if;
 				else
-					set msg = 'Tipo de crédito incompatible con el monto proporcionado';
+					set msg = 'Tipo de credito incompatible con el monto proporcionado';
 				end if;
 			else
-				set msg = 'Tipo de crédito no válido.';
+				set msg = 'Tipo de credito no valido.';
 			end if;
 		else
-			set msg = 'Inconsistencias al registrar crédito';
+			set msg = 'Inconsistencias al registrar credito';
 		end if;
 	else
-		set msg = 'Solicitud rechazada automáticamente. Presencia en buró.';
+		set msg = 'Solicitud rechazada automaticamente. Presencia en buro.';
     end if;
 end; **
 delimiter ;
 
+/*
+	Dictamina una solicitud de crédito si el verdicto es verdadero (1)
+*/
+drop procedure if exists sp_dictaminate;
+delimiter **
+create procedure sp_dictaminate(in request_id int, in verdict int(1))
+begin
+	declare result int(1);
+    declare msg nvarchar(128);
+    
+    set result = ifnull((select count(id) from vw_credits where id = request_id),0);
+	if result then #existe request
+		if verdict then
+			update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Autorizacion') where pk_request_id = request_id;
+        else
+			update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Rechazo') where pk_request_id = request_id;
+        end if;
+        set msg='Veredicto guardado exitosamente';
+    else
+		set msg = 'Inconsistencias con el identificador de la solicitud';
+    end if;
+    select result, msg as message;
+end; **
+delimiter ;
+#call sp_dictaminate(1,1);
+#update Requests set fk_request_status = 6 where pk_request_id = 1;
+#select * from vw_credits;
 
+/*
+	Lleva a cabo la aprobación de un crédito verificando que el empleado
+    haya ingresado una contraseña consistente con su registro y que este registro
+    sea de un empleado del tipo gerente.
+    Regresa 1 si todo salió bien, 0 si no.
+*/
+drop procedure if exists sp_credit_authorization;
+delimiter **
+create procedure sp_credit_authorization(in employee_id int,in pswd nvarchar(32),in request_id int)
+begin
+	declare msg nvarchar(128);
+    declare is_valid int(1);
+    declare result int(1);
+    
+    set result = 0;
+    set is_valid = (select count(id) from vw_credits where id = request_id);
+    if is_valid then
+		if USER_EXISTS(employee_id) and IS_CUSTOMER(employee_id) = 0 then
+			if GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Gerente' then
+				set is_valid = (select MD5(CONCAT(Users.salt,pswd)) = Users.pswd from Users where pk_user_id = employee_id);
+				if is_valid then
+					update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Aprobado') where pk_request_id = request_id;
+					set result = 1;
+                    set msg = 'Solicitud autorizada correctamente';
+                else
+					set msg='Autorizacion denegada, clave incorrecta';
+				end if;
+			else
+				set msg= 'Usuario con permisos insuficientes';
+			end if;
+		else
+			set msg= 'Inconsistencias con el registro y tipo de usuario';
+		end if;
+	else
+		set msg = 'Solicitud no encontrada';
+    end if;
+    select result,msg as message;
+end; **
+delimiter ;
+#call sp_credit_authorization(3,MD5('123'),1);
+
+/*
+	Agrega el resultado de la investigación telefónica de una referencia.
+*/
+drop procedure if exists sp_set_reference_remark;
+delimiter **
+create procedure sp_set_reference_remark(in reference_id int,in remark nvarchar(500))
+begin
+	update Customer_References set investigation_remark = remark where pk_reference_id = reference_id;
+end; **
+delimiter ;
+
+
+drop procedure if exists sp_get_customer_references;
+delimiter **
+create procedure sp_get_customer_references(in request_id int)
+begin
+	select pk_reference_id as id,reference_name as 'name',first_surname,second_surname,
+    telephone,timeMeeting,investigation_remark as remark from Customer_References where
+    fk_referenced_request = request_id;
+end; **
+delimiter ;
 
 #------------------------------------------------------------------
 #								FUNCTIONS
@@ -617,7 +663,7 @@ end; **
 delimiter ;
 
 /*
-	Verifica que el credi_type realmente exista en
+	Verifica que el credi_type realmente exista en 
     la tabla Cat_Credit_Types.
     Regresa 0 en caso de no encontrar algún registro asociado
     al credit_type
@@ -633,8 +679,8 @@ end; **
 delimiter ;
 
 /*
-	Verifica si el cliente se encuentra en el buró
-    por crédito o fraude.
+	Verifica si el cliente se encuentra en el buró 
+    por crédito o fraude. 
     Regresa 1 si hay algún registro, 0 si no.
 */
 drop function if exists IS_NOT_IN_BUREAU;
@@ -673,7 +719,7 @@ delimiter **
 create function IS_CUSTOMER(user_id int) returns int(1) deterministic
 begin
 	declare customer int(1);
-    set customer = ifnull((select 1 from Users inner join
+    set customer = ifnull((select 1 from Users inner join 
     Cat_User_Types on fk_user_type = Cat_User_Types.pk_type_id
     where pk_user_id = user_id and Cat_User_Types.type_description = 'Cliente'),0);
     return (customer);
@@ -693,4 +739,68 @@ begin
 end; **
 delimiter ;
 
+
 #------------------------------------------------------------------
+#------------------------------------------------------------------
+# Inserts
+
+insert into Bureau_Reasons(reason) values 
+('Fraude'),
+('Adeudo');
+
+insert into Cat_User_Types (type_description) values
+('Cliente'),
+('Gerente'),
+('Dictaminador'),
+('Administrativo');
+
+insert into Cat_Request_Status (status_description) values
+('Aprobado'),
+('Rechazo'),
+('Reconsideracion'),
+('Cancelacion'),
+('Dictaminacion'),
+('Investigacion'),
+('Renovado'),
+('Autorizacion');
+
+insert into Cat_Credit_Types (credit_name,credit_term,credit_rate,credit_fixed_amount) values
+('Tarjeta debito I',3,0,10000),
+('Tarjeta debito II',4,0,20000),
+('Tarjeta debito III',5,0,30000),
+('Tarjeta credito I',3,0,10000),
+('Tarjeta credito II',4,0,20000),
+('Tarjeta credito III',5,0,30000),
+('Hipoteca I',15,8,NULL),
+('Hipoteca II',20,10,NULL),
+('Hipoteca III',25,13,NULL),
+('Auto I',1,5,NULL),
+('Auto II',2,6,NULL),
+('Auto III',3,7,NULL),
+('Auto IV',4,8,NULL),
+('Auto V',5,9,NULL);
+
+#------------------------------------------------------------------
+#Tests
+
+insert into Users(fk_user_type,first_name,first_surname,second_surname,
+house_number,street,telephone,email,pswd) values
+(1,'Cliente1','Pat1','Mat1',10,'Calle',00000000,'cliente1@example.com',MD5('123')),
+(1,'Cliente2','Pat2','Mat2',10,'Calle',00000000,'cliente2@example.com',MD5('123')),
+(2,'Gerente1','Pat','Mat',10,'Calle',00000000,'gerente1@example.com',MD5('123')),
+(3,'Dictaminador1','Pat','Mat',10,'Calle',00000000,'dictaminador1@example.com',MD5('123')),
+(4,'Administrativo1','Pat','Mat',10,'Calle',00000000,'administrativo1@example.com',MD5('123'));
+
+insert into Customers(fk_user_id,rfc,curp,company,job,salary) values
+(1,'rfc1','curp1','enterprise','work',1000),
+(2,'rfc2','curp2','enterprise','work',1000);
+
+insert into Requests(fk_customer,fk_credit_type,amount) values
+(1,1,NULL),
+(2,7,1000);
+
+call sp_request_credit(2,6,null,'RefName1','pat1','mat1',00000000,3,'RefName2','pat2','mat2','00000000',1);
+
+ 
+
+
