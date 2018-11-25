@@ -1,4 +1,6 @@
-<?php
+  <?php
+  echo "Hola sample";
+  /*
   //Call to the model
   require_once("#");
 
@@ -32,5 +34,5 @@
 
 
   //call to the view
-  require_once("#");
+  require_once("#");*/
  ?>
