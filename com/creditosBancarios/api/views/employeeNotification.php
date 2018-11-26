@@ -31,40 +31,36 @@
           <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
         </select>
 
-        <button id="btnAcept"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Aceptar</button>
-
-
-
         <!--CheckBox de id de clientes-->
         <div class="content__center-user__div-data__div-checkbox-id">
-          <form  >
+          <form id="notificationCostumer" name="notificationCostumer" class="content__center-user__div-data__div-checkbox-id__form">
             <div  class="checkbox">
-              <label><input type="checkbox"   value="">Option 1</label>
+              <label><input type="checkbox" class="" name="notificationCostumer[0]"   value="Costumer 1">Option 1</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox"   value="">Option 2</label>
+              <label><input type="checkbox"   name="notificationCostumer[1]" value="Costumer 1">Option 2</label>
             </div>
             <div class="checkbox ">
-              <label><input type="checkbox" value=""  >Option 3</label>
+              <label><input type="checkbox" name="notificationCostumer[2]" value="Costumer 2"  >Option 3</label>
             </div>
             <div class="checkbox ">
-              <label><input type="checkbox" value=""  >Option 4</label>
+              <label><input type="checkbox" name="notificationCostumer[3]" value="Costumer 3"  >Option 4</label>
             </div>
             <div class="checkbox ">
-              <label><input type="checkbox" value=""  >Option 5</label>
+              <label><input type="checkbox" name="notificationCostumer[4]" value="Costumer 4"  >Option 5</label>
             </div>
             <div class="checkbox ">
-              <label><input type="checkbox" value=""  >Option 4</label>
+              <label><input type="checkbox" name="notificationCostumer[5]" value="Costumer 5"  >Option 4</label>
             </div>
             <div class="checkbox ">
-              <label><input type="checkbox" value=""  >Option 5</label>
+              <label><input type="checkbox" name="notificationCostumer[6]" value="Costumer 6"  >Option 5</label>
             </div>
           </form>
         </div>
 
 
           <!--Boton para seleccionar un cliente-->
-            <button id="btnSubmitNotification"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Enviar notificación</button>
+            <button id="btnSubmitNotification"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Enviar notificacioón</button>
 
       </div>
 
@@ -72,5 +68,7 @@
     </div>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/validationEmployee.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitEmployee.js"></script>
   </body>
 </html>

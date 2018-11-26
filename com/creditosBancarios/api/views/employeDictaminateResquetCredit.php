@@ -56,5 +56,6 @@
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/validateEmployeeDictaminate.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitEmployeeDictaminate.js"></script>
   </body>
 </html>

@@ -8,7 +8,13 @@ function investigation() {
 
     console.log("Estan bien");
      window.alert("Solicitud enviada");
-     var url = "../../../../com/creditosBancarios/api/views/employeeTelephonicInvestigation.html";
+     var url = "../../../../com/creditosBancarios/api/views/employeeTelephonicInvestigation.php";
      $(location).attr('href',url);
   }
+}
+
+
+$("#btnSubmitNotification").click(notification);
+function notification() {
+
 }

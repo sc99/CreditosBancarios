@@ -7,7 +7,8 @@ function comboTypeCredit() {
     return false;
   } else {
     console.log("Estan bien");
-     window.alert("Solicitud enviada");
+
+     
      var url = "../../../../com/creditosBancarios/api/views/costumerViews.php";
      $(location).attr('href',url);
   }

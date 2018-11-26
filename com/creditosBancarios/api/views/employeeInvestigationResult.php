@@ -31,7 +31,7 @@
           <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
         </select>
 
-        <button id="btnAcept"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Aceptar</button>
+
           <!--Barra de busqueda de ID-->
         <div id="navSearchID" class="">
           <nav class="">
@@ -60,6 +60,6 @@
     </div>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/validationEmployeeInvestigation.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/validationEmployee.js"></script>
   </body>
 </html>

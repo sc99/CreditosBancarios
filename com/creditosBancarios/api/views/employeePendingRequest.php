@@ -31,9 +31,6 @@
           <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
         </select>
 
-        <button id="btnAcept"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Aceptar</button>
-
-
         <!--ComboBox de id de clientes-->
           <select multiple class="content__center-user__div-data__cmb-box form-control">
             <option id="Id1" value="">Nombre de cliente ID1</option>

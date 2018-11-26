@@ -1,4 +1,4 @@
-phpCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -29,17 +29,29 @@ phpCTYPE html>
 
         <ul class="content__center-user__list nav nav-tabs nav-fill">
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCreditCar.php">Solicitud de credito</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCredit.php">Solicitud de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
             <a class="content__center-user__list__item__hyperlink nav-link" href="../../../../com/creditosBancarios/api/views/costumerRenoReconCancel.php">Estado de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="">Notificaciones</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " data-toggle="collapse" href="#divNotification" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Notificaciones</a>
           </li>
 
         </ul>
-
+        <div class="col content__center-user__notification">
+              <div class="collapse multi-collapse" id="divNotification">
+                <div class="card card-body">
+                  <ul class="list-group">
+                    <li class="list-group-item">Notificación 1</li>
+                    <li class="list-group-item">Notificación 2</li>
+                    <li class="list-group-item">Notificación 3</li>
+                    <li class="list-group-item">Notificación 4</li>
+                    <li class="list-group-item">Notificación 5</li>
+                  </ul>
+            </div>
+          </div>
+        </div>
         <div id=""class="content__center-user__div-data col-lg-10 col-md-12 sm-12 col-xs-12">
           <div class="content__center-user__div-data__div-key col-lg-5 col-md-6 sm-3 col-xs-4 border border-light" >
             <p class="content__center-user__div-data-user__div-key__key" id="keyRequest">Clave unica de solicitud</p>
@@ -111,6 +123,7 @@ phpCTYPE html>
 
           </table>
           <!--ComboBox de tipo de credito-->
+          <label class="content__center-user__div-data__lbl"for="">Tipo de credito</label>
           <select  multiple class="content__center-user__div-data__cmb-box form-control" id="creditType" name="creditType">
             <option id="DEBIT_CARD" value="Tarjeta de debito">Tarjeta de debito</option>
             <option id="CREDIT_CARD" value="Tarjeta de credito">Tarjeta de credito</option>
@@ -155,8 +168,8 @@ phpCTYPE html>
     </div>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/costumerCreditRequestCard.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/comboBoxCostumerCreditRequest.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/validateCostumerCreditRequest.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitCostumerCredit.js"></script>
   </body>
 </html>

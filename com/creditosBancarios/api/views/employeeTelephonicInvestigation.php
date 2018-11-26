@@ -34,8 +34,7 @@
           <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
         </select>
 
-        <!--btn Elegir ComboBoxEmpleado-->
-        <button id="accept"class="btn btn-primary" type="button" name="button">Aceptar</button>
+
 
         <p>Solicitudes</p>
         <!--ComboBox de solicitudes-->
@@ -44,8 +43,7 @@
           <option id="Id2" value="">Reconsideraciones</option>
         </select>
 
-        <!--Elegir solicitudes-->
-        <button id="selectRequests"class="btn btn-primary" type="button" name="button">Seleccionar</button>
+
 
         <div class="col-lg-5 col-md-6 sm-3 col-xs-4 border border-light" >
           <p id="keyRequest">Clave unica de solicitud</p>
@@ -122,7 +120,7 @@
 
         <p>Estatus de buro de credito</p>
         <textarea style="height:30px;" id="bureauStatus" disabled class="form-control" rows="5" id="comment"></textarea>
-          <button id="btnSubmitRequest"class="btn btn-primary" type="button" name="button">Enviar</button>
+          <button id="btnSumitInvestigation"class="btn btn-primary" type="button" name="button">Enviar</button>
       </div>
 
 

@@ -7,8 +7,8 @@ function dictamination() {
   } else {
 
     console.log("Estan bien");
-     window.alert("Solicitud enviada");
-     var url = "../../../../com/creditosBancarios/api/views/employeDictamination.html";
+     
+     var url = "../../../../com/creditosBancarios/api/views/employeDictamination.php";
      $(location).attr('href',url);
   }
 }

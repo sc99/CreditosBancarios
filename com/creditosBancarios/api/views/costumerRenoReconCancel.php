@@ -27,17 +27,29 @@
 
         <ul class="content__center-user__list nav nav-tabs nav-fill" style="background: white">
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCreditCar.php">Solicitud de credito</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCredit.php">Solicitud de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
             <a class="content__center-user__list__item__hyperlink nav-link" href="../../../../com/creditosBancarios/api/views/costumerRenoReconCancel.php">Estado de credito</a>
           </li>
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="#">Notificaciones</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " data-toggle="collapse" href="#divNotification" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Notificaciones</a>
           </li>
 
         </ul>
-      </div>
+        <div class="col content__center-user__notification">
+              <div class="collapse multi-collapse" id="divNotification">
+                <div class="card card-body">
+                  <ul class="list-group">
+                    <li class="list-group-item">Notificación 1</li>
+                    <li class="list-group-item">Notificación 2</li>
+                    <li class="list-group-item">Notificación 3</li>
+                    <li class="list-group-item">Notificación 4</li>
+                    <li class="list-group-item">Notificación 5</li>
+                  </ul>
+            </div>
+          </div>
+        </div>
 
         <div id=""class="content__center-user__div-data col-lg-10 col-md-12 sm-12 col-xs-12"  >
           <!--ComboBox de tipo de credito-->
@@ -63,5 +75,6 @@
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/validationCostumeRenoReconCancel.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitCostumerRenoReconCancel.js"></script>
   </body>
 </html>
