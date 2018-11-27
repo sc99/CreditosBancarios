@@ -6,8 +6,9 @@
     public $request;
     //constructor
     function __construct($request=request){
-      $this->user=UserModel();
-      $this->db=Database();
+      $this->user=new UserModel();
+      $this->db=new Database();
+    }
 
       //Metodos
       public function EntityUser(request:Array){
@@ -33,7 +34,7 @@
                 //result
         if ($result.row('result') == 1) {
           //si result es igual a 1 tdo bien
-          if($result.row('employee_type') !null)
+          if($result.row('user_type') !null)
           {
             //Se logeo un empleado
             //Usar clase UserModel
@@ -56,8 +57,5 @@
       public function isValidUser(){
 
       }
-
-
-    }
   }
  ?>
