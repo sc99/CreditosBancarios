@@ -111,7 +111,15 @@ class CreditRequestModel{
         return $this;
     }
 
-
+    public function toJson(){
+      $json = array(
+        "id" => $this->id,
+        "status"=>$this->status,
+        "customer"=>$this->applicant->toJson(),
+        "credit"=>$this->credit->toJson()
+      );
+      return $json;
+    }
 
 
 }

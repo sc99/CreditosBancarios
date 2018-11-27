@@ -194,5 +194,13 @@ class CustomerModel extends UserModel{
         return $this;
     }
 
+    /*
+    Retorna las variables del objeto para que sobre ellas pueda aplicarse
+    el método json_encode
+    */
+    public function toJson(){
+      return get_object_vars($this);
+    }
+
 }
  ?>

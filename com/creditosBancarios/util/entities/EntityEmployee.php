@@ -98,12 +98,22 @@ class EntityEmployee{
           $creditRequestModel->setCredit($credit);
           $creditRequestModel->setApplicant($customer);
 
+          //var_dump($creditRequestModel->toJson());
           //Falta implementar los json_encode en las clases model para que este método funcione
-          array_push($resultArray,get_object_vars($creditRequestModel));
-
+          array_push($resultArray,$creditRequestModel->toJson());
         }
-      }
-      $resultArray = array("Requests"=>$resultArray,"result"=>$resultSet["result"],"message"=>$resultSet["message"]);
+        $resultArray = json_encode(array(
+                "result"=>$dataResult[0]["result"],
+                "message" => $dataResult[0]["message"],
+                "Requests"=>$resultArray
+              ));
+        //$jsonResult["result"] = $dataResult[0]["result"];
+        //$jsonResult["message"] = $dataResult[0]["message"];
+        //$resultArray = $jsonResult;
+        //$resultArray = array("Requests"=>$resultArray,"result"=>$dataResult[0]["result"],"message"=>$dataResult[0]["message"]);
+      }else
+       $resultArray = json_encode(array("result"=>-1,"message"=>"No hay creditos pendientes"));
+
     }catch(Exception $e){
       echo $e->getMessage();
     }

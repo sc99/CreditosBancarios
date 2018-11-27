@@ -37,7 +37,7 @@ class EmployeeController{
     $employee = new EntityEmployee();
     $employeeId = $this->request["id"];
     $response = $employee->getAllPendingRequests($employeeId);
-    var_dump ($response);
+    echo $response;
   }
 
 }

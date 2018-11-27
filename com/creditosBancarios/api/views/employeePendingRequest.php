@@ -2,13 +2,15 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-with, initial-scale=1.0">
+  <meta name="viewport" content="width=device-with, initial-scale=1">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
+  <script src="assets/js/import/jquery-3.3.1.min.js"></script>
+  <script src="assets/js/GUI.js"></script>
 
   <title></title>
 </head>
-  <body>
+  <body onload="renderPendingRequests();">
     <div class="content container">
 
       <header class="content__header row">
@@ -24,20 +26,28 @@
       </header>
 
       <!--ComboBox de empleado-->
-      <div  class="content__center-user__div-data col-lg-10 col-md-10 sm-10 col-xs-10 ">
+    <!--  <div  class="content__center-user__div-data col-lg-10 col-md-10 sm-10 col-xs-10 ">
         <select class="content__center-user__div-data__cmb-box--unfolds form-control">
           <option id="telephoneResearch" value="">Investigación Telefonica</option>
           <option id="notificationCostumer" value="">Notificación para usuario</option>
           <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
-        </select>
+        </select> -->
 
-        <!--ComboBox de id de clientes-->
-          <select multiple class="content__center-user__div-data__cmb-box form-control">
-            <option id="Id1" value="">Nombre de cliente ID1</option>
-            <option id="Id2" value="">Nombre de cliente ID2 </option>
-            <option id="Id3" value="">Nombre de cliente ID3 </option>
-            <option id="Id4" value="">Nombre de cliente ID4 </option>
-          </select>
+        <!--Div de lista de solicitudes-->
+        <div class="content" id ="requestsContainer">
+          <table id="requestsTable" class="table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Credito</th>
+                <th>Monto</th>
+                <th>Monto Fijo</th>
+                <th>Plazo</th>
+                <th>Tasa</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
 
           <!--Boton para seleccionar un cliente-->
             <button id="btnPendinRequest"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Aceptar</button>
