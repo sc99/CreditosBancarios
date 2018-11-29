@@ -37,7 +37,10 @@
     }
 
     public function signIn(){
+      $mail = $this->request["email"];
+      $pswd = md5($this->request["pswd"]);
       $user=new EntityUser();
+      $response = json_encode();
     }
 
     public function signOut(){
@@ -64,6 +67,11 @@
         break;
       case "getUser":
         $controller->getUser();
+        break;
+      case "signIn":
+        $controller->signIn();
+        break;
+      case "signOut":
         break;
       //case "isValidUser":
         //$controller->requestCancellation();

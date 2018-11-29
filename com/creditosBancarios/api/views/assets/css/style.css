@@ -2,7 +2,7 @@
 
 	body{
 
-		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo3.jpg);
+		/*background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo3.jpg);*/
 		height:100%;
 	}
 
@@ -132,21 +132,9 @@
 
 
 
-
-	table{
-		background: white;
-		width: 100%;
-	}
-
-
 }
 
 @media (max-width:1199px) and (min-width:200px) {
-	body{
-
-		background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo3.jpg);
-		height:100%;
-	}
 
 	.content{
 		/*background: url(../../../../../../com/creditosBancarios/api/views/assets/img/fondo6.jpg);*/
@@ -272,13 +260,6 @@
 		color: white;
 	}
 
-
-
-
-	table{
-		background: white;
-		width: 100%;
-	}
 
 
 }

@@ -14,18 +14,23 @@
       public function EntityUser(request:Array){
 
       }
+
       public function addUSer(){
 
       }
+
       public function updateUser(){
 
       }
+
       public function deleteUser(){
 
       }
+
       public function getUser(){
 
       }
+
       public function logUser(){
         $jsonUser=jspon_encode($_REQUEST['user']);
         $jsonResult=0;
@@ -54,6 +59,7 @@
           return $jsonResult;
         }
       }
+
       public function isValidUser(){
 
       }
