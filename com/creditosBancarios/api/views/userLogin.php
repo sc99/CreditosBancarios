@@ -3,10 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-with, initial-scale=1.0">
-  <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
-
-
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/import/jquery-3.3.1.min.js" ></script>
+  <script src="assets/js/import/bootstrap.min.js"></script>
+  <script src="assets/js/sumitDataUserType.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script src="assets/js/core.js" ></script>
   <title></title>
 </head>
   <body>
@@ -25,7 +28,7 @@
           <div  class="content__center-login__frame col-8 ">
             <div class="alert alert-success d-none" id="messageSucces"> Mensaje enviado con éxito</div>
             <div class="alert alert-danger d-none" id="messageError">No son  validos </div>
-            <form id="userLogin" class="content__center-login__frame__form"   >
+            <form id="userLogin" onsubmit="return false" action="" method="post" class="content__center-login__frame__form"   >
                   <div class="content__center-login__frame__line-email row form-group">
                       <label for="nombre" class="content__center-login__frame__line col-form-label col-md-
                       3">Correo de Usuario:</label>
@@ -43,7 +46,7 @@
                     </div>
                   </div>
             <div class="form-group">
-              <button type="submit" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info"  >Iniciar Sesión</button>
+              <button onClick="validate();" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info"  >Iniciar Sesión</button>
 
             </div>
           </form>
@@ -52,11 +55,6 @@
       </div>
 
     </div>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
-
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitDataUserType.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/validation.js"></script>
 
 
   </body>

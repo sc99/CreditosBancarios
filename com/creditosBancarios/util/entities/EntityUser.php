@@ -1,19 +1,14 @@
 <?php
-  class EntityUser{
-    //declaro atributos
-    public $user;
+  require_once(__DIR__.'/../../api/config/UserTypes.php');
+  require_once(__DIR__.'/../database/DataBase.php');
+
+class EntityUser{
+
     public $db;
-    public $request;
     //constructor
-    function __construct($request=request){
-      $this->user=new UserModel();
+    function __construct(){
       $this->db=new Database();
     }
-
-      //Metodos
-      public function EntityUser(request:Array){
-
-      }
 
       public function addUSer(){
 
@@ -31,37 +26,51 @@
 
       }
 
-      public function logUser(){
-        $jsonUser=jspon_encode($_REQUEST['user']);
-        $jsonResult=0;
-
-        $result=$db->query('call sp_log_in(jsonUser.email,jsonUser.pswd)')
-                //result
-        if ($result.row('result') == 1) {
-          //si result es igual a 1 tdo bien
-          if($result.row('user_type') !null)
-          {
-            //Se logeo un empleado
-            //Usar clase UserModel
-            $user->setNombre();
-            $jsonResult = parse_JSON($user);
-            $jsonResult["result"] = 1;
-            $jsonResult["message"] = $result.row('message');
-          }else {
-            // se logeo un cliente
-            CustomerModel $customer = new CustomerModel();
-            $customer->setAtributo();
+      public function logUser($mail,$pswd){
+        $resultArray;
+        try{
+          $this->db->connect();
+          $query = "call sp_log_in('".$mail."','".$pswd."')";
+          //$query = $this->db->conn->prepare($query);
+          $query = $this->db->executeQuery($query);
+          $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+          if($resultSet > 0){
+            $result = $resultSet["id"];
+            $message = $resultSet["message"];
+            if($result != -1){ // Usuario  encontrado
+              $userType = $resultSet["user_type"];
+              $userName = $resultSet["user_name"];
+              $view = $this->openUserSession($result,$userType,$userName);
+              $resultArray = array("result"=>1,"message"=>$message,"view"=>$view);
+            }else{
+              $resultArray = array("result"=>$result,"message"=>$message);
+            }
           }
+          $query->free();
+          $this->db->disconnect();
 
-        }else{
-          //si es cero entonces
-          //regresar result y message
-          return $jsonResult;
+        }catch(Exception $e){
+          echo $e->getMessage();
         }
+        return $resultArray;
       }
 
       public function isValidUser(){
 
+      }
+
+      private function openUserSession($id,$userType,$userName){
+        $view = null;
+        session_start();
+        $_SESSION["user"] = $id;
+        $_SESSION["userType"] = $userType;
+        $_SESSION["userName"] = $userName;
+        if($userType == UserTypes::CUSTOMER){ //Es cliente
+          $view = 'costumerViews.php';
+        }else{// Es algún tipo de empleado
+          $view = 'employeePendingRequest.php';
+        }
+        return $view;
       }
   }
  ?>

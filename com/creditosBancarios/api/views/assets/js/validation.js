@@ -1,4 +1,5 @@
-$("#btnLoginUser").click(validate);
+
+
 function validate() {
   if (validateEmail()== false || validatePassword()== false) {
     console.log("Estan mal los campos");
@@ -8,6 +9,7 @@ function validate() {
     console.log("Estan bien los campos");
     $("#messageError").addClass("d-none");
     $("#messageSucces").removeClass("d-none");
+    logUser();
   }
 }
 function validateEmail() {
@@ -16,7 +18,7 @@ function validateEmail() {
   var emailUser = expressionEmail.test(email);
 
   if (emailUser==false) {
-    
+
     console.log("Esta mal");
     $("#email").attr("class","form-control is-invalid" );
     $("#email").parent().children("span").text("Debe ingresar un email").attr("class","invalid-feedback" ).show();

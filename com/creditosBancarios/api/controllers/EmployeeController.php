@@ -61,7 +61,7 @@ switch($request_type){
     $controller->getPendingRequests();
     break;
   default:
-    echo "Servicio no disponible";
+    echo json_encode(array("message"=>"Servicio no disponible"));
 }
 
  ?>

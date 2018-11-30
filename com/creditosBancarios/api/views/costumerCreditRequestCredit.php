@@ -1,3 +1,13 @@
+<?php
+session_start();
+if(!isset($_SESSION["user"])){
+  header('Location: userLogin.php');
+  die();
+}else{
+
+  $userName = $_SESSION["userName"];
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -5,7 +15,12 @@
     <meta name="viewport" content="width=device-with, initial-scale=1.0">
     <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
-
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/comboBoxCostumerCreditRequest.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/validateCostumerCreditRequest.js"></script>
+    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitCostumerCredit.js"></script>
+    <script src="assets/js/core.js"></script>
     <title></title>
   </head>
   <body>
@@ -29,147 +44,170 @@
 
         <ul class="content__center-user__list nav nav-tabs nav-fill">
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="../../../../com/creditosBancarios/api/views/costumerCreditRequestCredit.php">Solicitud de credito</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " href="customerView.php">Mis creditos</a>
           </li>
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link" href="../../../../com/creditosBancarios/api/views/costumerRenoReconCancel.php">Estado de credito</a>
-          </li>
-          <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " data-toggle="collapse" href="#divNotification" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Notificaciones</a>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              Notificaciones
+            </button>
+            <div id='notif-budget' class="dropdown-menu">
+            </div>
           </li>
 
         </ul>
-        <div class="col content__center-user__notification">
-              <div class="collapse multi-collapse" id="divNotification">
-                <div class="card card-body">
-                  <ul class="list-group">
-                    <li class="list-group-item">Notificación 1</li>
-                    <li class="list-group-item">Notificación 2</li>
-                    <li class="list-group-item">Notificación 3</li>
-                    <li class="list-group-item">Notificación 4</li>
-                    <li class="list-group-item">Notificación 5</li>
-                  </ul>
-            </div>
-          </div>
-        </div>
         <div id=""class="content__center-user__div-data col-lg-10 col-md-12 sm-12 col-xs-12">
           <div class="content__center-user__div-data__div-key col-lg-5 col-md-6 sm-3 col-xs-4 border border-light" >
             <p class="content__center-user__div-data-user__div-key__key" id="keyRequest">Clave unica de solicitud</p>
           </div>
-          <label class="content__center-user__div-data__lbl"for="">Datos del solicitante</label>
 
-          <table class="">
-              <tr  class="">
-                <th  >Nombre</th>
-                <td>Mark</td>
-              </tr>
-              <tr>
-                <th>Domicilio</th>
-                <td>Jacob</td>
-              </tr>
-              <tr>
-                <th scope="row">RFC</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">CURP</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">Numero telefonico</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">Correo</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">Empresa en la que trabaja</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">Puesto</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">Sueldo Mensual</th>
-                <td>Larry</td>
-              </tr>
-          </table>
-
-          <label class="content__center-user__div-data__lbl" for="">Referencias</label>
-
-          <table id="table" class="">
-              <tr>
-                <th scope="row">Nombre</th>
-                <td>Mark</td>
-              </tr>
-              <tr>
-                <th scope="row">Numero telefonico</th>
-                <td>Jacob</td>
-              </tr>
-              <tr>
-                <th scope="row">Años de conocer al solicitante</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">Empresa en la que trabaja</th>
-                <td>Larry</td>
-              </tr>
-              <tr>
-                <th scope="row">Numero telefonico</th>
-                <td>Larry</td>
-              </tr>
-
-          </table>
           <!--ComboBox de tipo de credito-->
-          <label class="content__center-user__div-data__lbl"for="">Tipo de credito</label>
-          <select  multiple class="content__center-user__div-data__cmb-box form-control" id="creditType" name="creditType">
-            <option id="DEBIT_CARD" value="Tarjeta de debito">Tarjeta de debito</option>
-            <option id="CREDIT_CARD" value="Tarjeta de credito">Tarjeta de credito</option>
-            <option id="CREDIT_MORTAGE" value="Hipotecario">Hipotecario </option>
-            <option id="CREDIT_CAR" value="Automovil">Automovil</option>
-          </select>
 
-          <select multiple class="content__center-user__div-data__cmb-box form-control d-none" id="CREDIT">
-            <option id="AMOUNT_1" value="$10,000 MXN">$10,000 MXN</option>
-            <option id="AMOUNT_2" value="$20,000 MXN">$20,000 MXN</option>
-            <option id="AMOUNT_3" value="$30,000 MXN">$30,000 MXN</option>
-          </select>
+          <form onsubmit="return false">
+            <div class="form-group">
+              <label for="sel1">Créditos:</label>
+              <select class="form-control" id="credits-selector" onchange="displayForm(this);">
+                <option id="-1" value="NC">Selecciona un crédito</option>
+                <option id="1" value="Tarjeta de debito">Tarjeta de debito</option>
+                <option id="2" value="Tarjeta de credito">Tarjeta de credito</option>
+                <option id="3" value="Hipotecario">Hipotecario </option>
+                <option id="4" value="Automovil">Automovil</option>
+              </select>
+            </div>
 
-          <select multiple class="content__center-user__div-data__cmb-box form-control d-none" id="DEBIT">
-            <option id="AMOUNT_1" value="$10,000 MXN">$10,000 MXN</option>
-            <option id="AMOUNT_2" value="$20,000 MXN">$20,000 MXN</option>
-            <option id="AMOUNT_3" value="$30,000 MXN">$30,000 MXN</option>
-          </select>
+            <div id='debit-form' class='container d-none' >
+              <div class="form-group">
+                <label for="sel1">Tipos:</label>
+                <select class="form-control" id="credits-selector" onchange="displayDebitForm(this);">
+                  <option id="-1" value="NC">Selecciona un crédito</option>
+                  <option id="1" value="1">Tarjeta Débito I</option>
+                  <option id="2" value="2">Tarjeta Débito II</option>
+                  <option id="3" value="3">Tarjeta Débito III</option>
+                </select>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Monto fijo:</label>
+                <input id='debit-amount' type="text" class="form-control" readonly>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Plazo:</label>
+                <input id='debit-term' type="text" class="form-control" readonly>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Tasa de interés:</label>
+                <input id='debit-rate' type="text" class="form-control " readonly>
+              </div>
+            </div>
 
-          <select multiple class="content__center-user__div-data__cmb-box form-control d-none " id="CAR">
-             <option id="CAR_TERM_1" value="1 año a 5% de interes">1 año a 5% de interes</option>
-             <option id="CAR_TERM_2" value="2 años a 6% de interes">2 años a 6% de interes</option>
-             <option id="CAR_TERM_3" value="3 años a 7% de interes">3 años a 7% de interes</option>
-           </select>
+            <div id='credit-form' class='container d-none'>
+              <div class="form-group">
+                <label for="sel1">Tipos:</label>
+                <select class="form-control" id="credits-selector" onchange="displayCreditForm(this);">
+                  <option id="-1" value="NC">Selecciona un tipo</option>
+                  <option id="1" value="4">Tarjeta Crédito I</option>
+                  <option id="2" value="5">Tarjeta Crédito II</option>
+                  <option id="3" value="6">Tarjeta Crédito III</option>
+                </select>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Monto fijo:</label>
+                <input id='credit-amount' type="text" class="form-control" readonly>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Plazo:</label>
+                <input id='credit-term' type="text" class="form-control " readonly>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Tasa de interés:</label>
+                <input id='credit-rate' type="text" class="form-control " readonly>
+              </div>
+            </div>
 
-           <select multiple class="content__center-user__div-data__cmb-box form-control d-none" id="MORTAGE">
-             <option id="MORTAGE_TERM_1" value="15 años a 8% de interes">15 años a 8% de interes</option>
-             <option id="MORTAGE_TERM_2" value="20 años a 10% de interes">20 años a 10% de interes</option>
-             <option id="MORTAGE_TERM_3" value="25 años a 13% de interes">25 años a 13% de interes</option>
-           </select>
+            <div id='mortage-form' class='container d-none'>
+              <div class="form-group">
+                <label for="sel1">Tipos:</label>
+                <select class="form-control" id="credits-selector" onchange="displayMortageForm(this);">
+                  <option id="-1" value="NC">Selecciona un tipo</option>
+                  <option id="1" value="7">Hipoteca I</option>
+                  <option id="2" value="8">Hipoteca II</option>
+                  <option id="3" value="9">Hipoteca III</option>
+                </select>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Monto:</label>
+                <input id='mortage-amount' type="number" class="form-control " min ="1000" max="9999999">
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Plazo:</label>
+                <input id='mortage-term' type="text" class="form-control " readonly>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Tasa de interés:</label>
+                <input id='mortage-rate' type="text" class="form-control " readonly>
+              </div>
+            </div>
+
+            <div id='car-form' class='container d-none'>
+              <div class="form-group">
+                <label for="sel1">Tipos:</label>
+                <select class="form-control" id="credits-selector" onchange="displayCarForm(this);">
+                  <option id="-1" value="NC">Selecciona un tipo</option>
+                  <option id="1" value="10">Carro I</option>
+                  <option id="2" value="11">Carro II</option>
+                  <option id="3" value="12">Carro III</option>
+                  <option id="4" value="13">Carro IV</option>
+                  <option id="5" value="14">Carro V</option>
+                </select>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Monto:</label>
+                <input id='car-amount' type="number" class="form-control " min ="1000" max="9999999">
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Plazo:</label>
+                <input id='car-term' type="text" class="form-control " readonly>
+              </div>
+              <div class="form-group d-none">
+                <label for="usr">Tasa de interés:</label>
+                <input id='car-rate' type="text" class="form-control " readonly>
+              </div>
+            </div>
+
+            <h2>Referencias:</h2>
+            <div class='row' id='refs-container'>
+              <div class='container' id='firstRef'data-filled=0></div>
+              <div class='container' id='secondRef'data-filled=0 ></div>
+            </div>
+            <div class="form-group">
+              <label for="usr">Nombre:</label>
+              <input id='ref-name'  class="form-control " >
+            </div>
+            <div class="form-group">
+              <label for="usr">Apellido Paterno:</label>
+              <input id='ref-pat' type="text" class="form-control " >
+            </div>
+            <div class="form-group ">
+              <label for="usr">Apellido Materno:</label>
+              <input id='ref-mat' type="text" class="form-control " >
+            </div>
+            <div class="form-group ">
+              <label for="usr">Teléfono:</label>
+              <input id='ref-phone' type="text" class="form-control " >
+            </div>
+            <div class="form-group ">
+              <label for="usr">Años de conocerse:</label>
+              <input id='ref-meeting' type="number" class="form-control " min="1" max="99" >
+            </div>
+            <div class="form-group">
+              <button onClick="addRef();" class="content__center-user__div-data__btn btn btn-primary">Agregar Referencia</button>
+            </div>
 
 
-              <!--ComboBox de plazos de credito-->
 
-
-                <!--Boton para seleccionar un cliente-->
-          <button  name="btnSelectTermCredit" id="btnSelectTermCredit" class="content__center-user__div-data__btn btn btn-primary" style="margin:20px;" type="button" name="btnSelectTermCredit">Aceptar</button>
+          <button onclick='requestCredit();' name="btnSelectTermCredit" id="btnSelectTermCredit" class="content__center-user__div-data__btn btn btn-primary" style="margin:20px;" type="button" name="btnSelectTermCredit">Aceptar</button>
         </div>
       </div>
 
 
     </div>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/comboBoxCostumerCreditRequest.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/validateCostumerCreditRequest.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitCostumerCredit.js"></script>
   </body>
 </html>

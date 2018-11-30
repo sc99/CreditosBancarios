@@ -1,14 +1,9 @@
 <?php
-  require_once(_DIR_.'/../../util/entities/EntityUser.php');
+  require_once(__DIR__.'/../../util/entities/EntityUser.php');
 
-  /**
-   *
-   */
-  class UserController
-  {
+  class UserController{
     public $request;
 
-//tambien falta isvalidUser
 
     function __construct($request)
     {
@@ -38,13 +33,17 @@
 
     public function signIn(){
       $mail = $this->request["email"];
-      $pswd = md5($this->request["pswd"]);
+      $pswd = md5($this->request["password"]);
       $user=new EntityUser();
-      $response = json_encode();
+      $response = json_encode($user->logUser($mail,$pswd));
+      echo $response;
     }
 
     public function signOut(){
-      $user=new EntityUser();
+      session_start();
+      session_unset();
+      session_destroy();
+      echo json_encode(array("success"=>1));
     }
 
     public function registration(){
@@ -52,34 +51,35 @@
 
     }
 
-    $request_type = $_POST["action"];
-    $controller = new UserController($_POST); //Guardamos el request recibido
-    switch($request_type){
+  }
 
-      case "addUser":
-        $controller->registration(); //Llamamos al método correspondiente
-        break;
-      case "updateUser":
-        $controller->modification();
-        break;
-      case "deleteUser":
-        $controller->removal();
-        break;
-      case "getUser":
-        $controller->getUser();
-        break;
-      case "signIn":
-        $controller->signIn();
-        break;
-      case "signOut":
-        break;
-      //case "isValidUser":
-        //$controller->requestCancellation();
-        //break;
-      default:
-        echo "Servicio no disponible";
-    }
+  $request_type = $_POST["action"];
+  $controller = new UserController($_POST); //Guardamos el request recibido
+  switch($request_type){
 
+    case "addUser":
+      $controller->registration(); //Llamamos al método correspondiente
+      break;
+    case "updateUser":
+      $controller->modification();
+      break;
+    case "deleteUser":
+      $controller->removal();
+      break;
+    case "getUser":
+      $controller->getUser();
+      break;
+    case "signIn":
+      $controller->signIn();
+      break;
+    case "signOut":
+      $controller->signOut();
+      break;
+    //case "isValidUser":
+      //$controller->requestCancellation();
+      //break;
+    default:
+      echo json_encode(array("message"=>"Servicio no disponible"));
   }
 
  ?>
