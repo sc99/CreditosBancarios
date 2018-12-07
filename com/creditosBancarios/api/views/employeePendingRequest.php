@@ -1,3 +1,12 @@
+<?php
+session_start();
+if(!isset($_SESSION["user"])){
+  header('Location: userLogin.php');
+  die();
+}else{
+  $userName = $_SESSION["userName"];
+}
+ ?>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
@@ -6,6 +15,7 @@
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
   <script src="assets/js/import/jquery-3.3.1.min.js"></script>
   <script src="assets/js/GUI.js"></script>
+  <script src="assets/js/core.js"></script>
 
   <title></title>
 </head>
@@ -18,8 +28,8 @@
 
         <div id=""class="content__header__user col-lg-9 col-md-9 sm-8 col-xs-8 row">
           <aside class="content__header__user__col">
-            <label for="" class="content__header__user__col__lbl-user">Nombre de empleado</label>
-            <button id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
+            <label for="" class="content__header__user__col__lbl-user"><?php echo $userName; ?></label>
+            <button onclick="logOutUser();" id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
           </aside>
         </div>
       </header>
@@ -37,6 +47,7 @@
           <table id="requestsTable" class="table">
             <thead>
               <tr>
+                <th> </th>
                 <th>Cliente</th>
                 <th>Credito</th>
                 <th>Monto</th>
@@ -47,10 +58,6 @@
             </thead>
           </table>
         </div>
-
-          <!--Boton para seleccionar un cliente-->
-            <button id="btnPendinRequest"class="content__center-user__div-data__btn btn btn-primary" type="button" name="button">Aceptar</button>
-
       </div>
 
 

@@ -145,6 +145,7 @@ require_once(__DIR__.'/../../api/models/CreditModel.php');
             ));
             $notificationFlag = true;
         }
+        
         $resultArray = array(
           "hasNotifications"=>$notificationFlag,
           "notificationList"=>$resultArray

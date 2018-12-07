@@ -8,8 +8,9 @@ function renderPendingRequests(){
   var html = "";
   $.post(
     '../../api/controllers/EmployeeController.php',
-    {action:"pendingRequests",id:5},
+    {action:"pendingRequests"},
     function(response){
+      console.log(response);
       response = $.parseJSON(response);
       if(response.result = 1){
         html = processPendingRequests(response.Requests);
@@ -36,6 +37,7 @@ function processPendingRequests(requests){
         credit = request.credit;
         customer = request.customer;
         html += "<tr data-request="+request.id+">";
+        html += '<td><button onClick="processRequest(this);" class="content__header__user__col__btn btn btn-primary">Procesar</button></td>';
         html +="<td>"+customer.fullname+"</td>";
         html +="<td>"+credit.creditKind+"</td>";
         html +="<td>"+credit.amount+"</td>";
@@ -52,7 +54,7 @@ function processPendingRequests(requests){
   Realiza la petición al servidor de los créditos solicitados
   y las notificaciones del cliente.
 */
-function renderCustomerData(){
+function renderCustomerData(showCredits){
   var creditList = null;
   var notifications = null;
     $.post(
@@ -61,9 +63,11 @@ function renderCustomerData(){
       function(response){
         console.log(response);
         response = $.parseJSON(response);
-         creditList = response.credits;
-         notifications = response.notifications;
-        processCredits(creditList);
+        if(showCredits){
+           creditList = response.credits;
+            processCredits(creditList); 
+        }
+        notifications = response.notifications;
         processNotifications(notifications);
       }
     );

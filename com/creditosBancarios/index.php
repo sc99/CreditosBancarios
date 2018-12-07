@@ -22,6 +22,6 @@
   </head>
   <body>
     <button onClick="test()">Test</button>
-     <h1></h1>
+     <h1>Index</h1>
   </body>
 </html>

@@ -18,6 +18,97 @@ function logOutUser(){
   );
 }
 
+function authorizeRequest(){
+  var pswd = $("#pwd").val();
+  var pswdExp = /^$/;
+  var request = $("div[class='jumbotron']").data("request");
+  if(pswdExp.test(pswd)){
+    $("#messageError").removeClass("d-none");
+  }else{
+    $("#messageError").addClass("d-none");
+    $.post(
+      '../controllers/EmployeeController.php',
+      {action:"authorization",requestId:request,pswd:pswd},
+      function(response){
+        console.log(response);
+        response = $.parseJSON(response);
+        if(response.success){
+          alert(response.message);
+          window.location.href = "employeePendingRequest.php";
+        }else{
+          alert(response.message);
+        }
+      }
+    );
+
+  }
+}
+
+function dictaminateRequest(verdict,button){
+  var requestId = $(button).parents("div[class='jumbotron']").data("request");
+  $.post(
+    '../controllers/EmployeeController.php',
+    {action:"dictamination",request:requestId,verdict:verdict},
+    function(response){
+      console.log(response);
+      response = $.parseJSON(response);
+      if(response.success){
+        alert(response.message);
+        window.location.href="employeePendingRequest.php";
+      }else{
+        alert(response.message);
+      }
+    }
+  );
+}
+
+function setInvestigationResult(button){
+  var firstRemark = $("#firstremark").val();
+  var secondRemark = $("#secondremark").val();
+  var fstRefId = $("#fstRef-Container").data("id");
+  var sndRefId = $("#sndRef-Container").data("id");
+  var emptyRegExp = /[a-z]+/;
+  var refs = null;
+  if(emptyRegExp.test(firstRemark) && emptyRegExp.test(secondRemark)){
+    refs = [
+      {id:fstRefId,remark:firstRemark},
+      {id: sndRefId,remark:secondRemark}
+    ];
+    console.log(refs);
+    $.post(
+      '../controllers/EmployeeController.php',
+      {action:"investigation",
+      request:$(button).parents("div[class='jumbotron']").data("request"),
+      references: refs},
+      function(response){
+        console.log(response);
+        response = $.parseJSON(response);
+        if(response.success){
+          alert(response.message);
+          window.location.href='employeePendingRequest.php';
+        }else{
+          alert('Ocurrió un error al intentar registrar los resultados');
+        }
+      }
+    );
+  }else{
+    alert('Necesitas escribir el resultado de investigación de ambas referencias');
+  }
+
+}
+
+function processRequest(button){
+  var requestId = $($(button).parents("tr")).data("request");
+  $.post(
+    '../controllers/EmployeeController.php',
+    {action:"processRequest",request:requestId},
+    function(urlRedirect){
+      console.log(urlRedirect);
+      window.location.href= urlRedirect;
+    }
+  );
+}
+
 function requestCancellation(button){
   var parentContainer = $(button).parents("div[data-request]");
   var creditId = $(parentContainer).data("request");
@@ -355,6 +446,9 @@ function requestCredit(){
         {action:"addCredit",creditId:credit,references:references,amount:amount},
         function(response){
           console.log(response);
+          response = $.parseJSON(response);
+          alert(response.message);
+          location.reload();
         }
       );
     }else{

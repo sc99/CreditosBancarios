@@ -13,22 +13,24 @@ class EntityEmployee{
     $this->db = new DataBase();
   }
 
-  public function dictaminate($requestId,$verdict){
+  public function dictaminate($requestId,$verdict,$pswd){
     $resultArray;
     try{
       $this->db->connect();
-      $query = "call sp_dictaminate(".$requestId.",".$verdict.")";
+      $query = "call sp_credit_authorization(".$requestId.",'".$pswd."',".$verdict.")";
       //$query = $this->db->conn->prepare($query);
       $query = $this->db->executeQuery($query);
       $resultSet = $query->fetch_array(MYSQLI_ASSOC);
       if($resultSet > 0){
-        $resultArray=  array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
+        $resultArray=  array("success"=>$resultSet["result"],"message"=>$resultSet["message"]);
+      }else{
+        $resultArray = array("success"=>-1,"message"=>"Error al procesar peticion");
       }
-      $query->free();
-      $this->db->disconnect();
-
     }catch(Exception $e){
       echo $e->getMessage();
+    }finally{
+      $query->free();
+      $this->db->disconnect();
     }
     return $resultArray;
 
@@ -53,7 +55,7 @@ class EntityEmployee{
     return $resultArray;
   }
 
-  public function setInvestigationResult($arrayReferences){
+  public function setInvestigationResult($requestId,$arrayReferences){
     $resultArray;
     $firstRef = $arrayReferences[0];
     $secondRef = $arrayReferences[1];
@@ -65,13 +67,48 @@ class EntityEmployee{
       $query = "call sp_set_reference_remark(".$secondRef["id"].",'".$secondRef["remark"]."')";
       //$query = $this->db->conn->prepare($query);
       $query = $this->db->executeQuery($query);
-      $resultArray = array("result"=>1,"message"=>"Resultados de investigacion insertados");
+      $query = "update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Dictaminacion') where pk_request_id =".$requestId."";
+      $query = $this->db->executeQuery($query);
+      $resultArray = array("success"=>1,"message"=>"Resultados de investigacion enviados");
       $this->db->disconnect();
     }catch(Exception $e){
       echo $e->getMessage();
     }
     return $resultArray;
 
+  }
+
+  public function getRequest($requestId){
+    $resultArray;
+    try{
+      $this->db->connect();
+      $query = "select * from vw_credits where id =".$requestId."";
+      $query = $this->db->executeQuery($query);
+      $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+      if($resultSet > 0){
+        $resultArray = $resultSet;
+        $query = "call sp_get_customer_references(".$requestId.")";
+        $query = $this->db->executeQuery($query);
+        $references = array();
+        while($resultSet = $query->fetch_array(MYSQLI_ASSOC)){
+          array_push($references,$resultSet);
+        }
+        $resultArray = json_encode(array(
+          "result"=>1,"message"=>"Solicitud encontrada",
+          "request"=>$resultArray,
+          "references"=>$references
+        ));
+
+      }else {
+        $resultArray= json_encode(array("result"=>0,"message"=>"No se encontro solicitud"));
+      }
+    }catch(Exception $e){
+      echo $e->getMessage();
+    }finally{
+      $query->free();
+      $this->db->disconnect();
+    }
+    return $resultArray;
   }
 
   public function getAllPendingRequests($employeeId){
@@ -89,17 +126,15 @@ class EntityEmployee{
         if($dataResult[0]["result"] == 1){
         foreach ($dataResult as $resultSet=>$row) {
           $creditRequestModel = new CreditRequestModel();
-          $referencesList = $this->processReferences($row);
+          //$referencesList = $this->processReferences($row);
           $credit = $this->processCredit($row);
-          $customer = $this->processCustomer($row,$referencesList);
+          $customer = $this->processCustomer($row);
 
           $creditRequestModel->setId($row["id"]);
           $creditRequestModel->setStatus($row["state"]);
           $creditRequestModel->setCredit($credit);
           $creditRequestModel->setApplicant($customer);
 
-          //var_dump($creditRequestModel->toJson());
-          //Falta implementar los json_encode en las clases model para que este método funcione
           array_push($resultArray,$creditRequestModel->toJson());
         }
         $resultArray = json_encode(array(
@@ -107,10 +142,6 @@ class EntityEmployee{
                 "message" => $dataResult[0]["message"],
                 "Requests"=>$resultArray
               ));
-        //$jsonResult["result"] = $dataResult[0]["result"];
-        //$jsonResult["message"] = $dataResult[0]["message"];
-        //$resultArray = $jsonResult;
-        //$resultArray = array("Requests"=>$resultArray,"result"=>$dataResult[0]["result"],"message"=>$dataResult[0]["message"]);
       }else
        $resultArray = json_encode(array("result"=>-1,"message"=>"No hay creditos pendientes"));
 
@@ -120,14 +151,15 @@ class EntityEmployee{
     return $resultArray;
   }
 
-  private function processReferences($resultSet){
+  /*
+    Quitar esta función
+
+    private function processReferences($resultSet){
     $this->db->connect();
     $query = "call sp_get_customer_references(".$resultSet["customer_id"].")";
     $query = $this->db->executeQuery($query);
     $referencesList = array();
-  /*  if(!$query){
-      die("error".mysqli_error($this->db->conn));
-    }*/
+
     while($references = $query->fetch_array(MYSQLI_ASSOC)){
       $customerReference = new CustomerRefModel();
       $customerReference->setName($references["name"]);
@@ -141,9 +173,9 @@ class EntityEmployee{
     }
     $this->db->disconnect();
     return $referencesList;
-  }
+  }*/
 
-  private function processCustomer($resultSet,$referencesList){
+  private function processCustomer($resultSet){
     $customerModel = new CustomerModel();
     $customerModel->setId($resultSet["customer_id"]);
     $customerModel->setFullname($resultSet["customer"]);
@@ -156,7 +188,6 @@ class EntityEmployee{
     $customerModel->setJob($resultSet["job"]);
     $customerModel->setCompany($resultSet["company"]);
     $customerModel->setSalary($resultSet["salary"]);
-    $customerModel->setReferencesList($referencesList);
     return $customerModel;
   }
 

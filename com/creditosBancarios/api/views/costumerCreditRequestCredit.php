@@ -13,17 +13,19 @@ if(!isset($_SESSION["user"])){
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-with, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/import/popper.min.js"></script>
+    <script src="assets/js/import/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/import/bootstrap.min.js"></script>
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/GUI.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/comboBoxCostumerCreditRequest.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/validateCostumerCreditRequest.js"></script>
     <script src="../../../../com/creditosBancarios/api/views/assets/js/sumitCostumerCredit.js"></script>
-    <script src="assets/js/core.js"></script>
     <title></title>
   </head>
-  <body>
+  <body onload="renderCustomerData(false);">
     <div  class="content-2 container">
 
       <header class="content__header row">
@@ -32,11 +34,9 @@ if(!isset($_SESSION["user"])){
 
         <div id=""class="content__header__user col-lg-9 col-md-9 sm-8 col-xs-8 ">
           <aside class="content__header__user__col">
-            <label for="" class="content__header__user__col__lbl-user">Nombre de cliente</label>
-            <button id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
+            <label for="" class="content__header__user__col__lbl-user"><?php echo $userName; ?></label>
+            <button onclick="logOutUser();" id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
           </aside>
-
-
         </div>
       </header>
 
@@ -44,7 +44,7 @@ if(!isset($_SESSION["user"])){
 
         <ul class="content__center-user__list nav nav-tabs nav-fill">
           <li class="content__center-user__list__item nav-item">
-            <a class="content__center-user__list__item__hyperlink nav-link " href="customerView.php">Mis creditos</a>
+            <a class="content__center-user__list__item__hyperlink nav-link " href="costumerViews.php">Mis creditos</a>
           </li>
           <li class="content__center-user__list__item nav-item">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">

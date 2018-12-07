@@ -24,7 +24,7 @@ if(!isset($_SESSION["user"])){
 
   <title></title>
 </head>
-  <body onload="renderCustomerData();">
+  <body onload="renderCustomerData(true);">
     <div  class="content container">
 
       <header class="content__header row">

@@ -1,3 +1,19 @@
+<?php
+require_once(__DIR__.'/../config/UserTypes.php');
+
+session_start();
+if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGERIAL){
+  header('Location: userLogin.php');
+  die();
+}else{
+  $userName = $_SESSION["userName"];
+  $requestObject = json_decode($_SESSION["requestObject"]);
+  $request = $requestObject->request;
+  $firstRef = $requestObject->references[0];
+  $secondRef = $requestObject->references[1];
+}
+
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -5,7 +21,10 @@
   <meta name="viewport" content="width=device-with, initial-scale=1.0">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../../../com/creditosBancarios/api/views/assets/css/style.css">
-
+  <script src="assets/js/import/jquery-3.3.1.min.js"></script>
+      <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
+  <script src="assets/js/GUI.js"></script>
+  <script src="assets/js/core.js"></script>
   <title></title>
 </head>
   <body>
@@ -17,49 +36,96 @@
 
         <div id=""class="content__header__user col-lg-9 col-md-9 sm-8 col-xs-8 row">
           <aside class="content__header__user__col">
-            <label for="" class="content__header__user__col__lbl-user">Nombre de empleado</label>
-            <button id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
+            <label for="" class="content__header__user__col__lbl-user"><?php echo $userName;?></label>
+            <button onClick="logOutUser();" id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
           </aside>
         </div>
       </header>
+      <div class='dividier'></div>
+      <div class='jumbotron' data-request=<?php echo $request->id?>>
+        <div class="container">
+          <center><h1>Solicitud de crédito</h1></center>
 
-      <!--ComboBox de empleado-->
-      <div class="content__center-user__div-data col-lg-10 col-md-10 sm-10 col-xs-10 ">
-        <select class="content__center-user__div-data__cmb-box form-control">
-          <option id="telephoneResearch" value="">Investigación Telefonica</option>
-          <option id="notificationCostumer" value="">Notificación para usuario</option>
-          <option id="observationRequest" value="">Observación de solicitudes pendientes</option>
-        </select>
-
-
-          <!--Barra de busqueda de ID-->
-        <div id="navSearchID" class="">
-          <nav class="">
-            <form class="form-inline">
-              <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0"  type="submit">Search</button>
-            </form>
-          </nav>
+          <!-- Datos de su solicitud -->
+          <h2>Detalle de solicitud</h2>
+          <div class='row'>
+            <div class='col-md-12' >
+              <dt>Tipo de crédito</dt>
+              <dd><?php echo $request->credit_name; ?></dd>
+              <dt>Plazo y Tasa de interés</dt>
+              <dd><?php echo $request->term." años | ".$request->rate." anual"; ?></dd>
+              <dt>Monto solicitado</dt>
+              <dd><?php echo $request->amount; ?></dd>
+              <dt>Monto fijo</dt>
+              <dd><?php echo $request->fixed_amount; ?></dd>
+            </div>
+          </div>
+          <!-- Datos del cliente -->
+          <center><h2>Detalles del cliente</h2></center>
+          <div class='row'>
+            <div class='col-md-6'>
+              <dl>
+                <dt>Solicitante</dt>
+                <dd><?php echo $request->customer; ?></dd>
+                <dt>Email</dt>
+                <dd><?php echo $request->mail; ?></dd>
+                <dt>Dirección</dt>
+                <dd><?php echo $request->street." #".$request->house_number; ?></dd>
+                <dt>CURP</dt>
+                <dd><?php echo $request->curp;?></dd>
+              </dl>
+            </div>
+            <div class='col-md-6'>
+              <dt>Empresa</dt>
+              <dd><?php echo $request->company; ?></dd>
+              <dt>Puesto</dt>
+              <dd><?php echo $request->job; ?></dd>
+              <dt>Salario</dt>
+              <dd><?php echo $request->salary; ?></dd>
+              <dt>RFC</dt>
+              <dd><?php echo $request->rfc; ?></dd>
+            </div>
+          </div>
+          <!-- Referencias -->
+          <center><h2>Detalle de referencias</h2></center>
+          <div class='row'>
+            <div class='col-md-6' id='fstRef-Container' data-id=<?php echo $firstRef->id;?>>
+              <h3>Referencia 1</h3>
+              <dt>Nombre</dt>
+              <dd><?php echo $firstRef->name." ".$firstRef->first_surname." ".$firstRef->second_surname; ?></dd>
+              <dt>Teléfono</dt>
+              <dd><?php echo $firstRef->telephone; ?></dd>
+              <dt>Tiempo de conocerse</dt>
+              <dd><?php echo $firstRef->timeMeeting; ?></dd>
+              <dt>Observaciones del proceso de investigación</dt>
+              <dd>
+                <div class="form-group">
+                  <label for="firstremark">*:</label>
+                  <textarea class="form-control" rows="5" id="firstremark"></textarea>
+                </div>
+              </dd>
+            </div>
+            <div class='col-md-6 ' id='sndRef-Container' data-id=<?php echo $secondRef->id; ?> >
+              <h3>Referencia 2</h3>
+              <dt>Nombre</dt>
+              <dd><?php echo $secondRef->name." ".$secondRef->first_surname." ".$secondRef->second_surname; ?></dd>
+              <dt>Teléfono</dt>
+              <dd><?php echo $secondRef->telephone; ?></dd>
+              <dt>Tiempo de conocerse</dt>
+              <dd><?php echo $secondRef->timeMeeting; ?></dd>
+              <dt>Observaciones del proceso de investigación</dt>
+              <dd>
+                <div class="form-group">
+                  <label for="secondremark">*:</label>
+                  <textarea class="form-control" rows="5" id="secondremark"></textarea>
+                </div>
+              </dd>
+            </div>
+          </div>
+          <button onClick="setInvestigationResult(this);" class="content__header__user__col__btn btn btn-primary" >Enviar resultados</button>
         </div>
-
-
-        <!--ComboBox de id de clientes-->
-          <select multiple class="content__center-user__div-data__cmb-box form-control" id="costumerInvestigation" name="costumerInvestigation">
-            <option id="Id1" value="Nombre de cliente ID1">Nombre de cliente ID1</option>
-            <option id="Id2" value="Nombre de cliente ID2">Nombre de cliente ID2 </option>
-            <option id="Id3" value="Nombre de cliente ID3">Nombre de cliente ID3 </option>
-            <option id="Id4" value="Nombre de cliente ID4">Nombre de cliente ID4 </option>
-          </select>
-
-          <!--Boton para seleccionar un cliente-->
-            <button id="btnselectIdCostumer"class="content__center-user__div-data__btn btn btn-primary" type="button" name="btnselectIdCostumer">Seleccionar</button>
-
       </div>
-
-
     </div>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/jquery-3.3.1.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/import/bootstrap.min.js"></script>
-    <script src="../../../../com/creditosBancarios/api/views/assets/js/validationEmployee.js"></script>
+
   </body>
 </html>

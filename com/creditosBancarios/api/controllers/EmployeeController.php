@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__.'/../../util/entities/EntityEmployee.php');
+require_once(__DIR__.'/../config/UserTypes.php');
 
 class EmployeeController{
 
@@ -11,7 +12,7 @@ class EmployeeController{
 
   public function dictamination(){
     $employee = new EntityEmployee();
-    $requestId = $this->request["requestId"]; //Obtenemos ID de solicitud a dictaminar
+    $requestId = $this->request["request"]; //Obtenemos ID de solicitud a dictaminar
     $verdict = $this->request["verdict"]; // Obtenemos veredicto del dictaminador
     $response = json_encode($employee->dictaminate($requestId,$verdict));
     echo $response;
@@ -19,7 +20,8 @@ class EmployeeController{
 
   public function creditAuthorization(){
     $employee = new EntityEmployee();
-    $employeeId = $this->request["id"]; //Esto se tendría que obtener desde la variable $_SESSION
+    session_start();
+    $employeeId = $_SESSION["user"];
     $requestId = $this->request["requestId"];
     $pswd = md5($this->request["pswd"]);
     $response = json_encode($employee->authorizeCreditRequest($employeeId,$pswd,$requestId));
@@ -28,15 +30,43 @@ class EmployeeController{
 
   public function telephonicInvestigation(){
     $employee = new EntityEmployee();
-    $references = $this->request["references"]; //Array que contiene los datos de las 2 referencias del cliente
-    $response = json_encode($employee->setInvestigationResult($references));
+    $requestId = $this->request["request"];
+    $references =$this->request["references"]; //Array que contiene los datos de las 2 referencias del cliente
+    $response = json_encode($employee->setInvestigationResult($requestId,$references));
     echo $response;
   }
 
   public function getPendingRequests(){
     $employee = new EntityEmployee();
-    $employeeId = $this->request["id"];
+    session_start();
+    $employeeId = $_SESSION["user"];
     $response = $employee->getAllPendingRequests($employeeId);
+    echo $response;
+  }
+
+  public function getProcessingView(){
+    $requestId = $this->request["request"];
+    $employee = new EntityEmployee();
+    $response = null;
+    session_start();
+    $employeeType = $_SESSION["userType"];
+    $response = $employee->getRequest($requestId);
+    if(json_decode($response)->result != 0){
+      $_SESSION["requestObject"] = $response;
+      switch($employeeType){
+        case UserTypes::MANAGER:
+          $response = "manangerialAuthorizeCreditRequest.php";
+          break;
+        case UserTypes::DICTAMINATOR:
+        $response = "employeDictamination.php";
+          break;
+        case UserTypes::MANAGERIAL:
+        $response = "employeeInvestigationResult.php";
+          break;
+        default:
+          echo json_encode(array("result"=>-1,"message"=>"Inconsistencias en el tipo de empleado"));
+      }
+    }
     echo $response;
   }
 
@@ -59,6 +89,9 @@ switch($request_type){
     break;
   case "pendingRequests":
     $controller->getPendingRequests();
+    break;
+  case "processRequest":
+    $controller->getProcessingView();
     break;
   default:
     echo json_encode(array("message"=>"Servicio no disponible"));
