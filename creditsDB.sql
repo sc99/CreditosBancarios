@@ -124,12 +124,13 @@ from Requests inner join vw_customers on vw_customers.id = fk_customer
 inner join vw_cat_credits on vw_cat_credits.id = fk_credit_type
 inner join Cat_Request_Status on Cat_Request_Status.pk_status_id = fk_request_status;
 
+
 create view vw_notifications as
 select
 	pk_record_id as id,Requests.pk_request_id as request,Requests.fk_customer as customer,
     Cat_Request_Status.status_description as state,date_stamp
 from Requests_Record inner join Requests on fk_request = Requests.pk_request_id 
-inner join Cat_Request_Status on fk_saved_status = Cat_Request_Status.pk_status_id;
+inner join Cat_Request_Status on fk_saved_status = Cat_Request_Status.pk_status_id order by id desc;
 
 #------------------------------------------------------------------
 #								TRIGGERS
@@ -140,6 +141,15 @@ FOR EACH ROW
 BEGIN 
 	SET NEW.salt = LEFT(UUID(),16);
     SET NEW.pswd = MD5(concat(NEW.salt,NEW.pswd));
+END; **
+DELIMITER ;
+
+DELIMITER **
+CREATE TRIGGER tr_regist_new_credit AFTER INSERT ON Requests
+FOR EACH ROW 
+BEGIN 
+	insert into Requests_Record(fk_request,fk_saved_status,date_stamp) values
+    (NEW.pk_request_id,GET_REQUEST_STATUS_ID('Solicitado'),current_timestamp());
 END; **
 DELIMITER ;
 
@@ -154,7 +164,7 @@ begin
         if new_status_name != 'Invalido' then
 			#set @PRUEBAS = new_status_name;
 			insert into Requests_Record (fk_request,fk_saved_status,date_stamp) values
-			(NEW.pk_request_id,OLD.fk_request_status,current_timestamp());
+			(NEW.pk_request_id,NEW.fk_request_status,current_timestamp());
 		end if;
     end if;
 end; **
@@ -193,8 +203,15 @@ delimiter ;
         state	-> nvarchar
 	Regresa todos los registros de solicitudes de crédito asociados
     al customer_id.
-    Si hubo un error al realizar la búsqueda result tomará el valor 0, de lo
-    contrario será 1. Si ocurre un error, message contendrá una descripción del mismo.
+    Si hubo un error al realizar la búsqueda result to            <label for="" class="content__header__user__col__lbl-user"><?php echo $userName; ?></label>
+            <button onclick="logOutUser();" id="btnLogOff"class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
+          </aside>
+
+
+        </div>
+mará el valor 0, de lo
+    contrario será 1 o bien -1 en caso de no tener registrados créditos del cliente
+    aún . Si ocurre un error, message contendrá una descripción del mismo.
 */
 drop procedure if exists sp_get_credits;
 delimiter **
@@ -207,10 +224,13 @@ begin
     set is_valid = 0;
     if USER_EXISTS(customer_id) then
 		if IS_CUSTOMER(customer_id) then
-			set is_valid = 1;
+			set is_valid = -1;
 			set has_credits = (select count(id) from vw_credits where vw_credits.customer_id = customer_id );							
             if has_credits > 0 then
-				select is_valid as result,msg as message, vw_credits.* from vw_credits where vw_credits.customer_id = customer_id;
+				set is_valid = 1;
+				select is_valid as result,msg as message, vw_credits.id,vw_credits.credit_name as credit,
+                vw_credits.term,vw_credits.rate,vw_credits.fixed_amount,vw_credits.amount,vw_credits.state
+                from vw_credits where vw_credits.customer_id = customer_id;
             else
 				set msg = 'No tienes solicitudes de credito';
             end if;
@@ -223,7 +243,7 @@ begin
     if is_valid != 1 then
 		select is_valid as result, msg as message;
     end if;
-end;**
+end; **
 delimiter ;
 
 
@@ -315,7 +335,7 @@ begin
     if is_valid != 1 then
 		select is_valid as result, msg as message;
     end if;
-end;**
+end; **
 delimiter ;
 
 /*
@@ -344,11 +364,11 @@ begin
          ),-1));
 	if result_id = -1 then
 		set msg = 'Usuario y/o clave incorrectos';
+        select result_id as id,msg as message;
 	else
 		set msg = 'Bienvenido';
+        select result_id as id,msg as message,first_name as user_name, fk_user_type as user_type from Users where pk_user_id = result_id;
 	end if;
-    
-    select result_id as id,msg as message;
 end; **
 delimiter ;
 
@@ -400,6 +420,35 @@ begin
 			end if;
 		else
 			set msg = 'Fallo al obtener registro de estatus';
+		end if;
+	else
+		set msg = 'Inconsistencias al solicitar reconsideracion';
+    end if;
+    select result, msg as message;
+end; **
+delimiter ;
+
+drop procedure if exists sp_request_cancellation;
+delimiter **
+create procedure sp_request_cancellation(
+in request_id int, in customer_id int)
+begin
+	declare msg nvarchar(128);
+    declare valid_owner int(1);
+    declare recons_counter int(1);
+    declare result int(1);
+    
+    set result = 0;
+    set valid_owner = (select fk_customer = customer_id from Requests where pk_request_id = request_id);
+    if valid_owner then
+		set recons_counter = ifnull((select fk_request_status from Requests where pk_request_id = request_id),0);
+		if recons_counter <> GET_REQUEST_STATUS_ID('Cancelacion') then
+			update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Cancelacion') where
+				pk_request_id = request_id;
+			set result = 1;
+			set msg = 'Su solicitud ha sido cancelada';
+		else
+			set msg = 'La solicitud ya se encuentra cancelada';
 		end if;
 	else
 		set msg = 'Inconsistencias al solicitar reconsideracion';
@@ -595,11 +644,21 @@ drop procedure if exists sp_get_customer_references;
 delimiter **
 create procedure sp_get_customer_references(in request_id int)
 begin
-	select pk_reference_id as id,reference_name as 'name',first_surname,second_surname,
-    telephone,timeMeeting,investigation_remark as remark from Customer_References where
-    fk_referenced_request = request_id;
+	declare result int(1);
+    declare msg nvarchar(128);
+    
+    set result = (select count(pk_reference_id) from Customer_References where fk_referenced_request = request_id);
+	if result > 0 then
+        select pk_reference_id as id,reference_name as 'name',first_surname,second_surname,
+		telephone,timeMeeting,investigation_remark as remark from Customer_References where
+		fk_referenced_request = request_id;
+    else
+		set msg ='No hay references asociadas a la solicitud';
+		select result as noReferences, msg as message;
+    end if;
 end; **
 delimiter ;
+
 
 #------------------------------------------------------------------
 #								FUNCTIONS
@@ -762,7 +821,8 @@ insert into Cat_Request_Status (status_description) values
 ('Dictaminacion'),
 ('Investigacion'),
 ('Renovado'),
-('Autorizacion');
+('Autorizacion'),
+('Solicitado');
 
 insert into Cat_Credit_Types (credit_name,credit_term,credit_rate,credit_fixed_amount) values
 ('Tarjeta debito I',3,0,10000),
@@ -785,22 +845,19 @@ insert into Cat_Credit_Types (credit_name,credit_term,credit_rate,credit_fixed_a
 
 insert into Users(fk_user_type,first_name,first_surname,second_surname,
 house_number,street,telephone,email,pswd) values
-(1,'Cliente1','Pat1','Mat1',10,'Calle',00000000,'cliente1@example.com',MD5('123')),
-(1,'Cliente2','Pat2','Mat2',10,'Calle',00000000,'cliente2@example.com',MD5('123')),
-(2,'Gerente1','Pat','Mat',10,'Calle',00000000,'gerente1@example.com',MD5('123')),
-(3,'Dictaminador1','Pat','Mat',10,'Calle',00000000,'dictaminador1@example.com',MD5('123')),
-(4,'Administrativo1','Pat','Mat',10,'Calle',00000000,'administrativo1@example.com',MD5('123'));
+(1,'Cliente1','Pat1','Mat1',10,'Calle',00000000,'cliente1@example.com',MD5('12345678')),
+(1,'Cliente2','Pat2','Mat2',10,'Calle',00000000,'cliente2@example.com',MD5('12345678')),
+(2,'Gerente1','Pat','Mat',10,'Calle',00000000,'gerente1@example.com',MD5('12345678')),
+(3,'Dictaminador1','Pat','Mat',10,'Calle',00000000,'dictaminador1@example.com',MD5('12345678')),
+(4,'Administrativo1','Pat','Mat',10,'Calle',00000000,'administrativo1@example.com',MD5('12345678'));
 
 insert into Customers(fk_user_id,rfc,curp,company,job,salary) values
 (1,'rfc1','curp1','enterprise','work',1000),
 (2,'rfc2','curp2','enterprise','work',1000);
 
-insert into Requests(fk_customer,fk_credit_type,amount) values
-(1,1,NULL),
-(2,7,1000);
+call sp_request_credit(1,1,NULL,'Saul1','pat','mat','12345678',3,'Saul2','pat2','mat2','87654321',1);
+call sp_request_credit(2,7,100,'Saul3','pat','mat','13578642',3,'Saul4','pat2','mat2','24687531',1);
 
-call sp_request_credit(2,6,null,'RefName1','pat1','mat1',00000000,3,'RefName2','pat2','mat2','00000000',1);
 
- 
 
 

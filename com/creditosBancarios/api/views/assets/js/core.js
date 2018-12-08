@@ -54,8 +54,10 @@ function dictaminateRequest(verdict,button){
       response = $.parseJSON(response);
       if(response.success){
         alert(response.message);
+        console.log("success");
         window.location.href="employeePendingRequest.php";
       }else{
+        console.log(":c");
         alert(response.message);
       }
     }
@@ -85,8 +87,10 @@ function setInvestigationResult(button){
         response = $.parseJSON(response);
         if(response.success){
           alert(response.message);
+          console.log("success");
           window.location.href='employeePendingRequest.php';
         }else{
+          console.log(":c")
           alert('Ocurrió un error al intentar registrar los resultados');
         }
       }

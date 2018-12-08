@@ -13,11 +13,11 @@ class EntityEmployee{
     $this->db = new DataBase();
   }
 
-  public function dictaminate($requestId,$verdict,$pswd){
+  public function dictaminate($requestId,$verdict){
     $resultArray;
     try{
       $this->db->connect();
-      $query = "call sp_credit_authorization(".$requestId.",'".$pswd."',".$verdict.")";
+      $query = "call sp_dictaminate(".$requestId.",".$verdict.")";
       //$query = $this->db->conn->prepare($query);
       $query = $this->db->executeQuery($query);
       $resultSet = $query->fetch_array(MYSQLI_ASSOC);
@@ -45,7 +45,7 @@ class EntityEmployee{
       $query = $this->db->executeQuery($query);
       $resultSet = $query->fetch_array(MYSQLI_ASSOC);
       if($resultSet > 0){
-        $resultArray=  array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
+        $resultArray=  array("success"=>$resultSet["result"],"message"=>$resultSet["message"]);
       }
       $query->free();
       $this->db->disconnect();
