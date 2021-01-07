@@ -101,7 +101,7 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGERIAL){
               <dd>
                 <div class="form-group">
                   <label for="firstremark">*:</label>
-                  <textarea class="form-control" rows="5" id="firstremark"></textarea>
+                  <textarea class="form-control" rows="5" id="firstremark" maxlength="500"></textarea>
                 </div>
               </dd>
             </div>
@@ -117,7 +117,7 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGERIAL){
               <dd>
                 <div class="form-group">
                   <label for="secondremark">*:</label>
-                  <textarea class="form-control" rows="5" id="secondremark"></textarea>
+                  <textarea class="form-control" rows="5" id="secondremark" maxlength="500"></textarea>
                 </div>
               </dd>
             </div>

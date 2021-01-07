@@ -7,7 +7,7 @@ class DataBase{
    private $host = "localhost";
    private $db_name = "creditsDB";
    private $user = "root";
-   private $pass = "n0m3l0";
+   private $pass = "";
    public $conn;
 
    function __construct(){}

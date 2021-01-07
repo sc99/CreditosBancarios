@@ -14,7 +14,7 @@ class EntityEmployee{
   }
 
   public function dictaminate($requestId,$verdict){
-    $resultArray;
+    $resultArray = array();
     try{
       $this->db->connect();
       $query = "call sp_dictaminate(".$requestId.",".$verdict.")";
@@ -37,7 +37,7 @@ class EntityEmployee{
   }
 
   public function authorizeCreditRequest($employeeId,$pswd,$requestId){
-    $resultArray;
+    $resultArray = array();
     try{
       $this->db->connect();
       $query = "call sp_credit_authorization(".$employeeId.",'".$pswd."',".$requestId.")";
@@ -56,7 +56,7 @@ class EntityEmployee{
   }
 
   public function setInvestigationResult($requestId,$arrayReferences){
-    $resultArray;
+    $resultArray = array();
     $firstRef = $arrayReferences[0];
     $secondRef = $arrayReferences[1];
     try{
@@ -79,7 +79,7 @@ class EntityEmployee{
   }
 
   public function getRequest($requestId){
-    $resultArray;
+    $resultArray = array();
     try{
       $this->db->connect();
       $query = "select * from vw_credits where id =".$requestId."";
@@ -115,7 +115,8 @@ class EntityEmployee{
     $resultArray = array();
     try{
       $this->db->connect();
-      $query = "call sp_get_pending_credits(".$employeeId.")";
+      // $query = "call sp_get_pending_credits(".$employeeId.")";
+      $query = "call sp_get_pending_credits(2)";
       $query = $this->db->executeQuery($query);
       $dataResult = array();
       while($resultSet = $query->fetch_array(MYSQLI_ASSOC)){
