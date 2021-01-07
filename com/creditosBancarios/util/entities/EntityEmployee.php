@@ -134,8 +134,8 @@ class EntityEmployee{
     $resultArray = array();
     try{
       $this->db->connect();
-      // $query = "call sp_get_pending_credits(".$employeeId.")";
-      $query = "call sp_get_pending_credits(2)";
+      $query = "call sp_get_pending_credits(".$employeeId.")";
+      // $query = "call sp_get_pending_credits(2)";
       $query = $this->db->executeQuery($query);
       $dataResult = array();
       while($resultSet = $query->fetch_array(MYSQLI_ASSOC)){

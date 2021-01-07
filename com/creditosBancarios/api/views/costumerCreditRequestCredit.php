@@ -34,7 +34,7 @@ if (!isset($_SESSION["user"])) {
             <div class="content__header__div-img-logo col-lg-3 col-md-3 sm-4 col-xs-4 row">
             </div>
 
-            <h2>Referencias:</h2>
+            <!-- <h2>Referencias:</h2>
             <div class='row' id='refs-container'>
               <div class='container' id='firstRef'data-filled=0></div>
               <div class='container' id='secondRef'data-filled=0 ></div>
@@ -58,7 +58,7 @@ if (!isset($_SESSION["user"])) {
             <div class="form-group ">
               <label for="usr">Años de conocerse:</label>
               <input id='ref-meeting' type="number" class="form-control " min="1" max="99" >
-            </div>
+            </div> -->
         </header>
 
         <div class="content__center-user">

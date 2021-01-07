@@ -1,6 +1,3 @@
-<?php
-require_once(__DIR__.'/../config/App.php');
-?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -36,11 +33,17 @@ require_once(__DIR__.'/../config/App.php');
                             <span class="content__center-login__frame__line-email__input-email__span-email help-block"></span>
                         </div>
                     </div>
-                  </div>
-            <div class="form-group">
-              <button onClick="validate();" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info"  >Iniciar Sesión</button>
-                <br> <br> <br>
-              <?php echo App::getVersion(); ?>
+                    <div class="content__center-login__frame__line-email row form-group">
+                        <label for="email" class="content__center-login__frame__line col-form-label col-md-2">Contraseña:</label>
+                        <div class="col-md-8">
+                            <input onchange="validatePassword();" type="password" name="password" value="" id="password" class="content__center-login__frame__line__input-password--password form-control" required>
+                            <span class="content__center-login__frame__line__input__span-password help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button onClick="logUser();" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info">Iniciar Sesión</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

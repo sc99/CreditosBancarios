@@ -28,8 +28,10 @@ class CustomerController
     public function requestReconsideration()
     {
         $customer = new EntityCustomer();
+        session_start();
+        $customerId = $_SESSION["user"];
         $creditId = $this->request["creditId"];
-        $response = json_encode($customer->reconsiderateCredit($creditId));
+        $response = json_encode($customer->reconsiderateCredit($creditId, $customerId));
         echo $response;
     }
 

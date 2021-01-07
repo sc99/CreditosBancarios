@@ -44,24 +44,24 @@ function approveCancellationRequest(){
   }
 }
 
-function dictaminateRequest(verdict,button){
+function dictaminateRequest(verdict, button) {
   var requestId = $(button).parents("div[class='jumbotron']").data("request");
   $.post(
     '../controllers/EmployeeController.php',
-    {action:"dictamination",request:requestId,verdict:verdict},
-    function(response){
+    { action: "dictamination", request: requestId, verdict: verdict },
+    function (response) {
       console.log(response);
       response = $.parseJSON(response);
-      if(response.success){
+      if (response.success) {
         alert(response.message);
         console.log("success");
-        window.location.href="employeePendingRequest.php";
-      }else{
+        window.location.href = "employeePendingRequest.php";
+      } else {
         console.log(":c");
         alert(response.message);
       }
-    }
-}
+    });
+  }
 
 function dictaminateRequest(verdict, button) {
     var requestId = $(button).parents("div[class='jumbotron']").data("request");

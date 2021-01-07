@@ -29,7 +29,13 @@ class EntityCustomer
           $resultArray= array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
         return $resultArray;
+    }catch (Exception $e) {
+        echo $e->getMessage();
+    } finally {
+        $query->free();
+        $this->db->disconnect();
     }
+}
 
 
     public function renovateCredit($creditId){
@@ -43,26 +49,37 @@ class EntityCustomer
           $resultArray = array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
         return $resultArray;
+    }catch (Exception $e) {
+        echo $e->getMessage();
+    } finally {
+        $query->free();
+        $this->db->disconnect();
     }
+}
 
     private function notifySuccessfulRenovation($message,$email){
       $subject = "Notificación de renovación de crédito";
       mail($email,$subject,$message);
     }
 
-    public function reconsiderateCredit($creditId){
-      $resultArray;
+    public function reconsiderateCredit($creditId, $user_id){
+      $resultArray = array();
       try{
         $this->db->connect();
-        $query = "call sp_reconsiderateCredit(".$creditId.")";
+        $query = "call sp_request_reconsideration(".$creditId.", ". $user_id  .")";
         $query = $this->db->executeQuery($query);
         $resultSet = $query->fetch_array(MYSQLI_ASSOC);
-        var_dump($resultSet);
         if($resultSet > 0){
           $resultArray=  array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
         return $resultArray;
+    }catch (Exception $e) {
+        echo $e->getMessage();
+    } finally {
+        $query->free();
+        $this->db->disconnect();
     }
+}
 
     public function cancelCredit($creditId, $customerId)
     {
