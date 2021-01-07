@@ -23,7 +23,7 @@ require_once(__DIR__.'/../../api/models/CreditModel.php');
         $query = $this->db->executeQuery($query);
         $resultSet = $query->fetch_array(MYSQLI_ASSOC);
         if($resultSet > 0){
-          $resultArray=  array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
+          $resultArray= array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
       }catch(Exception $e){
         echo $e->getMessage();
@@ -36,14 +36,14 @@ require_once(__DIR__.'/../../api/models/CreditModel.php');
 
 
     public function renovateCredit($creditId){
-      $resultArray;
+      $resultArray = array("test"=>"hello world");
       try{
         $this->db->connect();
-        $query = "call sp_renovateCredit(".$creditId.")";
+        $query = "call sp_renovate(".$creditId.")";
         $query = $this->db->executeQuery($query);
         $resultSet = $query->fetch_array(MYSQLI_ASSOC);
         if($resultSet > 0){
-          $resultArray=  array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
+          $resultArray = array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
         $query->free();
         $this->db->disconnect();
@@ -53,6 +53,11 @@ require_once(__DIR__.'/../../api/models/CreditModel.php');
       return $resultArray;
     }
 
+    private function notifySuccessfulRenovation($message,$email){
+      $subject = "Notificación de renovación de crédito";
+      mail($email,$subject,$message);
+    }
+
     public function reconsiderateCredit($creditId){
       $resultArray;
       try{
@@ -60,6 +65,7 @@ require_once(__DIR__.'/../../api/models/CreditModel.php');
         $query = "call sp_reconsiderateCredit(".$creditId.")";
         $query = $this->db->executeQuery($query);
         $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+        var_dump($resultSet);
         if($resultSet > 0){
           $resultArray=  array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }

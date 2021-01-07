@@ -129,11 +129,14 @@ function requestCancellation(button){
   );
 }
 
-function requestRenovation(){
+function requestRenovation(button){
+  var parentContainer = $(button).parents("div[data-request]");
+  var creditId = $(parentContainer).data("request");
   $.post(
     '../controllers/CustomerController.php',
-    {action:"renovation"},
+    {action:"renovation",creditId:creditId},
     function(response){
+      console.log(response);
       response = $.parseJSON(response);
       alert(response.message);
         location.reload();
@@ -142,10 +145,12 @@ function requestRenovation(){
   );
 }
 
-function requestReconsideration(){
+function requestReconsideration(button){
+  var parentContainer = $(button).parents("div[data-request]");
+  var creditId = $(parentContainer).data("request");
   $.post(
     '../controllers/CustomerController.php',
-    {action:"reconsideration"},
+    {action:"reconsideration",creditId:creditId},
     function(response){
       console.log(response);
       response = $.parseJSON(response);

@@ -1,3 +1,6 @@
+<?php
+require_once(__DIR__.'/../config/App.php');
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -47,6 +50,7 @@
                   </div>
             <div class="form-group">
               <button onClick="validate();" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info"  >Iniciar Sesión</button>
+                <br> <br> <br>
               <?php echo App::getVersion(); ?>
             </div>
           </form>
