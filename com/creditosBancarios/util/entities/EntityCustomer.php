@@ -18,62 +18,48 @@ class EntityCustomer
         $firstRef = $references[0];
         $secondRef = $references[1];
 
-        try {
-            $this->db->connect();
-            $query = "call sp_request_credit(" . $customerId . "," . $credit . "," . $amount . ",
-        '" . $firstRef["name"] . "','" . $firstRef["firstSurname"] . "','" . $firstRef["secondSurname"] . "','" . $firstRef["telephone"] . "'," . $firstRef["meet"] . "
-        ,'" . $secondRef["name"] . "','" . $secondRef["firstSurname"] . "','" . $secondRef["secondSurname"] . "','" . $secondRef["telephone"] . "'," . $secondRef["meet"] . ")";
-            $query = $this->db->executeQuery($query);
-            $resultSet = $query->fetch_array(MYSQLI_ASSOC);
-            if ($resultSet > 0) {
-                $resultArray =  array("result" => $resultSet["result"], "message" => $resultSet["message"]);
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        } finally {
-            $query->free();
-            $this->db->disconnect();
+      try{
+        $this->db->connect();
+        $query = "call sp_request_credit(".$customerId.",".$credit.",".$amount.",
+        '".$firstRef["name"]."','".$firstRef["firstSurname"]."','".$firstRef["secondSurname"]."','".$firstRef["telephone"]."',".$firstRef["meet"]."
+        ,'".$secondRef["name"]."','".$secondRef["firstSurname"]."','".$secondRef["secondSurname"]."','".$secondRef["telephone"]."',".$secondRef["meet"].")";
+        $query = $this->db->executeQuery($query);
+        $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+        if($resultSet > 0){
+          $resultArray= array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
         return $resultArray;
     }
 
 
-    public function renovateCredit($creditId)
-    {
-        $resultArray;
-        try {
-            $this->db->connect();
-            $query = "call sp_renovateCredit(" . $creditId . ")";
-            $query = $this->db->executeQuery($query);
-            $resultSet = $query->fetch_array(MYSQLI_ASSOC);
-            if ($resultSet > 0) {
-                $resultArray =  array("result" => $resultSet["result"], "message" => $resultSet["message"]);
-            }
-            $query->free();
-            $this->db->disconnect();
-        } catch (Exception $e) {
-            echo $e->getMessage();
+    public function renovateCredit($creditId){
+      $resultArray = array("test"=>"hello world");
+      try{
+        $this->db->connect();
+        $query = "call sp_renovate(".$creditId.")";
+        $query = $this->db->executeQuery($query);
+        $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+        if($resultSet > 0){
+          $resultArray = array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
         return $resultArray;
     }
 
-    public function reconsiderateCredit($creditId)
-    {
-        $resultArray = array();
-        try {
-            $this->db->connect();
-            session_start();
-            $customerId = $_SESSION["user"];
-            $query = "call sp_request_reconsideration(" . $creditId . ", " . $customerId .")";
-            $query = $this->db->executeQuery($query);
-            $resultSet = $query->fetch_array(MYSQLI_ASSOC);
-            if ($resultSet > 0) {
-                $resultArray =  array("result" => $resultSet["result"], "message" => $resultSet["message"]);
-            }
-            $query->free();
-            $this->db->disconnect();
-        } catch (Exception $e) {
-            echo $e->getMessage();
+    private function notifySuccessfulRenovation($message,$email){
+      $subject = "Notificación de renovación de crédito";
+      mail($email,$subject,$message);
+    }
+
+    public function reconsiderateCredit($creditId){
+      $resultArray;
+      try{
+        $this->db->connect();
+        $query = "call sp_reconsiderateCredit(".$creditId.")";
+        $query = $this->db->executeQuery($query);
+        $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+        var_dump($resultSet);
+        if($resultSet > 0){
+          $resultArray=  array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
         }
         return $resultArray;
     }

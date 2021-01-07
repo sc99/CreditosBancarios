@@ -36,6 +36,25 @@ class EntityEmployee{
 
   }
 
+  public function approveCancellation($requestId,$employeeId,$pswd){
+    $resultArray;
+    try{
+      $this->db->connect();
+      $query = "call sp_approve_cancellation(".$employeeId.",'".$pswd."',".$requestId.")";
+      //$query = $this->db->conn->prepare($query);
+      $query = $this->db->executeQuery($query);
+      $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+      if($resultSet > 0){
+        $resultArray=  array("success"=>$resultSet["result"],"message"=>$resultSet["message"]);
+      }
+      $query->free();
+      $this->db->disconnect();
+    }catch(Exception $e){
+      echo $e->getMessage();
+    }
+    return $resultArray;
+  }
+
   public function authorizeCreditRequest($employeeId,$pswd,$requestId){
     $resultArray = array();
     try{

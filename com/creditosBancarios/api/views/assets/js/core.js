@@ -18,31 +18,48 @@ function logOutUser() {
     );
 }
 
-function authorizeRequest() {
-    var pswd = $("#pwd").val();
-    var pswdExp = /^$/;
-    var request = $("div[class='jumbotron']").data("request");
-    if (pswdExp.test(pswd)) {
-        $("#messageError").removeClass("d-none");
-    } else {
-        $("#messageError").addClass("d-none");
-        $.post(
-            "../controllers/EmployeeController.php", {
-                action: "authorization",
-                requestId: request,
-                pswd: pswd
-            },
-            function (response) {
-                console.log(response);
-                response = $.parseJSON(response);
-                if (response.success) {
-                    alert(response.message);
-                    window.location.href = "employeePendingRequest.php";
-                } else {
-                    alert(response.message);
-                }
-            }
-        );
+function approveCancellationRequest(){
+  var pswd = $("#pwd").val();
+  var pswdExp = /^$/;
+  var request = $("div[class='jumbotron']").data("request");
+  if(pswdExp.test(pswd)){
+    $("#messageError").removeClass("d-none");
+  }else{
+    $("#messageError").addClass("d-none");
+    $.post(
+        '../controllers/EmployeeController.php',
+        {action:"approveCancellation",requestId:request,pswd:pswd},
+        function(response){
+          console.log(response);
+          response = $.parseJSON(response);
+          if(response.success){
+            alert(response.message);
+            window.location.href = "employeePendingRequest.php";
+          }else{
+            alert(response.message);
+          }
+        }
+    );
+
+  }
+}
+
+function dictaminateRequest(verdict,button){
+  var requestId = $(button).parents("div[class='jumbotron']").data("request");
+  $.post(
+    '../controllers/EmployeeController.php',
+    {action:"dictamination",request:requestId,verdict:verdict},
+    function(response){
+      console.log(response);
+      response = $.parseJSON(response);
+      if(response.success){
+        alert(response.message);
+        console.log("success");
+        window.location.href="employeePendingRequest.php";
+      }else{
+        console.log(":c");
+        alert(response.message);
+      }
     }
 }
 
@@ -127,34 +144,36 @@ function processRequest(button) {
     );
 }
 
-function requestCancellation(button) {
-    var parentContainer = $(button).parents("div[data-request]");
-    var creditId = $(parentContainer).data("request");
-    $.post(
-        "../controllers/CustomerController.php", {
-            action: "cancellation",
-            creditId: creditId
-        },
-        function (response) {
-            console.log(response);
-            response = $.parseJSON(response);
-            alert(response.message);
-            location.reload();
-        }
-    );
+function requestRenovation(button){
+  var parentContainer = $(button).parents("div[data-request]");
+  var creditId = $(parentContainer).data("request");
+  $.post(
+    '../controllers/CustomerController.php',
+    {action:"renovation",creditId:creditId},
+    function(response){
+      console.log(response);
+      response = $.parseJSON(response);
+      alert(response.message);
+        location.reload();
+
+    }
+  );
 }
 
-function requestRenovation() {
-    $.post(
-        "../controllers/CustomerController.php", {
-            action: "renovation"
-        },
-        function (response) {
-            response = $.parseJSON(response);
-            alert(response.message);
-            location.reload();
-        }
-    );
+function requestReconsideration(button){
+  var parentContainer = $(button).parents("div[data-request]");
+  var creditId = $(parentContainer).data("request");
+  $.post(
+    '../controllers/CustomerController.php',
+    {action:"reconsideration",creditId:creditId},
+    function(response){
+      console.log(response);
+      response = $.parseJSON(response);
+      alert(response.message);
+        location.reload();
+
+    }
+  );
 }
 
 function requestReconsideration(creditId = '') {
@@ -385,99 +404,118 @@ function displayCarForm(selection) {
     $("#car-rate").val(tasa);
 }
 
-function addRef() {
-    var refname = $("#ref-name").val();
-    var fstsurname = $("#ref-pat").val();
-    var sndsurname = $("#ref-mat").val();
-    var phone = $("#ref-phone").val();
-    var meeting = $("#ref-meeting").val();
-    var firstRef = $("#firstRef").data("filled");
-    var secondRef = $("#secondRef").data("filled");
-    var canAdd = 0;
-    var which = null;
-    console.log(refname, fstsurname, sndsurname, phone, meeting);
-    if (refname == '' || fstsurname == '' || sndsurname == '' || phone == '' || meeting == '') {
-        alert("Debes llenar todos los campos para agregar una referencia");
-    } else {
-        if (firstRef == 0) {
-            canAdd = 1;
-            which = 0;
-        }
-        if (secondRef == 0) {
-            canAdd = 1;
-            which = 1;
-        }
-        if (canAdd) {
-            var reference = {
-                name: refname,
-                firstSurname: fstsurname,
-                secondSurname: sndsurname,
-                telephone: phone,
-                meet: meeting,
-            };
-            references[which] = reference;
-            fillReferenceContainer(which, reference);
-        } else {
-            alert("Ya agregaste a tus dos referencias");
-        }
+function addRef(){
+  var refname = $("#ref-name").val();
+  var fstsurname = $("#ref-pat").val();
+  var sndsurname = $("#ref-mat").val();
+  var phone = $("#ref-phone").val();
+  var meeting = $("#ref-meeting").val();
+  var firstRef = $("#firstRef").data("filled");
+  var secondRef = $("#secondRef").data("filled");
+  var canAdd = 0;
+  var which = null;
+  if(firstRef == 0){
+    canAdd = 1;
+    which = 0;
+  }else
+    if(secondRef == 0){
+      canAdd = 1;
+      which = 1;
     }
+  if(canAdd){
+    var reference = {
+      name:refname,
+      firstSurname:fstsurname,
+      secondSurname:sndsurname,
+      telephone:phone,
+      meet:meeting
+    };
+    references[which] = reference;
+      try{
+        fillReferenceContainer(which,reference);
+      }catch (e){
+        alert(e.message);
+      }
+      //console.log(references);
+  }else {
+    alert('Ya agregaste a tus dos referencias');
+  }
 }
 
-function fillReferenceContainer(which, object) {
-    var html = "";
+function validateNotSameReference(){
 
-    if (which == 0) {
-        $("#firstRef").data("filled", 1);
-        html += '<ul class="list-group">';
-        html += ' <li class="list-group-item">' + object.name + "</li>";
-        html += ' <li class="list-group-item">' + object.firstSurname + "</li>";
-        html += ' <li class="list-group-item">' + object.secondSurname + "</li>";
-        html += ' <li class="list-group-item">' + object.telephone + "</li>";
-        html += ' <li class="list-group-item">' + object.meet + "</li>";
-        html += "</ul><br>";
-        $("#firstRef").html(html);
-        $("#references").hide();
-    } else {
-        $("#secondRef").data("filled", 1);
-        html += '<ul class="list-group">';
-        html += ' <li class="list-group-item">' + object.name + "</li>";
-        html += ' <li class="list-group-item">' + object.firstSurname + "</li>";
-        html += ' <li class="list-group-item">' + object.secondSurname + "</li>";
-        html += ' <li class="list-group-item">' + object.telephone + "</li>";
-        html += ' <li class="list-group-item">' + object.meet + "</li>";
-        html += "</ul><br>";
-        $("#secondRef").html(html);
-    }
-    $("#ref-name").val('');
-    $("#ref-pat").val('');
-    $("#ref-mat").val('');
-    $("#ref-phone").val('');
-    $("#ref-meeting").val('');
+  const firstRef = references[0];
+  const lastRef = references[1];
+  console.log(firstRef);
+  console.log(lastRef);
+  if(firstRef.name == lastRef.name)
+    return false;
+  if(firstRef.firstSurname.concat(firstRef.secondSurname) == lastRef.firstSurname.concat(lastRef.secondSurname))
+    return false;
+  return true;
 }
 
-function requestCredit() {
-    var credit = selectedCredit;
-    var amount = null;
-    if (credit >= 7 && credit <= 9) amount = $("#mortage-amount").val();
-    if (credit >= 10 && credit <= 14) amount = $("#car-amount").val();
-    if (credit != 0) {
-        if (Object.keys(references).length != 0) {
-            $.post(
-                "../controllers/CustomerController.php", {
-                    action: "addCredit",
-                    creditId: credit,
-                    references: references,
-                    amount: amount? amount : 0,
-                },
-                function (response) {
-                    console.log(response);
-                    response = $.parseJSON(response);
-                    alert(response.message);
-                    location.reload();
-                }
-            );
-        } else {
-            alert("Necesitas agregar 2 referencias");
+function fillReferenceContainer(which,object){
+  var html = "";
+  if(hasEmptyProp(object))
+    throw Error("Debes llenar todos los campos");
+  if(which === 0){
+      $("#firstRef").data("filled",1);
+  html+='<ul class="list-group">';
+    html+= ' <li class="list-group-item">'+object.name+'</li>';
+    html+= ' <li class="list-group-item">'+object.firstSurname+'</li>';
+    html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
+    html+= ' <li class="list-group-item">'+object.telephone+'</li>';
+    html+= ' <li class="list-group-item">'+object.meet+'</li>';
+    html +='</ul>';
+    $("#firstRef").html(html);
+  }else {
+    if(validateNotSameReference()){
+      $("#secondRef").data("filled",1);
+      html+='<ul class="list-group">';
+      html+= ' <li class="list-group-item">'+object.name+'</li>';
+      html+= ' <li class="list-group-item">'+object.firstSurname+'</li>';
+      html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
+      html+= ' <li class="list-group-item">'+object.telephone+'</li>';
+      html+= ' <li class="list-group-item">'+object.meet+'</li>';
+      html +='</ul>';
+      $("#secondRef").html(html);
+    }else alert('No puedes poner la misma persona en ambas referencias');
+  }
+}
+
+function hasEmptyProp(reference){
+  if(reference.name == "")
+      return true;
+  if(reference.firstSurname == "")
+      return true;
+  if(reference.secondSurname == "")
+      return true;
+  if(reference.telephone == "")
+    return true;
+  if(reference.meet == "")
+    return true;
+  return false;
+}
+
+function requestCredit(){
+  throw new Error("TESTED");
+  var credit = selectedCredit;
+  var amount = null;
+  if(credit >= 7 && credit <= 9)
+    amount = $("#mortage-amount").val();
+  if(credit >= 10 && credit <= 14)
+    amount = $("#car-amount").val();
+  if(credit != 0){
+    if(Object.keys(references).length != 0){
+      $.post(
+        '../controllers/CustomerController.php',
+        {action:"addCredit",creditId:credit,references:references,amount:amount},
+        function(response){
+          console.log(response);
+          response = $.parseJSON(response);
+          alert(response.message);
+          location.reload();
         }
     } else {
         alert("Asegurate de haber seleccionado un credito");

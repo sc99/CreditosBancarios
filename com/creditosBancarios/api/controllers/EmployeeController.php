@@ -18,6 +18,16 @@ class EmployeeController{
     echo $response;
   }
 
+  public function approveCancellation(){
+    $employee = new EntityEmployee();
+    session_start();
+    $employeeId = $_SESSION["user"];
+    $pswd = md5($this->request["pswd"]);
+    $requestId = $this->request["requestId"];
+    $response = json_encode($employee->approveCancellation($requestId,$employeeId,$pswd));
+    echo $response;
+  }
+
   public function creditAuthorization(){
     $employee = new EntityEmployee();
     session_start();
@@ -92,6 +102,9 @@ switch($request_type){
     break;
   case "processRequest":
     $controller->getProcessingView();
+    break;
+  case "approveCancellation":
+    $controller->approveCancellation();
     break;
   default:
     echo json_encode(array("message"=>"Servicio no disponible"));

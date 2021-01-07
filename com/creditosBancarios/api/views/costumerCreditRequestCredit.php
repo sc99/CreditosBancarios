@@ -34,11 +34,30 @@ if (!isset($_SESSION["user"])) {
             <div class="content__header__div-img-logo col-lg-3 col-md-3 sm-4 col-xs-4 row">
             </div>
 
-            <div id="" class="content__header__user col-lg-9 col-md-9 sm-8 col-xs-8 ">
-                <aside class="content__header__user__col">
-                    <label for="" class="content__header__user__col__lbl-user"><?php echo $userName; ?></label>
-                    <button onclick="logOutUser();" id="btnLogOff" class="content__header__user__col__btn btn btn-primary" type="button" name="button">Cerrar sesión</button>
-                </aside>
+            <h2>Referencias:</h2>
+            <div class='row' id='refs-container'>
+              <div class='container' id='firstRef'data-filled=0></div>
+              <div class='container' id='secondRef'data-filled=0 ></div>
+            </div>
+            <div class="form-group">
+              <label for="usr">Nombre:</label>
+              <input id='ref-name'  class="form-control " required pattern="[a-zA-Z\s]{1,64}"  title="Sólo se permiten letras y una longitud de entre 1 y 64 caracteres">
+            </div>
+            <div class="form-group">
+              <label for="usr">Apellido Paterno:</label>
+              <input id='ref-pat' type="text" class="form-control " required pattern="[a-zA-Z\s]{1,64}"  title="Sólo se permiten letras y una longitud de entre 1 y 64 caracteres">
+            </div>
+            <div class="form-group ">
+              <label for="usr">Apellido Materno:</label>
+              <input id='ref-mat' type="text" class="form-control " required pattern="[a-zA-Z\s]{1,64}"  title="Sólo se permiten letras y una longitud de entre 1 y 64 caracteres">
+            </div>
+            <div class="form-group ">
+              <label for="usr">Teléfono:</label>
+              <input id='ref-phone' type="text" class="form-control " required pattern="[0-9]{8}" title="Debes introducir un número telefónico válido (8 caracteres)">
+            </div>
+            <div class="form-group ">
+              <label for="usr">Años de conocerse:</label>
+              <input id='ref-meeting' type="number" class="form-control " min="1" max="99" >
             </div>
         </header>
 
