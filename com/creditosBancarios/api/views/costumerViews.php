@@ -64,54 +64,6 @@ if (!isset($_SESSION["user"])) {
         </div>
 
     </div>
-    <script type="text/javascript">
-        function requestReconsideration(button) {
-            var parentContainer = $(button).parents("div[data-request]");
-            var creditId = $(parentContainer).data("request");
-            $.post(
-                '../controllers/CustomerController.php', {
-                    action: "reconsideration",
-                    creditId: creditId
-                },
-                function(response) {
-                    console.log(response);
-                    response = $.parseJSON(response);
-                    alert(response.message);
-                    location.reload();
-
-                }
-            );
-        }
-
-        function requestReconsideration(creditId = '') {
-            $.post(
-                "../controllers/CustomerController.php", {
-                    action: "reconsideration",
-                    creditId: creditId
-                },
-                function(response) {
-                    console.log(response);
-                    response = $.parseJSON(response);
-                    alert(response.message);
-                    location.reload();
-                }
-            );
-        }
-
-        function logOutUser() {
-            $.post(
-                "../controllers/UserController.php", {
-                    action: "signOut"
-                },
-                function(response) {
-                    response = $.parseJSON(response);
-                    if (response.success) {
-                        window.location.href = "userLogin.php";
-                    }
-                }
-            );
-        }
-    </script>
 </body>
 
 </html>

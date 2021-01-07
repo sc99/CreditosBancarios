@@ -484,6 +484,31 @@ function fillReferenceContainer(which,object){
   }
 }
 
+function requestCredit() {
+  throw new Error("TESTED");
+  var credit = selectedCredit;
+  var amount = null;
+  if (credit >= 7 && credit <= 9)
+    amount = $("#mortage-amount").val();
+  if (credit >= 10 && credit <= 14)
+    amount = $("#car-amount").val();
+  if (credit != 0) {
+    if (Object.keys(references).length != 0) {
+      $.post(
+        '../controllers/CustomerController.php',
+        { action: "addCredit", creditId: credit, references: references, amount: amount },
+        function (response) {
+          console.log(response);
+          response = $.parseJSON(response);
+          alert(response.message);
+          location.reload();
+        });
+    } else {
+      alert("Asegurate de haber seleccionado un credito");
+    }
+  }
+}
+  
 function hasEmptyProp(reference){
   if(reference.name == "")
       return true;
@@ -496,28 +521,4 @@ function hasEmptyProp(reference){
   if(reference.meet == "")
     return true;
   return false;
-}
-
-function requestCredit(){
-  throw new Error("TESTED");
-  var credit = selectedCredit;
-  var amount = null;
-  if(credit >= 7 && credit <= 9)
-    amount = $("#mortage-amount").val();
-  if(credit >= 10 && credit <= 14)
-    amount = $("#car-amount").val();
-  if(credit != 0){
-    if(Object.keys(references).length != 0){
-      $.post(
-        '../controllers/CustomerController.php',
-        {action:"addCredit",creditId:credit,references:references,amount:amount},
-        function(response){
-          console.log(response);
-          response = $.parseJSON(response);
-          alert(response.message);
-          location.reload();
-        }
-    } else {
-        alert("Asegurate de haber seleccionado un credito");
-    }
 }
