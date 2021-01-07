@@ -389,11 +389,11 @@ function addRef(){
   if(firstRef == 0){
     canAdd = 1;
     which = 0;
-  }
-  if(secondRef == 0){
-    canAdd = 1;
-    which = 1;
-  }
+  }else
+    if(secondRef == 0){
+      canAdd = 1;
+      which = 1;
+    }
   if(canAdd){
     var reference = {
       name:refname,
@@ -403,17 +403,35 @@ function addRef(){
       meet:meeting
     };
     references[which] = reference;
-    fillReferenceContainer(which,reference);
-    console.log(references);
+      try{
+        fillReferenceContainer(which,reference);
+      }catch (e){
+        alert(e.message);
+      }
+      //console.log(references);
   }else {
     alert('Ya agregaste a tus dos referencias');
   }
 }
 
+function validateNotSameReference(){
+
+  const firstRef = references[0];
+  const lastRef = references[1];
+  console.log(firstRef);
+  console.log(lastRef);
+  if(firstRef.name == lastRef.name)
+    return false;
+  if(firstRef.firstSurname.concat(firstRef.secondSurname) == lastRef.firstSurname.concat(lastRef.secondSurname))
+    return false;
+  return true;
+}
+
 function fillReferenceContainer(which,object){
   var html = "";
-
-  if(which == 0){
+  if(hasEmptyProp(object))
+    throw Error("Debes llenar todos los campos");
+  if(which === 0){
       $("#firstRef").data("filled",1);
   html+='<ul class="list-group">';
     html+= ' <li class="list-group-item">'+object.name+'</li>';
@@ -424,8 +442,9 @@ function fillReferenceContainer(which,object){
     html +='</ul>';
     $("#firstRef").html(html);
   }else {
-    $("#secondRef").data("filled",1);
-    html+='<ul class="list-group">';
+    if(validateNotSameReference()){
+      $("#secondRef").data("filled",1);
+      html+='<ul class="list-group">';
       html+= ' <li class="list-group-item">'+object.name+'</li>';
       html+= ' <li class="list-group-item">'+object.firstSurname+'</li>';
       html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
@@ -433,10 +452,26 @@ function fillReferenceContainer(which,object){
       html+= ' <li class="list-group-item">'+object.meet+'</li>';
       html +='</ul>';
       $("#secondRef").html(html);
+    }else alert('No puedes poner la misma persona en ambas referencias');
   }
 }
 
+function hasEmptyProp(reference){
+  if(reference.name == "")
+      return true;
+  if(reference.firstSurname == "")
+      return true;
+  if(reference.secondSurname == "")
+      return true;
+  if(reference.telephone == "")
+    return true;
+  if(reference.meet == "")
+    return true;
+  return false;
+}
+
 function requestCredit(){
+  throw new Error("TESTED");
   var credit = selectedCredit;
   var amount = null;
   if(credit >= 7 && credit <= 9)

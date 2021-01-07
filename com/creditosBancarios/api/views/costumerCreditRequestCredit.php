@@ -179,19 +179,19 @@ if(!isset($_SESSION["user"])){
             </div>
             <div class="form-group">
               <label for="usr">Nombre:</label>
-              <input id='ref-name'  class="form-control " >
+              <input id='ref-name'  class="form-control " required pattern="[a-zA-Z\s]{1,64}"  title="Sólo se permiten letras y una longitud de entre 1 y 64 caracteres">
             </div>
             <div class="form-group">
               <label for="usr">Apellido Paterno:</label>
-              <input id='ref-pat' type="text" class="form-control " >
+              <input id='ref-pat' type="text" class="form-control " required pattern="[a-zA-Z\s]{1,64}"  title="Sólo se permiten letras y una longitud de entre 1 y 64 caracteres">
             </div>
             <div class="form-group ">
               <label for="usr">Apellido Materno:</label>
-              <input id='ref-mat' type="text" class="form-control " >
+              <input id='ref-mat' type="text" class="form-control " required pattern="[a-zA-Z\s]{1,64}"  title="Sólo se permiten letras y una longitud de entre 1 y 64 caracteres">
             </div>
             <div class="form-group ">
               <label for="usr">Teléfono:</label>
-              <input id='ref-phone' type="text" class="form-control " >
+              <input id='ref-phone' type="text" class="form-control " required pattern="[0-9]{8}" title="Debes introducir un número telefónico válido (8 caracteres)">
             </div>
             <div class="form-group ">
               <label for="usr">Años de conocerse:</label>

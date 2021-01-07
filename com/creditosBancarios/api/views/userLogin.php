@@ -47,7 +47,7 @@
                   </div>
             <div class="form-group">
               <button onClick="validate();" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info"  >Iniciar Sesión</button>
-
+              <?php echo App::getVersion(); ?>
             </div>
           </form>
 
