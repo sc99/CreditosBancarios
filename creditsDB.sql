@@ -297,9 +297,9 @@ begin
             set msg = 'Creditos pendientes';
 			case
 				when GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Gerente' then
-					set counter = (select count(id) from vw_credits where state = 'Autorizacion');
+					set counter = (select count(id) from vw_credits where state = 'Autorizacion' or state ='Pendiente de cancelacion');
 					if counter != 0 then
-						select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Autorizacion';
+						select is_valid as result,msg as message,vw_credits.* from vw_credits where state = 'Autorizacion' or state ='Pendiente de cancelacion';
                     else
 						set msg = 'No hay creditos pendientes';
                         select -1 as result, msg as message;
@@ -436,26 +436,65 @@ begin
 	declare msg nvarchar(128);
     declare valid_owner int(1);
     declare recons_counter int(1);
-    declare result int(1);
+    declare result int(2);
     
     set result = 0;
     set valid_owner = (select fk_customer = customer_id from Requests where pk_request_id = request_id);
     if valid_owner then
-		set recons_counter = ifnull((select fk_request_status from Requests where pk_request_id = request_id),0);
-		if recons_counter <> GET_REQUEST_STATUS_ID('Cancelacion') then
-			update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Cancelacion') where
-				pk_request_id = request_id;
-			set result = 1;
-			set msg = 'Su solicitud ha sido cancelada';
+        set recons_counter = ifnull((select fk_request_status from Requests where pk_request_id = request_id),0);
+        if recons_counter = GET_REQUEST_STATUS_ID('Adeudado') then
+			set msg = 'La solicitud tiene adeudos. No puede ser cancelada';
 		else
-			set msg = 'La solicitud ya se encuentra cancelada';
-		end if;
+			if recons_counter <> GET_REQUEST_STATUS_ID('Pendiente de cancelacion') then
+				update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Pendiente de cancelacion') where
+					pk_request_id = request_id;
+				set result = 1;
+				set msg = 'Su solicitud de cancelacion ha sido enviada';
+			else
+				set msg = 'La solicitud ya se encuentra en proceso de cancelacion';
+			end if;
+        end if;
 	else
-		set msg = 'Inconsistencias al solicitar reconsideracion';
+		set msg = 'Inconsistencias al solicitar cancelación';
     end if;
     select result, msg as message;
 end; **
 delimiter ;
+
+drop procedure if exists sp_approve_cancellation;
+delimiter **
+create procedure sp_approve_cancellation(in employee_id int,in pswd nvarchar(32),in request_id int)
+begin
+	declare msg nvarchar(128);
+    declare is_valid int(1);
+    declare result int(1);
+    
+    set result = 0;
+    set is_valid = (select count(id) from vw_credits where id = request_id);
+    if is_valid then
+		if USER_EXISTS(employee_id) and IS_CUSTOMER(employee_id) = 0 then
+			if GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Gerente' then
+				set is_valid = (select MD5(CONCAT(Users.salt,pswd)) = Users.pswd from Users where pk_user_id = employee_id);
+				if is_valid then
+					update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Cancelacion') where pk_request_id = request_id;
+					set result = 1;
+                    set msg = 'Solicitud de cancelacion aprobada correctamente';
+                else
+					set msg='Autorizacion denegada, clave incorrecta';
+				end if;
+			else
+				set msg= 'Usuario con permisos insuficientes';
+			end if;
+		else
+			set msg= 'Inconsistencias con el registro y tipo de usuario';
+		end if;
+	else
+		set msg = 'Solicitud no encontrada';
+    end if;
+    select result,msg as message;
+end; **
+delimiter ;
+
 
 /*
 	nombre: sp_request_credit
@@ -587,6 +626,24 @@ delimiter ;
 #update Requests set fk_request_status = 6 where pk_request_id = 1;
 #select * from vw_credits;
 
+drop procedure if exists sp_renovate;
+delimiter **
+create procedure sp_renovate(in request_id int)
+begin
+	declare result int(1);
+    declare msg nvarchar(128);
+    declare credit nvarchar(128);
+        set result = ifnull((select count(id) from vw_credits where id = request_id),0);
+	if result then #existe request
+			update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Renovado') where pk_request_id = request_id;
+            #set credit = (select credit_name from vw_credits where id = request_id);
+			set msg='Credito renovado exitosamente';
+    else
+		set msg = 'Inconsistencias con el identificador de la solicitud';
+    end if;
+    select result, msg as message;
+end; **
+delimiter ;
 /*
 	Lleva a cabo la aprobación de un crédito verificando que el empleado
     haya ingresado una contraseña consistente con su registro y que este registro
@@ -822,7 +879,9 @@ insert into Cat_Request_Status (status_description) values
 ('Investigacion'),
 ('Renovado'),
 ('Autorizacion'),
-('Solicitado');
+('Solicitado'),
+('Adeudado'),
+('Pendiente de cancelacion');
 
 insert into Cat_Credit_Types (credit_name,credit_term,credit_rate,credit_fixed_amount) values
 ('Tarjeta debito I',3,0,10000),
@@ -857,7 +916,7 @@ insert into Customers(fk_user_id,rfc,curp,company,job,salary) values
 
 call sp_request_credit(1,1,NULL,'Saul1','pat','mat','12345678',3,'Saul2','pat2','mat2','87654321',1);
 call sp_request_credit(2,7,100,'Saul3','pat','mat','13578642',3,'Saul4','pat2','mat2','24687531',1);
-
+insert into requests(fk_customer,fk_credit_type,amount,request_date,fk_request_status) values(1,4,NULL,'2020-12-26 14:00:00',10);
 
 
 
