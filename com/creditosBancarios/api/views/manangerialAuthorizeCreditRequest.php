@@ -138,7 +138,13 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGER){
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                  <button onClick="authorizeRequest();" class="btn btn-primary" >Enviar</button>
+                    <?php
+                            if($request->state == 'Autorizacion'):
+                        ?>
+                        <button onClick="authorizeRequest();" class="btn btn-primary" >Enviar</button>
+                    <?php else: ?>
+                        <button onClick="approveCancellationRequest();" class="btn btn-danger" >Aprobar</button>
+                    <?php endif; ?>
                 </div>
 
               </div>

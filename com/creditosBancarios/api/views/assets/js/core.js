@@ -44,6 +44,32 @@ function authorizeRequest(){
   }
 }
 
+function approveCancellationRequest(){
+  var pswd = $("#pwd").val();
+  var pswdExp = /^$/;
+  var request = $("div[class='jumbotron']").data("request");
+  if(pswdExp.test(pswd)){
+    $("#messageError").removeClass("d-none");
+  }else{
+    $("#messageError").addClass("d-none");
+    $.post(
+        '../controllers/EmployeeController.php',
+        {action:"approveCancellation",requestId:request,pswd:pswd},
+        function(response){
+          console.log(response);
+          response = $.parseJSON(response);
+          if(response.success){
+            alert(response.message);
+            window.location.href = "employeePendingRequest.php";
+          }else{
+            alert(response.message);
+          }
+        }
+    );
+
+  }
+}
+
 function dictaminateRequest(verdict,button){
   var requestId = $(button).parents("div[class='jumbotron']").data("request");
   $.post(
