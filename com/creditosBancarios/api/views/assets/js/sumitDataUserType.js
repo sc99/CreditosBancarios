@@ -5,8 +5,8 @@ function logUser() {
 	dataUser = { action: "signIn", email: email, password: password };
 
 	$.post("../controllers/UserController.php", dataUser, function (response) {
-		response = $.parseJSON(response);
 		console.log(response);
+		response = $.parseJSON(response);
 		
 		if (response.result == 1) {
 			window.location.href = response.view;

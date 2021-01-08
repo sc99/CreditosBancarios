@@ -7,7 +7,7 @@ class DataBase{
    private $host = "localhost";
    private $db_name = "creditsDB";
    private $user = "root";
-   private $pass = "";
+   private $pass = "n0m3l0";
    public $conn;
 
    function __construct(){}
@@ -32,6 +32,8 @@ class DataBase{
 
    public function executeQuery($query){
      $query = $this->conn->query($query,MYSQLI_STORE_RESULT);
+     if($query == false)
+         echo mysqli_error($this->conn);
      return $query;
    }
 }

@@ -17,23 +17,29 @@ class EntityCustomer
         $resultArray = array();
         $firstRef = $references[0];
         $secondRef = $references[1];
-
-      try{
+        $query = null;
+        try{
         $this->db->connect();
+        if($amount == null)
+            $amount = "NULL";
         $query = "call sp_request_credit(".$customerId.",".$credit.",".$amount.",
         '".$firstRef["name"]."','".$firstRef["firstSurname"]."','".$firstRef["secondSurname"]."','".$firstRef["telephone"]."',".$firstRef["meet"]."
         ,'".$secondRef["name"]."','".$secondRef["firstSurname"]."','".$secondRef["secondSurname"]."','".$secondRef["telephone"]."',".$secondRef["meet"].")";
         $query = $this->db->executeQuery($query);
-        $resultSet = $query->fetch_array(MYSQLI_ASSOC);
-        if($resultSet > 0){
-          $resultArray= array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
+        if($query == false){
+                $resultArray= array("result"=>0,"message"=>"Error al ejecutar query");
+
+        }else{
+            $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+            if($resultSet > 0){
+                $resultArray= array("result"=>$resultSet["result"],"message"=>$resultSet["message"]);
+            }
+            $query->free();
+            $this->db->disconnect();
         }
         return $resultArray;
     }catch (Exception $e) {
         echo $e->getMessage();
-    } finally {
-        $query->free();
-        $this->db->disconnect();
     }
 }
 

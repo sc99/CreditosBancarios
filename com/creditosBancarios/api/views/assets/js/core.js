@@ -448,8 +448,8 @@ function validateNotSameReference(){
   const lastRef = references[1];
   console.log(firstRef);
   console.log(lastRef);
-  if(firstRef.name == lastRef.name)
-    return false;
+  if(firstRef.name != lastRef.name)
+    return true;
   if(firstRef.firstSurname.concat(firstRef.secondSurname) == lastRef.firstSurname.concat(lastRef.secondSurname))
     return false;
   return true;
@@ -485,7 +485,7 @@ function fillReferenceContainer(which,object){
 }
 
 function requestCredit() {
-  throw new Error("TESTED");
+
   var credit = selectedCredit;
   var amount = null;
   if (credit >= 7 && credit <= 9)
