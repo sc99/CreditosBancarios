@@ -42,6 +42,8 @@
                     </div>
                     <div class="form-group">
                         <button onClick="logUser();" id="btnLoginUser" name="btnLoginUser" class="content__center-login__frame__line-btn-login btn btn-info">Iniciar Sesión</button>
+                        <br> <br >
+                        Versión 2.0
                     </div>
                 </form>
             </div>
