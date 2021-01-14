@@ -67,7 +67,7 @@ class EntityUser{
         $_SESSION["userName"] = $userName;
         switch ($userType){
           case UserTypes::CUSTOMER:
-            $view = "customerViews.php";
+            $view = "costumerViews.php";
             break;
           case UserTypes::MANAGER:
             $view = 'managerialPendingRequest.php';

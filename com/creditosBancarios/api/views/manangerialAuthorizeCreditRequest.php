@@ -112,9 +112,13 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGER){
               <dd><?php echo $firstRef->remark; ?></dd>
             </div>
           </div>
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pswdModal">
-            Autorizar
-          </button>
+
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pswdModal">
+                    Autorizar
+                </button>
+
+            <!-- Reconsideration modal -->
+
 
           <!-- The Modal -->
           <div class="modal" id="pswdModal">
@@ -129,6 +133,13 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGER){
 
                 <!-- Modal body -->
                 <div class="modal-body">
+                    <?php if($request->state == 'Reconsideracion'): ?>
+                        <div class="alert alert-danger d-none" id="emailMessageError">Escribe tu email. Cuida que cumpla con el formato válido</div>
+                        <div class="form-group">
+                            <label for="email">*Email:</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                    <?php endif; ?>
                   <div class="alert alert-danger d-none" id="messageError">Escribe tu contraseña</div>
                   <div class="form-group">
                     <label for="pwd">*Password:</label>
@@ -142,8 +153,11 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGER){
                             if($request->state == 'Autorizacion'):
                         ?>
                         <button onClick="authorizeRequest();" class="btn btn-primary" >Enviar</button>
-                    <?php else: ?>
+                    <?php elseif ($request->state == 'Cancelacion'): ?>
                         <button onClick="approveCancellationRequest();" class="btn btn-danger" >Aprobar</button>
+
+                    <?php elseif($request->state == 'Reconsideracion'): ?>
+                        <button onClick="approveReconsideration();" class="btn btn-primary" >Aprobar reconsideración</button>
                     <?php endif; ?>
                 </div>
 

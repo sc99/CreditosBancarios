@@ -19,7 +19,7 @@ if(!isset($_SESSION["user"])){
 
     <title></title>
 </head>
-<body>
+<body onload="getAllReconsiderationsRequests();">
 <div class="content container">
 
     <header class="content__header row">
@@ -50,7 +50,7 @@ if(!isset($_SESSION["user"])){
     </div>
     <br><br><br><br>
 
-    <div class="content" id ="requestsContainer">
+    <div class="content" id ="requestsContainer" style="height: 25%;overflow-y: auto">
         <table id="requestsTable" class="table">
             <thead>
             <tr>
@@ -65,6 +65,27 @@ if(!isset($_SESSION["user"])){
             </thead>
         </table>
     </div>
+
+    <br><br>
+    <h2>Solicitudes de reconsideración</h2>
+    <div class="content" id ="requestsContainer" style="height: 25%;overflow-y: auto">
+        <table id="reconsiderationsTable" class="table">
+            <thead>
+            <tr>
+                <th> </th>
+                <th>Cliente</th>
+                <th>Credito</th>
+                <th>Monto</th>
+                <th>Monto Fijo</th>
+                <th>Plazo</th>
+                <th>Tasa</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <br><br><br><br>
+
 
 </div>
 

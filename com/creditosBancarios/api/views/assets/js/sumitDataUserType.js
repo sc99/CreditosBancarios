@@ -7,7 +7,6 @@ function logUser() {
 	$.post("../controllers/UserController.php", dataUser, function (response) {
 		console.log(response);
 		response = $.parseJSON(response);
-		
 		if (response.result == 1) {
 			window.location.href = response.view;
 		} else {

@@ -95,6 +95,26 @@ class EntityEmployee{
     return $resultArray;
   }
 
+  public function approveReconsideration($employeeId,$pswd,$email,$requestId){
+    $resultArray = array();
+    try{
+      $this->db->connect();
+      $query = "call sp_approve_reconsideration(".$employeeId.",'".$pswd."','".$email."',".$requestId.")";
+      //$query = $this->db->conn->prepare($query);
+      $query = $this->db->executeQuery($query);
+      $resultSet = $query->fetch_array(MYSQLI_ASSOC);
+      if($resultSet > 0){
+        $resultArray=  array("success"=>$resultSet["result"],"message"=>$resultSet["message"]);
+      }
+      $query->free();
+      $this->db->disconnect();
+    }catch(Exception $e){
+      echo $e->getMessage();
+    }
+    return $resultArray;
+  }
+
+
   public function authorizeCreditRequest($employeeId,$pswd,$requestId){
     $resultArray = array();
     try{
@@ -170,12 +190,16 @@ class EntityEmployee{
     return $resultArray;
   }
 
-  public function getAllPendingRequests($employeeId){
+
+  public function getAllPendingRequests($employeeId,$onlyReconsiderations){
     $resultArray = array();
     try{
       $this->db->connect();
-      $query = "call sp_get_pending_credits(".$employeeId.")";
-      // $query = "call sp_get_pending_credits(2)";
+      if($onlyReconsiderations)
+        $query = "call sp_get_reconsiderations_pending(".$employeeId.")";
+      else
+        $query = "call sp_get_pending_credits(".$employeeId.")";
+
       $query = $this->db->executeQuery($query);
       $dataResult = array();
       while($resultSet = $query->fetch_array(MYSQLI_ASSOC)){

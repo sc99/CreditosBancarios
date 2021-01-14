@@ -36,6 +36,17 @@ class EmployeeController{
     echo $response;
   }
 
+  public function approveReconsideration(){
+    $employee = new EntityEmployee();
+    session_start();
+    $employeeId = $_SESSION["user"];
+    $requestId = $this->request["requestId"];
+    $pswd = md5($this->request["pswd"]);
+    $email = $this->request["email"];
+    $response = json_encode($employee->approveReconsideration($employeeId,$pswd,$email,$requestId));
+    echo $response;
+  }
+
   public function creditAuthorization(){
     $employee = new EntityEmployee();
     session_start();
@@ -59,6 +70,14 @@ class EmployeeController{
     session_start();
     $employeeId = $_SESSION["user"];
     $response = $employee->getAllPendingRequests($employeeId);
+    echo $response;
+  }
+
+  public function getPendingReconsiderationRequests(){
+    $employee = new EntityEmployee();
+    session_start();
+    $employeeId = $_SESSION["user"];
+    $response = $employee->getAllPendingRequests($employeeId,true);
     echo $response;
   }
 
@@ -102,6 +121,9 @@ switch($request_type){
   case "dictamination":
     $controller->dictamination(); //Llamamos al método correspondiente
     break;
+  case "approveReconsideration":
+    $controller->approveReconsideration();
+    break;
   case "authorization":
     $controller->creditAuthorization();
     break;
@@ -110,6 +132,9 @@ switch($request_type){
     break;
   case "pendingRequests":
     $controller->getPendingRequests();
+    break;
+  case "pendingReconsiderationRequests":
+    $controller->getPendingReconsiderationRequests();
     break;
   case "processRequest":
     $controller->getProcessingView();

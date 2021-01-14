@@ -20,6 +20,23 @@ function renderPendingRequests() {
     );
 }
 
+function getAllReconsiderationsRequests(){
+    let html = "";
+    $.post(
+        "../../api/controllers/EmployeeController.php", {
+            action: "pendingReconsiderationRequests",
+        },
+        function (response) {
+            console.log(response);
+            response = $.parseJSON(response);
+            if ((response.result = 1)) {
+                html = processPendingRequests(response.Requests);
+                $("body").ready($("#reconsiderationsTable").append(html));
+            } else alert(response.message);
+        }
+    );
+}
+
 function searchRequests(){
     let searchedMail = $("#searchedEmail").val();
     let searchedName = $("#searchedName").val();
@@ -33,7 +50,7 @@ function searchRequests(){
                 response = $.parseJSON(response);
                 if(response.result == 1){
                     html = processPendingRequests(response.Requests);
-                    $("tbody").remove();
+                    $("#requestsTable > tbody").remove();
                     $("body").ready($("#requestsTable").append(html));
                 }else
                     alert(response.result);

@@ -34,7 +34,7 @@ function approveCancellationRequest(){
           response = $.parseJSON(response);
           if(response.success){
             alert(response.message);
-            window.location.href = "employeePendingRequest.php";
+            window.location.href = "managerialPendingRequest.php";
           }else{
             alert(response.message);
           }
@@ -42,6 +42,40 @@ function approveCancellationRequest(){
     );
 
   }
+}
+
+function approveReconsideration(){
+    let email = $("#email").val();
+    let emailExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    var pswd = $("#pwd").val();
+    var pswdExp = /^$/;
+    var request = $("div[class='jumbotron']").data("request");
+    if(pswdExp.test(pswd)){
+        $("#messageError").removeClass("d-none");
+    }else{
+        $("#messageError").addClass("d-none");
+        if(!emailExp.test(email)){
+            $("#emailMessageError").removeClass("d-none");
+        }else{
+            $("#emailMessageError").addClass("d-none");
+            $.post(
+                '../controllers/EmployeeController.php',
+                {action:"approveReconsideration",requestId:request,pswd:pswd,email:email},
+                function(response){
+                    console.log(response);
+                    response = $.parseJSON(response);
+                    if(response.success){
+                        alert(response.message);
+                        window.location.href = "managerialPendingRequest.php";
+                    }else{
+                        alert(response.message);
+                    }
+                }
+            );
+        }
+
+
+    }
 }
 
 function authorizeRequest(){
@@ -60,7 +94,7 @@ function authorizeRequest(){
                 response = $.parseJSON(response);
                 if(response.success){
                     alert(response.message);
-                    window.location.href = "employeePendingRequest.php";
+                    window.location.href = "managerialPendingRequest.php";
                 }else{
                     alert(response.message);
                 }
