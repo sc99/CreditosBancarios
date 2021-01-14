@@ -51,10 +51,12 @@ fk_customer int not null,
 fk_credit_type int not null,
 amount int(7) default null,
 request_date datetime not null default current_timestamp(),
+recons_count int(1) not null default 0,
 fk_request_status int not null default 6, #Default 'investigación'
 foreign key (fk_credit_type) references Cat_Credit_Types (pk_credit_type_id),
 foreign key (fk_customer) references Customers(pk_customer_id),
 foreign key (fk_request_status) references Cat_Request_Status(pk_status_id));
+
 
 create table Customer_References(
 pk_reference_id int not null primary key auto_increment,
@@ -247,6 +249,63 @@ end; **
 delimiter ;
 
 
+drop procedure if exists sp_search_requests;
+delimiter **
+create procedure sp_search_requests(in userEmail nvarchar(128), in userName nvarchar(64))
+begin
+	declare is_valid int(1);
+    declare msg nvarchar(128);
+    declare count int;
+    set count = (select count(*) from requests inner join users on fk_customer = users.pk_user_id where email = userEmail and first_name = userName);
+    if count > 0 then
+		set is_valid = 1;
+        set msg ='Creditos encontrados';
+		select is_valid as result,msg as message, vw_credits.* from vw_credits where state = 'Autorizacion' or state = 'Pendiente de cancelacion' and mail = userEmail;
+	else
+		set is_valid = -1;
+        set msg = 'Sin resultados encontrados';
+        select is_valid as result, msg as message;
+    end if;
+end; **
+delimiter ;
+
+drop procedure if exists sp_get_reconsiderations_pending;
+delimiter **
+create procedure sp_get_reconsiderations_pending(in employee_id int)
+begin
+declare is_valid int(1);
+    declare msg nvarchar(128);
+    declare counter int;
+    set is_valid = 0;
+    if USER_EXISTS(employee_id) then
+		if IS_CUSTOMER(employee_id) = 0 then
+			set is_valid = 1;
+            set msg = 'Creditos pendientes';
+			case
+				when GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Gerente' then
+					set counter = (select count(id) from vw_credits where state ='Reconsideracion' or state='Renovado');
+					if counter != 0 then
+						select is_valid as result,msg as message,vw_credits.* from vw_credits where state='Reconsideracion' or state='Renovado';
+                    else
+						set msg = 'No hay solicitudes pendientes';
+                        select -1 as result, msg as message;
+                    end if;
+                else
+					set is_valid = 0;
+					set msg = 'Inconsistencias con el tipo de empleado';
+            end case;
+        else
+			set msg = 'Inconsistencias con el tipo de usuario';
+        end if;
+    else
+		set msg = 'Inconsistencias al buscar registros del empleado';
+    end if;
+    if is_valid != 1 then
+		select is_valid as result, msg as message;
+    end if;
+end; **
+delimiter ;
+
 /*
 nombre: sp_get_credits
     tipo: stored procedure
@@ -403,7 +462,7 @@ begin
     set result = 0;
     set valid_owner = (select fk_customer = user_id from Requests where pk_request_id = request_id);
     if valid_owner then
-		set recons_counter = ifnull((select count(pk_record_id) from Requests_Record where fk_saved_status = GET_REQUEST_STATUS_NAME('Reconsiderado')),-1);
+		set recons_counter = ifnull((select count(pk_record_id) from Requests_Record where fk_saved_status = GET_REQUEST_STATUS_ID('Reconsideracion') and fk_request = request_id),-1);
 		if recons_counter != -1 then
 			if recons_counter < 2 then
 				set recons_counter = ifnull((select fk_request_status from Requests where pk_request_id = request_id),0);
@@ -637,7 +696,7 @@ begin
 	if result then #existe request
 			update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Renovado') where pk_request_id = request_id;
             #set credit = (select credit_name from vw_credits where id = request_id);
-			set msg='Credito renovado exitosamente';
+			set msg='Solicitud de renovacion de credito enviada exitosamente';
     else
 		set msg = 'Inconsistencias con el identificador de la solicitud';
     end if;
@@ -683,7 +742,42 @@ begin
     select result,msg as message;
 end; **
 delimiter ;
-#call sp_credit_authorization(3,MD5('123'),1);
+
+drop procedure if exists sp_approve_reconsideration;
+delimiter **
+create procedure sp_approve_reconsideration(in employee_id int,in pswd nvarchar(32),in empMail nvarchar(128),in request_id int)
+begin
+	declare msg nvarchar(128);
+    declare is_valid int(1);
+    declare result int(1);
+    
+    set result = 0;
+    set is_valid = (select count(id) from vw_credits where id = request_id);
+    if is_valid then
+		if USER_EXISTS(employee_id) and IS_CUSTOMER(employee_id) = 0 then
+			if GET_EMPLOYEE_TYPE_NAME(employee_id) = 'Gerente' then
+				set is_valid = (select MD5(CONCAT(Users.salt,pswd)) = Users.pswd from Users where pk_user_id = employee_id and email = empMail);
+				if is_valid then
+					update Requests set fk_request_status = GET_REQUEST_STATUS_ID('Aprobado') where pk_request_id = request_id;
+					set result = 1;
+                    set msg = 'Solicitud aprobada correctamente';
+                else
+					set msg='Autorizacion denegada, email o clave de acceso incorrectos';
+				end if;
+			else
+				set msg= 'Usuario con permisos insuficientes';
+			end if;
+		else
+			set msg= 'Inconsistencias con el registro y tipo de usuario';
+		end if;
+	else
+		set msg = 'Solicitud no encontrada';
+    end if;
+    select result,msg as message;
+end; **
+delimiter ;
+
+
 
 /*
 	Agrega el resultado de la investigación telefónica de una referencia.
@@ -914,7 +1008,8 @@ insert into Customers(fk_user_id,rfc,curp,company,job,salary) values
 (1,'rfc1','curp1','enterprise','work',1000),
 (2,'rfc2','curp2','enterprise','work',1000);
 
-call sp_request_credit(1,1,NULL,'Saul1','pat','mat','12345678',3,'Saul2','pat2','mat2','87654321',1);
+call sp_request_credit(1,1,NULL,'Saul1','pat','mat','12345678',3
+,'Saul2','pat2','mat2','87654321',1);
 call sp_request_credit(2,7,100,'Saul3','pat','mat','13578642',3,'Saul4','pat2','mat2','24687531',1);
 insert into requests(fk_customer,fk_credit_type,amount,request_date,fk_request_status) values(1,4,NULL,'2020-12-26 14:00:00',10);
 
