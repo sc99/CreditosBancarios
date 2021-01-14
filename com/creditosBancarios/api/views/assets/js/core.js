@@ -515,30 +515,49 @@ function validateNotSameReference(){
 function fillReferenceContainer(which,object){
   var html = "";
   if(hasEmptyProp(object))
-    throw Error("Debes llenar todos los campos");
-  if(which === 0){
-      $("#firstRef").data("filled",1);
-  html+='<ul class="list-group">';
-    html+= ' <li class="list-group-item">'+object.name+'</li>';
-    html+= ' <li class="list-group-item">'+object.firstSurname+'</li>';
-    html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
-    html+= ' <li class="list-group-item">'+object.telephone+'</li>';
-    html+= ' <li class="list-group-item">'+object.meet+'</li>';
-    html +='</ul>';
-    $("#firstRef").html(html);
-  }else {
-    if(validateNotSameReference()){
-      $("#secondRef").data("filled",1);
-      html+='<ul class="list-group">';
-      html+= ' <li class="list-group-item">'+object.name+'</li>';
-      html+= ' <li class="list-group-item">'+object.firstSurname+'</li>';
-      html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
-      html+= ' <li class="list-group-item">'+object.telephone+'</li>';
-      html+= ' <li class="list-group-item">'+object.meet+'</li>';
-      html +='</ul>';
-      $("#secondRef").html(html);
-    }else alert('No puedes poner la misma persona en ambas referencias');
+    alert("Debes llenar todos los campos");
+  if(isValidReference(object)){
+      if(which === 0){
+          $("#firstRef").data("filled",1);
+          html+='<ul class="list-group">';
+          html+= ' <li class="list-group-item">'+object.name+'</li>';
+          html+= ' <li class="list-group-item">'+object.firstSurname+'</li>';
+          html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
+          html+= ' <li class="list-group-item">'+object.telephone+'</li>';
+          html+= ' <li class="list-group-item">'+object.meet+'</li>';
+          html +='</ul>';
+          $("#firstRef").html(html);
+      }else {
+          if(validateNotSameReference()){
+              $("#secondRef").data("filled",1);
+              html+='<ul class="list-group">';
+              html+= ' <li class="list-group-item">'+object.name+'</li>';
+              html+= ' <li class="list-group-item">'+object.firstSurname+'</li>';
+              html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
+              html+= ' <li class="list-group-item">'+object.telephone+'</li>';
+              html+= ' <li class="list-group-item">'+object.meet+'</li>';
+              html +='</ul>';
+              $("#secondRef").html(html);
+          }else alert('No puedes poner la misma persona en ambas referencias');
+      }
   }
+}
+
+function isValidReference(reference){
+    let valid = true;
+    let numberExp = /\d/;
+    let phoneExp = /^\d{8}$/;
+    if(numberExp.test(reference.name)) {
+        valid = false;
+        alert("Error: No puedes introducir números en el nombre");
+    }else if(numberExp.test(reference.firstSurname)  || numberExp.test(reference.secondSurname)) {
+        alert("Error: No puedes introducir números en los apellidos");
+        valid = false;
+    }else if(!phoneExp.test(reference.telephone)) {
+        valid = false;
+        alert("Error: El teléfono debe tener un formato válido de 8 dígitos");
+    }
+    return valid;
 }
 
 function requestCredit() {
