@@ -65,10 +65,14 @@ class EntityUser{
         $_SESSION["user"] = $id;
         $_SESSION["userType"] = $userType;
         $_SESSION["userName"] = $userName;
-        if($userType == UserTypes::CUSTOMER){ //Es cliente
-          $view = 'costumerViews.php';
-        }else{// Es algún tipo de empleado
-          $view = 'employeePendingRequest.php';
+        switch ($userType){
+          case UserTypes::CUSTOMER:
+            $view = "customerViews.php";
+            break;
+          case UserTypes::MANAGER:
+            $view = 'managerialPendingRequest.php';
+            break;
+          default: $view = 'employeePendingRequest.php';
         }
         return $view;
       }

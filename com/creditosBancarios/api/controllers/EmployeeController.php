@@ -10,6 +10,14 @@ class EmployeeController{
     $this->request = $request;
   }
 
+  public function searchRequests(){
+    $employee = new EntityEmployee();
+    $email = $this->request["email"];
+    $name = $this->request["name"];
+    $response = $employee->searchRequests($email,$name);
+    echo $response;
+  }
+
   public function dictamination(){
     $employee = new EntityEmployee();
     $requestId = $this->request["request"]; //Obtenemos ID de solicitud a dictaminar
@@ -88,6 +96,9 @@ $request_type = $_POST["action"]; //Recibimos el tipo de acción para este contr
 $controller = new EmployeeController($_POST); //Guardamos el request recibido
 switch($request_type){
 
+  case "searchRequests":
+    $controller->searchRequests();
+    break;
   case "dictamination":
     $controller->dictamination(); //Llamamos al método correspondiente
     break;

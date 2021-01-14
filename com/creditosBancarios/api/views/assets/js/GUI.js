@@ -20,6 +20,45 @@ function renderPendingRequests() {
     );
 }
 
+function searchRequests(){
+    let searchedMail = $("#searchedEmail").val();
+    let searchedName = $("#searchedName").val();
+    if(isValidSearchRequest(searchedMail,searchedName)){
+        $.post(
+            "../../api/controllers/EmployeeController.php",{
+                action:"searchRequests",email:searchedMail,name:searchedName,
+            },
+            function (response) {
+                console.log(response);
+                response = $.parseJSON(response);
+                if(response.result == 1){
+                    html = processPendingRequests(response.Requests);
+                    $("tbody").remove();
+                    $("body").ready($("#requestsTable").append(html));
+                }else
+                    alert(response.result);
+            }
+        );
+    }
+
+}
+
+function isValidSearchRequest(mail,name){
+    try{
+        if(mail.match("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")== null)
+            throw new Error("Debes escribir un email y en formato válido: algo@ejemplo.com");
+        if(name.match("[a-zA-Z\\s]{1,64}")== null)
+            throw new Error("Es necesario proporcionar un nombre. Sólo se permiten letras y una longitud máxima de 64 caracteres");
+        else
+            if(name.match("[a-zA-Z]+") == null) //No hay al menos una letra
+                throw new Error("Debe haber letras en el nombre");
+    }catch (e){
+        alert(e);
+        return false;
+    }
+    return true;
+}
+
 /*
   Se encarga del procesamiento del json que contiene las request pendientes
   para poder pasarlo a html

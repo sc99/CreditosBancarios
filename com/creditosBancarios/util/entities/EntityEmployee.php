@@ -13,6 +13,46 @@ class EntityEmployee{
     $this->db = new DataBase();
   }
 
+  public function searchRequests($email,$name){
+    $resultArray = array();
+    try{
+      $this->db->connect();
+      $query = "call sp_search_requests('".$email."','".$name."')";
+      $query = $this->db->executeQuery($query);
+      $dataResult = array();
+      while($resultSet = $query->fetch_array(MYSQLI_ASSOC)){
+        $dataResult[] = $resultSet;
+      }
+      $query->free();
+      $this->db->disconnect();
+      if($dataResult[0]["result"] == 1){
+        foreach ($dataResult as $resultSet=>$row) {
+          $creditRequestModel = new CreditRequestModel();
+          //$referencesList = $this->processReferences($row);
+          $credit = $this->processCredit($row);
+          $customer = $this->processCustomer($row);
+
+          $creditRequestModel->setId($row["id"]);
+          $creditRequestModel->setStatus($row["state"]);
+          $creditRequestModel->setCredit($credit);
+          $creditRequestModel->setApplicant($customer);
+
+          array_push($resultArray,$creditRequestModel->toJson());
+        }
+        $resultArray = json_encode(array(
+            "result"=>$dataResult[0]["result"],
+            "message" => $dataResult[0]["message"],
+            "Requests"=>$resultArray
+        ));
+      }else
+        $resultArray = json_encode(array("result"=>-1,"message"=>"No hay creditos pendientes con este mail y nombre"));
+
+    }catch(Exception $e){
+      echo $e->getMessage();
+    }
+    return $resultArray;
+  }
+
   public function dictaminate($requestId,$verdict){
     $resultArray = array();
     try{
