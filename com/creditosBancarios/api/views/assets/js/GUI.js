@@ -196,7 +196,7 @@ function processCredits(creditList) {
 function appendCreditActions(creditStatus, creditId) {
     let html = "";
     html += "<div class='row'>";
-    if (creditStatus != "Cancelacion" && creditStatus != "Rechazo")
+    if (creditStatus != "Cancelacion" && creditStatus != "Rechazo" && creditStatus != "Pendiente de cancelacion")
         html +=
         "<button onclick='requestCancellation(this);' class='content__center-user__div-data__btn btn btn-primary'>Cancelar</button>";
     if (creditStatus == "Aprobado")

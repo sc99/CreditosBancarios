@@ -153,7 +153,7 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGER){
                             if($request->state == 'Autorizacion'):
                         ?>
                         <button onClick="authorizeRequest();" class="btn btn-primary" >Enviar</button>
-                    <?php elseif ($request->state == 'Cancelacion'): ?>
+                    <?php elseif ($request->state == 'Pendiente de cancelacion'): ?>
                         <button onClick="approveCancellationRequest();" class="btn btn-danger" >Aprobar</button>
 
                     <?php elseif($request->state == 'Reconsideracion'): ?>

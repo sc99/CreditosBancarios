@@ -200,6 +200,22 @@ function requestRenovation(button){
   );
 }
 
+function  requestCancellation(button){
+    var parentContainer = $(button).parents("div[data-request]");
+    var creditId = $(parentContainer).data("request");
+    $.post(
+        '../controllers/CustomerController.php',
+        {action:"cancellation",creditId:creditId},
+        function(response){
+            console.log(response);
+            response = $.parseJSON(response);
+            alert(response.message);
+            location.reload();
+
+        }
+    );
+}
+
 function requestReconsideration(button){
   var parentContainer = $(button).parents("div[data-request]");
   var creditId = $(parentContainer).data("request");
