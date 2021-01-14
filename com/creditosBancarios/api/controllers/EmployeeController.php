@@ -36,14 +36,14 @@ class EmployeeController{
     echo $response;
   }
 
-  public function approveReconsideration(){
+  public function approveReconsideration($isRenovation){
     $employee = new EntityEmployee();
     session_start();
     $employeeId = $_SESSION["user"];
     $requestId = $this->request["requestId"];
     $pswd = md5($this->request["pswd"]);
     $email = $this->request["email"];
-    $response = json_encode($employee->approveReconsideration($employeeId,$pswd,$email,$requestId));
+    $response = json_encode($employee->approveReconsideration($employeeId,$pswd,$email,$requestId,$isRenovation));
     echo $response;
   }
 
@@ -121,8 +121,11 @@ switch($request_type){
   case "dictamination":
     $controller->dictamination(); //Llamamos al método correspondiente
     break;
+  case "approveRenovation":
+    $controller->approveReconsideration(true);
+    break;
   case "approveReconsideration":
-    $controller->approveReconsideration();
+    $controller->approveReconsideration(false);
     break;
   case "authorization":
     $controller->creditAuthorization();

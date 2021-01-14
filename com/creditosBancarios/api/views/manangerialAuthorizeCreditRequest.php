@@ -133,7 +133,7 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGER){
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <?php if($request->state == 'Reconsideracion'): ?>
+                    <?php if($request->state == 'Reconsideracion' || $request->state=='Renovado'): ?>
                         <div class="alert alert-danger d-none" id="emailMessageError">Escribe tu email. Cuida que cumpla con el formato válido</div>
                         <div class="form-group">
                             <label for="email">*Email:</label>
@@ -157,7 +157,10 @@ if(!isset($_SESSION["user"]) || $_SESSION["userType"] != UserTypes::MANAGER){
                         <button onClick="approveCancellationRequest();" class="btn btn-danger" >Aprobar</button>
 
                     <?php elseif($request->state == 'Reconsideracion'): ?>
-                        <button onClick="approveReconsideration();" class="btn btn-primary" >Aprobar reconsideración</button>
+                        <button onClick="approveReconsideration(false);" class="btn btn-primary" >Aprobar reconsideración</button>
+
+                            <?php elseif($request->state == 'Renovado'): ?>
+                                <button onClick="approveReconsideration(true);" class="btn btn-primary" >Aprobar renovación</button>
                     <?php endif; ?>
                 </div>
 

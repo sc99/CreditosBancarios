@@ -44,7 +44,7 @@ function approveCancellationRequest(){
   }
 }
 
-function approveReconsideration(){
+function approveReconsideration(isRenovation){
     let email = $("#email").val();
     let emailExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     var pswd = $("#pwd").val();
@@ -58,9 +58,10 @@ function approveReconsideration(){
             $("#emailMessageError").removeClass("d-none");
         }else{
             $("#emailMessageError").addClass("d-none");
+            selectedAction = isRenovation ? "approveRenovation" : "approveReconsideration";
             $.post(
                 '../controllers/EmployeeController.php',
-                {action:"approveReconsideration",requestId:request,pswd:pswd,email:email},
+                {action:selectedAction,requestId:request,pswd:pswd,email:email},
                 function(response){
                     console.log(response);
                     response = $.parseJSON(response);

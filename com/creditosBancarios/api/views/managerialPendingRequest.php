@@ -67,7 +67,7 @@ if(!isset($_SESSION["user"])){
     </div>
 
     <br><br>
-    <h2>Solicitudes de reconsideración</h2>
+    <h2>Solicitudes de reconsideración y renovación</h2>
     <div class="content" id ="requestsContainer" style="height: 25%;overflow-y: auto">
         <table id="reconsiderationsTable" class="table">
             <thead>

@@ -95,7 +95,7 @@ class EntityEmployee{
     return $resultArray;
   }
 
-  public function approveReconsideration($employeeId,$pswd,$email,$requestId){
+  public function approveReconsideration($employeeId,$pswd,$email,$requestId,$isRenovation){
     $resultArray = array();
     try{
       $this->db->connect();
