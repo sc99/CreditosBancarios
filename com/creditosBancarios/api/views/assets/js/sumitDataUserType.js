@@ -3,15 +3,17 @@ function logUser() {
 	email = $("#email").val();
 	password = $("#password").val();
 	dataUser = { action: "signIn", email: email, password: password };
-
-	$.post("../controllers/UserController.php", dataUser, function (response) {
-		console.log(response);
-		response = $.parseJSON(response);
-		if (response.result == 1) {
-			window.location.href = response.view;
-		} else {
-			$("#messageError").addClass("d-none");
-			alert(response.message);
-		}
-	});
+	
+	if (validatePassword()) {
+		$.post("../controllers/UserController.php", dataUser, function (response) {
+			console.log(response);
+			response = $.parseJSON(response);
+			if (response.result == 1) {
+				window.location.href = response.view;
+			} else {
+				$("#messageError").addClass("d-none");
+				alert(response.message);
+			}
+		});
+	}
 }
