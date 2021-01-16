@@ -4,7 +4,7 @@ function logUser() {
 	password = $("#password").val();
 	dataUser = { action: "signIn", email: email, password: password };
 	
-	if (validatePassword()) {
+	if (validatePassword() && validateEmail()) {
 		$.post("../controllers/UserController.php", dataUser, function (response) {
 			console.log(response);
 			response = $.parseJSON(response);
