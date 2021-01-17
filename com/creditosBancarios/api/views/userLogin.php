@@ -29,14 +29,14 @@
                     <div class="content__center-login__frame__line-email row form-group">
                         <label for="nombre" class="content__center-login__frame__line col-form-label col-md-3">Correo de Usuario:</label>
                         <div class="col-md-8">
-                            <input type="text" name="email" value="" id="email" class="content__center-login__frame__line-email__input-email--email form-control" required>
+                            <input type="text" name="email" value="" id="email" class="content__center-login__frame__line-email__input-email--email form-control" minlength='1' maxlength='128' required>
                             <span class="content__center-login__frame__line-email__input-email__span-email help-block"></span>
                         </div>
                     </div>
                     <div class="content__center-login__frame__line-email row form-group">
                         <label for="email" class="content__center-login__frame__line col-form-label col-md-2">Contraseña:</label>
                         <div class="col-md-8">
-                            <input onchange="validatePassword();" type="password" name="password" value="" id="password" class="content__center-login__frame__line__input-password--password form-control" required>
+                            <input onchange="validatePassword();" type="password" name="password" value="" id="password" class="content__center-login__frame__line__input-password--password form-control" minlength='1' maxlength='32' required>
                             <span class="content__center-login__frame__line__input__span-password help-block"></span>
                         </div>
                     </div>
