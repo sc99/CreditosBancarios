@@ -69,7 +69,7 @@ class EmployeeController{
     $employee = new EntityEmployee();
     session_start();
     $employeeId = $_SESSION["user"];
-    $response = $employee->getAllPendingRequests($employeeId);
+    $response = $employee->getAllPendingRequests($employeeId, false);
     echo $response;
   }
 

@@ -220,7 +220,7 @@ if (!isset($_SESSION["user"])) {
                             <input id='ref-meeting' type="number" class="form-control " min="1" max="99">
                         </div>
                         <div class="form-group">
-                            <button onClick="addRef();" class="content__center-user__div-data__btn btn btn-primary">Agregar Referencia</button>
+                            <button id="btnAddRef" onClick="addRef();" class="content__center-user__div-data__btn btn btn-primary">Agregar Referencia</button>
                         </div>
                     </div>
                     <button onclick='requestCredit();' name="btnSelectTermCredit" id="btnSelectTermCredit" class="content__center-user__div-data__btn btn btn-primary" style="margin:20px;" type="button" name="btnSelectTermCredit">Aceptar</button>

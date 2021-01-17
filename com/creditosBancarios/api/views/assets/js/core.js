@@ -489,7 +489,16 @@ function addRef(){
     };
     references[which] = reference;
       try{
-        fillReferenceContainer(which,reference);
+          fillReferenceContainer(which, reference);
+          $("#ref-name").val('');
+          $("#ref-pat").val('');
+          $("#ref-mat").val('');
+          $("#ref-phone").val('');
+          $("#ref-meeting").val('');
+          if (firstRef != 0) {
+               $("#btnAddRef").hide();
+               $("#references").hide();
+          }
       }catch (e){
         alert(e.message);
       }
@@ -525,7 +534,7 @@ function fillReferenceContainer(which,object){
           html+= ' <li class="list-group-item">'+object.secondSurname+'</li>';
           html+= ' <li class="list-group-item">'+object.telephone+'</li>';
           html+= ' <li class="list-group-item">'+object.meet+'</li>';
-          html +='</ul>';
+          html +='</ul><br>';
           $("#firstRef").html(html);
       }else {
           if(validateNotSameReference()){
@@ -561,7 +570,6 @@ function isValidReference(reference){
 }
 
 function requestCredit() {
-
   var credit = selectedCredit;
   var amount = null;
   if (credit >= 7 && credit <= 9)
