@@ -155,7 +155,7 @@ if (!isset($_SESSION["user"])) {
                         </div>
                         <div class="form-group d-none">
                             <label for="usr">Monto:</label>
-                            <input id='mortage-amount' type="number" class="form-control " min="1000" max="9999999">
+                            <input id='mortage-amount' type="text" class="form-control" maxlength="5" onkeypress="return /\d/i.test(event.key)">
                         </div>
                         <div class="form-group d-none">
                             <label for="usr">Plazo:</label>
@@ -201,15 +201,15 @@ if (!isset($_SESSION["user"])) {
                     <div id="references">
                         <div class="form-group">
                             <label for="ref-name">Nombre:</label>
-                            <input id='ref-name' type='text' class="form-control" minlength='1' maxlength='64'>
+                            <input id='ref-name' type='text' class="form-control" minlength='1' maxlength='64' onkeypress="return /[A-Za-z]/i.test(event.key)">
                         </div>
                         <div class="form-group">
                             <label for="ref-pat">Apellido Paterno:</label>
-                            <input id='ref-pat' type="text" class="form-control" minlength='1' maxlength='64'>
+                            <input id='ref-pat' type="text" class="form-control" minlength='1' maxlength='64' onkeypress="return /[A-Za-z]/i.test(event.key)">
                         </div>
                         <div class="form-group ">
                             <label for="ref-mat">Apellido Materno:</label>
-                            <input id='ref-mat' type="text" class="form-control" minlength='1' maxlength='64'>
+                            <input id='ref-mat' type="text" class="form-control" minlength='1' maxlength='64' onkeypress="return /[A-Za-z]/i.test(event.key)">
                         </div>
                         <div class="form-group">
                             <label for="ref-phone">Teléfono:</label><br>
@@ -217,7 +217,7 @@ if (!isset($_SESSION["user"])) {
                         </div>
                         <div class="form-group">
                             <label for="ref-meeting">Años de conocerse:</label>
-                            <input id='ref-meeting' type="number" class="form-control" minlength='1' maxlength="2" pattern="\d{1,2}" oninput="format(this);">
+                            <input id='ref-meeting' type="number" class="form-control" minlength='1' maxlength="2" oninput="format(this);">
                         </div>
                         <div class="form-group">
                             <button id="btnAddRef" onClick="addRef();" class="content__center-user__div-data__btn btn btn-primary">Agregar Referencia</button>
