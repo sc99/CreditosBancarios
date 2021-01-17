@@ -213,11 +213,11 @@ if (!isset($_SESSION["user"])) {
                         </div>
                         <div class="form-group">
                             <label for="ref-phone">Teléfono:</label><br>
-                            <input id='ref-phone' type="text" class="form-control" minlength='1' maxlength='8'>
+                            <input id='ref-phone' type="number" class="form-control" minlength='1' maxlength='8'>
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label for="ref-meeting">Años de conocerse:</label>
-                            <input id='ref-meeting' type="number" class="form-control " min="1" max="99">
+                            <input id='ref-meeting' type="number" class="form-control" minlength='1' maxlength="2" pattern="\d{1,2}" oninput="format(this);">
                         </div>
                         <div class="form-group">
                             <button id="btnAddRef" onClick="addRef();" class="content__center-user__div-data__btn btn btn-primary">Agregar Referencia</button>

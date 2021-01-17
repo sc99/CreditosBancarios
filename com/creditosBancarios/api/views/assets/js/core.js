@@ -508,6 +508,14 @@ function addRef(){
   }
 }
 
+function format(input){
+    if(input.value < 0) input.value=Math.abs(input.value);
+    if(input.value.length > 2) input.value = input.value.slice(0, 2);
+    $(input).blur(function () {
+        //* if you want to allow insert only 2 digits *//
+    });
+}
+
 function validateNotSameReference(){
 
   const firstRef = references[0];
